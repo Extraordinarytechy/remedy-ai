@@ -78,8 +78,8 @@ def health_check():
 
 @app.get("/api/fixtures")
 def get_fixtures():
-    """Returns the predefined one-click demo fixtures (sample data) for testing and evaluation."""
-    return DEMO_FIXTURES
+    """Returns the predefined one-click demo fixtures, validated, with receipt/photo marked as sample data."""
+    return {k: NormalizedCase(**v).model_dump() for k, v in DEMO_FIXTURES.items()}
 
 
 @app.get("/api/sources")

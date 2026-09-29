@@ -1,0 +1,240 @@
+== caller identity (the credentials the coding agent deploys with)
+{
+    "UserId": "AIDATTSKF4BWMSUYKT4XA",
+    "Account": "2481****5724",
+    "Arn": "arn:aws:iam::2481****5724:user/aksilhoutte"
+}
+== lambda package
+_pydantic_core.cpython-313-aarch64-linux-gnu.so: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, BuildID[sha1]=2c8edb78c49087d21d9162ed83f3d9177f673680, stripped
+== validate
+/mnt/h/Antigravity/remedy-ai/template.yaml is a valid SAM Template
+
+SAM CLI update available (1.166.2); (1.165.0 installed)
+To download: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html
+== deploy stack remedy-ai
+
+	Managed S3 bucket: aws-sam-cli-managed-default-samclisourcebucket-ruo8zrzfsc8g
+	Auto resolution of buckets can be turned off by setting resolve_s3=False
+	To use a specific S3 bucket, set --s3-bucket=<bucket_name>
+	Above settings can be stored in samconfig.toml
+	Uploading to 25d068d5fd778abf04b8e52a4384faea  1048576 / 11434205  (9.17%)	Uploading to 25d068d5fd778abf04b8e52a4384faea  2097152 / 11434205  (18.34%)	Uploading to 25d068d5fd778abf04b8e52a4384faea  3145728 / 11434205  (27.51%)	Uploading to 25d068d5fd778abf04b8e52a4384faea  4194304 / 11434205  (36.68%)	Uploading to 25d068d5fd778abf04b8e52a4384faea  5142749 / 11434205  (44.98%)	Uploading to 25d068d5fd778abf04b8e52a4384faea  6191325 / 11434205  (54.15%)	Uploading to 25d068d5fd778abf04b8e52a4384faea  7239901 / 11434205  (63.32%)	Uploading to 25d068d5fd778abf04b8e52a4384faea  8288477 / 11434205  (72.49%)	Uploading to 25d068d5fd778abf04b8e52a4384faea  9337053 / 11434205  (81.66%)	Uploading to 25d068d5fd778abf04b8e52a4384faea  10385629 / 11434205  (90.83%)	Uploading to 25d068d5fd778abf04b8e52a4384faea  11434205 / 11434205  (100.00%)
+
+	File with same data already exists at 25d068d5fd778abf04b8e52a4384faea, skipping upload
+
+	Deploying with following values
+	===============================
+	Stack name                   : remedy-ai
+	Region                       : us-east-1
+	Confirm changeset            : False
+	Disable rollback             : False
+	Deployment s3 bucket         : aws-sam-cli-managed-default-samclisourcebucket-ruo8zrzfsc8g
+	Capabilities                 : ["CAPABILITY_IAM"]
+	Parameter overrides          : {"AlertEmail": "<redacted-email>"}
+	Signing Profiles             : {}
+
+Initiating deployment
+=====================
+
+	Uploading to 279fb2fa95344fd5b3f46e424b70698a.template  10555 / 10555  (100.00%)
+
+
+Waiting for changeset to be created..
+
+CloudFormation stack changeset
+-------------------------------------------------------------------------------------------------
+Operation                LogicalResourceId        ResourceType             Replacement            
+-------------------------------------------------------------------------------------------------
++ Add                    ApiFunctionProxyPermis   AWS::Lambda::Permissio   N/A                    
+                         sion                     n                                               
++ Add                    ApiFunctionRole          AWS::IAM::Role           N/A                    
++ Add                    ApiFunction              AWS::Lambda::Function    N/A                    
++ Add                    ApiLogGroup              AWS::Logs::LogGroup      N/A                    
++ Add                    Distribution             AWS::CloudFront::Distr   N/A                    
+                                                  ibution                                         
++ Add                    HttpApiApiGatewayDefau   AWS::ApiGatewayV2::Sta   N/A                    
+                         ltStage                  ge                                              
++ Add                    HttpApi                  AWS::ApiGatewayV2::Api   N/A                    
++ Add                    MonthlyBudget            AWS::Budgets::Budget     N/A                    
++ Add                    SecurityHeaders          AWS::CloudFront::Respo   N/A                    
+                                                  nseHeadersPolicy                                
++ Add                    SiteBucketPolicy         AWS::S3::BucketPolicy    N/A                    
++ Add                    SiteBucket               AWS::S3::Bucket          N/A                    
++ Add                    SiteOAC                  AWS::CloudFront::Origi   N/A                    
+                                                  nAccessControl                                  
++ Add                    SnapshotBucket           AWS::S3::Bucket          N/A                    
++ Add                    SourceWatchFunctionDai   AWS::IAM::Role           N/A                    
+                         lyRole                                                                   
++ Add                    SourceWatchFunctionDai   AWS::Scheduler::Schedu   N/A                    
+                         ly                       le                                              
++ Add                    SourceWatchFunctionRol   AWS::IAM::Role           N/A                    
+                         e                                                                        
++ Add                    SourceWatchFunction      AWS::Lambda::Function    N/A                    
++ Add                    SourceWatchLogGroup      AWS::Logs::LogGroup      N/A                    
++ Add                    StateTable               AWS::DynamoDB::Table     N/A                    
+-------------------------------------------------------------------------------------------------
+
+
+Changeset created successfully. arn:aws:cloudformation:us-east-1:2481****5724:changeSet/samcli-deploy1790706967/e4867a10-0fd6-47fa-b9c2-917dfa23b6a7
+
+
+2026-09-30 00:06:21 - Waiting for stack create/update to complete
+
+CloudFormation events from stack operations (refresh every 5.0 seconds)
+-------------------------------------------------------------------------------------------------
+ResourceStatus           ResourceType             LogicalResourceId        ResourceStatusReason   
+-------------------------------------------------------------------------------------------------
+CREATE_IN_PROGRESS       AWS::CloudFormation::S   remedy-ai                User Initiated         
+                         tack                                                                     
+CREATE_IN_PROGRESS       AWS::Budgets::Budget     MonthlyBudget            -                      
+CREATE_IN_PROGRESS       AWS::CloudFront::Origi   SiteOAC                  -                      
+                         nAccessControl                                                           
+CREATE_IN_PROGRESS       AWS::S3::Bucket          SiteBucket               -                      
+CREATE_IN_PROGRESS       AWS::DynamoDB::Table     StateTable               -                      
+CREATE_IN_PROGRESS       AWS::CloudFront::Respo   SecurityHeaders          -                      
+                         nseHeadersPolicy                                                         
+CREATE_IN_PROGRESS       AWS::S3::Bucket          SnapshotBucket           -                      
+CREATE_IN_PROGRESS       AWS::CloudFront::Origi   SiteOAC                  Resource creation      
+                         nAccessControl                                    Initiated              
+CREATE_IN_PROGRESS       AWS::S3::Bucket          SnapshotBucket           Resource creation      
+                                                                           Initiated              
+CREATE_IN_PROGRESS       AWS::CloudFront::Respo   SecurityHeaders          Resource creation      
+                         nseHeadersPolicy                                  Initiated              
+CREATE_IN_PROGRESS       AWS::DynamoDB::Table     StateTable               Resource creation      
+                                                                           Initiated              
+CREATE_IN_PROGRESS       AWS::S3::Bucket          SiteBucket               Resource creation      
+                                                                           Initiated              
+CREATE_COMPLETE          AWS::CloudFront::Origi   SiteOAC                  -                      
+                         nAccessControl                                                           
+CREATE_IN_PROGRESS       AWS::Budgets::Budget     MonthlyBudget            Resource creation      
+                                                                           Initiated              
+CREATE_COMPLETE          AWS::Budgets::Budget     MonthlyBudget            -                      
+CREATE_COMPLETE          AWS::CloudFront::Respo   SecurityHeaders          -                      
+                         nseHeadersPolicy                                                         
+CREATE_COMPLETE          AWS::S3::Bucket          SnapshotBucket           -                      
+CREATE_COMPLETE          AWS::DynamoDB::Table     StateTable               -                      
+CREATE_COMPLETE          AWS::S3::Bucket          SiteBucket               -                      
+CREATE_IN_PROGRESS       AWS::IAM::Role           ApiFunctionRole          -                      
+CREATE_IN_PROGRESS       AWS::IAM::Role           SourceWatchFunctionRol   -                      
+                                                  e                                               
+CREATE_IN_PROGRESS       AWS::IAM::Role           ApiFunctionRole          Resource creation      
+                                                                           Initiated              
+CREATE_IN_PROGRESS       AWS::IAM::Role           SourceWatchFunctionRol   Resource creation      
+                                                  e                        Initiated              
+CREATE_COMPLETE          AWS::IAM::Role           ApiFunctionRole          -                      
+CREATE_IN_PROGRESS       AWS::Lambda::Function    ApiFunction              -                      
+CREATE_COMPLETE          AWS::IAM::Role           SourceWatchFunctionRol   -                      
+                                                  e                                               
+CREATE_IN_PROGRESS       AWS::Lambda::Function    SourceWatchFunction      -                      
+CREATE_IN_PROGRESS       AWS::Lambda::Function    ApiFunction              Resource creation      
+                                                                           Initiated              
+CREATE_IN_PROGRESS       AWS::Lambda::Function    SourceWatchFunction      Resource creation      
+                                                                           Initiated              
+CREATE_IN_PROGRESS -     AWS::Lambda::Function    ApiFunction              Eventual consistency   
+CONFIGURATION_COMPLETE                                                     check initiated        
+CREATE_IN_PROGRESS       AWS::Logs::LogGroup      ApiLogGroup              -                      
+CREATE_IN_PROGRESS       AWS::ApiGatewayV2::Api   HttpApi                  -                      
+CREATE_IN_PROGRESS -     AWS::Lambda::Function    SourceWatchFunction      Eventual consistency   
+CONFIGURATION_COMPLETE                                                     check initiated        
+CREATE_IN_PROGRESS       AWS::Logs::LogGroup      SourceWatchLogGroup      -                      
+CREATE_IN_PROGRESS       AWS::Logs::LogGroup      ApiLogGroup              Resource creation      
+                                                                           Initiated              
+CREATE_IN_PROGRESS       AWS::Logs::LogGroup      SourceWatchLogGroup      Resource creation      
+                                                                           Initiated              
+CREATE_IN_PROGRESS       AWS::ApiGatewayV2::Api   HttpApi                  Resource creation      
+                                                                           Initiated              
+CREATE_COMPLETE          AWS::ApiGatewayV2::Api   HttpApi                  -                      
+CREATE_IN_PROGRESS       AWS::ApiGatewayV2::Sta   HttpApiApiGatewayDefau   -                      
+                         ge                       ltStage                                         
+CREATE_IN_PROGRESS       AWS::Lambda::Permissio   ApiFunctionProxyPermis   -                      
+                         n                        sion                                            
+CREATE_IN_PROGRESS       AWS::CloudFront::Distr   Distribution             -                      
+                         ibution                                                                  
+CREATE_IN_PROGRESS       AWS::ApiGatewayV2::Sta   HttpApiApiGatewayDefau   Resource creation      
+                         ge                       ltStage                  Initiated              
+CREATE_IN_PROGRESS       AWS::Lambda::Permissio   ApiFunctionProxyPermis   Resource creation      
+                         n                        sion                     Initiated              
+CREATE_COMPLETE          AWS::ApiGatewayV2::Sta   HttpApiApiGatewayDefau   -                      
+                         ge                       ltStage                                         
+CREATE_COMPLETE          AWS::Lambda::Function    ApiFunction              -                      
+CREATE_COMPLETE          AWS::Lambda::Permissio   ApiFunctionProxyPermis   -                      
+                         n                        sion                                            
+CREATE_COMPLETE          AWS::Lambda::Function    SourceWatchFunction      -                      
+CREATE_IN_PROGRESS       AWS::CloudFront::Distr   Distribution             Resource creation      
+                         ibution                                           Initiated              
+CREATE_IN_PROGRESS       AWS::IAM::Role           SourceWatchFunctionDai   -                      
+                                                  lyRole                                          
+CREATE_IN_PROGRESS -     AWS::CloudFront::Distr   Distribution             Eventual consistency   
+CONFIGURATION_COMPLETE   ibution                                           check initiated        
+CREATE_IN_PROGRESS       AWS::IAM::Role           SourceWatchFunctionDai   Resource creation      
+                                                  lyRole                   Initiated              
+CREATE_IN_PROGRESS -     AWS::Logs::LogGroup      ApiLogGroup              Eventual consistency   
+CONFIGURATION_COMPLETE                                                     check initiated        
+CREATE_COMPLETE          AWS::Logs::LogGroup      ApiLogGroup              -                      
+CREATE_IN_PROGRESS -     AWS::Logs::LogGroup      SourceWatchLogGroup      Eventual consistency   
+CONFIGURATION_COMPLETE                                                     check initiated        
+CREATE_COMPLETE          AWS::Logs::LogGroup      SourceWatchLogGroup      -                      
+CREATE_COMPLETE          AWS::IAM::Role           SourceWatchFunctionDai   -                      
+                                                  lyRole                                          
+CREATE_IN_PROGRESS       AWS::Scheduler::Schedu   SourceWatchFunctionDai   -                      
+                         le                       ly                                              
+CREATE_IN_PROGRESS       AWS::Scheduler::Schedu   SourceWatchFunctionDai   Resource creation      
+                         le                       ly                       Initiated              
+CREATE_COMPLETE          AWS::Scheduler::Schedu   SourceWatchFunctionDai   -                      
+                         le                       ly                                              
+CREATE_COMPLETE          AWS::CloudFront::Distr   Distribution             -                      
+                         ibution                                                                  
+CREATE_IN_PROGRESS       AWS::S3::BucketPolicy    SiteBucketPolicy         -                      
+CREATE_IN_PROGRESS       AWS::S3::BucketPolicy    SiteBucketPolicy         Resource creation      
+                                                                           Initiated              
+CREATE_COMPLETE          AWS::S3::BucketPolicy    SiteBucketPolicy         -                      
+CREATE_COMPLETE          AWS::CloudFormation::S   remedy-ai                -                      
+                         tack                                                                     
+-------------------------------------------------------------------------------------------------
+
+CloudFormation outputs from deployed stack
+-------------------------------------------------------------------------------------------------
+Outputs                                                                                         
+-------------------------------------------------------------------------------------------------
+Key                 ApiUrl                                                                      
+Description         -                                                                           
+Value               https://1b8faqxx82.execute-api.us-east-1.amazonaws.com                      
+
+Key                 SiteBucketName                                                              
+Description         -                                                                           
+Value               remedy-ai-sitebucket-fd3mw8e3lrts                                           
+
+Key                 DistributionId                                                              
+Description         -                                                                           
+Value               E1T89KVW5A90CD                                                              
+
+Key                 SiteUrl                                                                     
+Description         Public URL (site and API on one origin)                                     
+Value               https://d1fnfajqesgvsl.cloudfront.net                                       
+
+Key                 SnapshotBucketName                                                          
+Description         -                                                                           
+Value               remedy-ai-snapshotbucket-sfjbb3pyjv17                                       
+
+Key                 SourceWatchFunctionName                                                     
+Description         -                                                                           
+Value               remedy-ai-SourceWatchFunction-X5h8YoYfHd6H                                  
+-------------------------------------------------------------------------------------------------
+
+
+Successfully created/updated stack - remedy-ai in us-east-1
+
+== frontend -> s3://remedy-ai-sitebucket-fd3mw8e3lrts
+Completed 27.7 KiB/293.0 KiB (48.3 KiB/s) with 4 file(s) remainingupload: frontend/dist/assets/index-BuPIKE75.css to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-BuPIKE75.css
+Completed 27.7 KiB/293.0 KiB (48.3 KiB/s) with 3 file(s) remainingCompleted 32.6 KiB/293.0 KiB (32.3 KiB/s) with 3 file(s) remainingCompleted 41.9 KiB/293.0 KiB (41.4 KiB/s) with 3 file(s) remainingupload: frontend/dist/icons.svg to s3://remedy-ai-sitebucket-fd3mw8e3lrts/icons.svg
+Completed 41.9 KiB/293.0 KiB (41.4 KiB/s) with 2 file(s) remainingupload: frontend/dist/favicon.svg to s3://remedy-ai-sitebucket-fd3mw8e3lrts/favicon.svg
+Completed 41.9 KiB/293.0 KiB (41.4 KiB/s) with 1 file(s) remainingCompleted 293.0 KiB/293.0 KiB (149.6 KiB/s) with 1 file(s) remainingupload: frontend/dist/assets/index-DT7aIiw6.js to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-DT7aIiw6.js
+Completed 966 Bytes/966 Bytes (1.0 KiB/s) with 1 file(s) remainingupload: frontend/dist/index.html to s3://remedy-ai-sitebucket-fd3mw8e3lrts/index.html
+I7HQOXZ79BBN4NFF0D23T7TT49
+== first Source Watch run
+200
+{"apple_index": {"http_status": 200}, "visa_infinite_extended_warranty_us": {"http_status": 200, "changed_this_run": false}, "uk_cra_2015_goods": {"http_status": 200, "changed_this_run": false}, "apple_iphone12_no_sound_2021": {"http_status": 200, "changed_this_run": false, "listed_on_apple_index": false}, "apple_iphone14plus_rear_camera_2024": {"http_status": 200, "changed_this_run": false, "listed_on_apple_index": true}}
+== smoke test https://d1fnfajqesgvsl.cloudfront.net
+site 200
+{"status":"healthy","service":"RemedyAI","version":"1.1.0","policy":"Closed-World Evidence Policy","knowledge_records":["apple_iphone12_no_sound_2021","apple_iphone14plus_rear_camera_2024","uk_cra_2015_goods","visa_infinite_extended_warranty_us"]}
+sources 200
+DEPLOYED https://d1fnfajqesgvsl.cloudfront.net

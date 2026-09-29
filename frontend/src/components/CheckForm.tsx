@@ -51,7 +51,7 @@ export function CheckForm({ onSubmit, busy }: Props) {
           ...p,
           purchase_date: p.purchase_date || (r.purchase_date && /^\d{4}-\d{2}-\d{2}$/.test(r.purchase_date) ? r.purchase_date : ''),
           retailer: p.retailer || r.store_name || '',
-          product_name: p.product_name || r.item_description || '',
+          product_name: p.product_name || (r.item_description ?? '').split('; ')[0] || '',
           payment_method: p.payment_method || r.payment_type || '',
         }));
       }

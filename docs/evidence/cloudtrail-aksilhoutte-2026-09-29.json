@@ -1,0 +1,4998 @@
+[
+ {
+  "time": "2026-09-29T23:40:36+05:30",
+  "event": "GetCallerIdentity",
+  "source": "sts.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "86b26aba-e7d9-4165-b789-cc29f6b92653",
+  "resources": []
+ },
+ {
+  "time": "2026-09-29T23:41:13+05:30",
+  "event": "ListInferenceProfiles",
+  "source": "bedrock.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "16255690-c2e4-4901-b771-1455da26b959",
+  "resources": []
+ },
+ {
+  "time": "2026-09-29T23:41:16+05:30",
+  "event": "ListFoundationModels",
+  "source": "bedrock.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "887c1afb-7dad-4e2b-82c7-acc30b557c9b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-29T23:42:28+05:30",
+  "event": "Converse",
+  "source": "bedrock.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "0863c271-9df1-4f6e-90e8-5bd2a971559e",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:05:15+05:30",
+  "event": "GetCallerIdentity",
+  "source": "sts.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "3768203d-835a-4198-a8ce-bee3ffd3270b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:05:27+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "b53ad15c-04d4-4e35-8c7a-6320a5d735bc",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:07+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "46c5ba2c-d428-4537-aa53-7d4f477cbf2b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:09+05:30",
+  "event": "DescribeChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "1ebaab1a-a42d-4f75-93d0-f3b860266ddd",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:09+05:30",
+  "event": "CreateChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "fcc42498-969e-4b0c-9549-a7b18fe5b2d4",
+  "resources": [
+   "remedy-ai"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "cd633625-e00d-43bc-abd1-734f3a811a5e",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetAccountSettings20160819",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "7fd34979-21d3-4b2d-8942-19e6edc7de21",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "9434d38f-56a9-4de1-a991-a99157e4b6c0",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "b499d6ef-b4ea-40d4-8233-dbee6c6bac84",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1c978647-7106-42d7-84d1-7a89ef95344a",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetUserPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "65261f34-c7b3-4aaf-8d91-499818fc3b4f",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "ListGroupsForUser",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "2f2f8946-ba5e-48f8-bb25-041b5ca4329c",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetUserPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "41603f67-f1b4-437f-941d-7d9051302377",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetBucketReplication",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "91E9Q7J92S76HG5R",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetBucketIntelligentTieringConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "91E42R2JJAKWPVYF",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetBucketEncryption",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "91EA9PFK7F9JBRC5",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetAccountSummary",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "76ab9e9d-cc45-4ffe-a219-718cc2e257fb",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "24b3adb8-4fc3-484e-9996-f11a4c3e087d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetBucketObjectLockConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "91EDMQK0VZJC6RM5",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetBucketOwnershipControls",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "91E2GPNJ22CSAWMQ",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetUserPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "db8c872b-6ff3-4993-9bf8-008556ef8f54",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "ListAttachedUserPolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1c61db2d-98d3-4be7-8f97-e4b81970f8e4",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "ListUserPolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "16e7ed76-acf3-476d-b2d6-2059a3017156",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetBucketPublicAccessBlock",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "91EEH47VFVJR92MA",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetBucketInventoryConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "91E3FBHCJXH316PZ",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "ListPoliciesGrantingServiceAccess",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "0b1adbbd-28b0-42d0-85cd-3a835dd9e5a2",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetBucketAnalyticsConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "91E3GZT6Q211ZVWS",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1e2ef3ae-ee33-4f83-9a24-7453df23b28d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "10a3be8c-f59b-4fb4-b3d1-1ad951895dba",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetBucketNotification",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "91E1EPC3CPF7RBP5",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetAccelerateConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "91E2BQ9SNJQ95QSX",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "94994993-6926-408c-9d7d-d9d23926013b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetUserPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "d8c2719f-3e11-40f4-9d07-5b5d1705955c",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "975d35c3-82c2-4f7c-a793-73f1a39f670c",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1ffcc5d4-1ac3-4a5d-8f71-f843b12a6571",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "a237e62a-a545-4374-a9a7-630c1e0284df",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "9048e148-728e-4ed1-81ba-0987ea504107",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "7f077b44-5038-4b0a-9fd3-a5b6e1543ce5",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetBucketCors",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "91E1MYSJQZP12DR1",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "3a400658-ad4d-472e-ae02-a70c0d1396f6",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetUserPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "4394f7b8-29fd-486d-b535-515c19c994b0",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "98a5100a-9061-4741-97e2-e841580b3d0c",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "f2504baf-1f8c-4cba-a156-b62c49a556b5",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "d68e81c3-0df9-4aa8-9156-2c34ee908f3b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetCallerIdentity",
+  "source": "sts.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "e339bf1d-63d3-479a-9df2-bc3c52f039ff",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetSchedule",
+  "source": "scheduler.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "041a8c9c-2e2e-4efb-b055-dbbdd08cf466",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetUserPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "a742967e-95fc-4e16-90c8-81717fbd34a1",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "adb8d8ae-8c7f-4ac0-b1ca-03e3ba230e75",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetBucketLogging",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "91EFRNZYEKEV7FXF",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetBucketLifecycle",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "91E71T25AA4H29V4",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:14+05:30",
+  "event": "GetBucketMetricsConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "91E9Y6R19AJP568A",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:15+05:30",
+  "event": "GetBucketAbac",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "AXEZJZJZGZDESE71",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:15+05:30",
+  "event": "GetBucketWebsite",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "AXEW515VR338795S",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:15+05:30",
+  "event": "GetBucketMetadataTableConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "AXEGAGTJ1ZFNMB5P",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:15+05:30",
+  "event": "GetBucketMetadataConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "AXEHTZ4HC2JX4EG3",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:15+05:30",
+  "event": "ListTagsForResource",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "AXEMRFNBREDHPHRK",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:15+05:30",
+  "event": "GetBucketVersioning",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "AXERP9EFKBZFME7T",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:15+05:30",
+  "event": "DescribeChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "2c6fcac4-af92-4101-bdb7-13277784b034",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:20+05:30",
+  "event": "DescribeChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "e86e48f1-a5dc-4dd8-b1a6-4cdcce25f4dc",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:21+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "a868964e-1d4c-43c9-82ac-de73162622d9",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:21+05:30",
+  "event": "DescribeChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "a0d04956-3b27-4d42-8f12-5c472d0e5b25",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:22+05:30",
+  "event": "ExecuteChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "987ad5e9-0a00-4fa2-8830-3665db2cfc7c",
+  "resources": [
+   "remedy-ai"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:25+05:30",
+  "event": "CreateResponseHeadersPolicy",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "af414b68-11fc-450d-831b-3862120ed6e7",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:25+05:30",
+  "event": "GetOriginAccessControl",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1a88dbec-f34a-4f25-ac21-c0f38ec05843",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:25+05:30",
+  "event": "CreateOriginAccessControl",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "daf7d2bd-9938-4514-be55-7f2588e1855d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:25+05:30",
+  "event": "CreateEmailContact",
+  "source": "notifications-contacts.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "spendlimit_member.budgets.amazonaws.com",
+  "request_id": "84207501-32e0-4792-abcd-f024415d9151",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:25+05:30",
+  "event": "DescribeTable",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "81J3L5CME8419FB0RJ0M0R2HAJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": [
+   "remedy-ai-StateTable-1PA6I7Z97N88Z"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:25+05:30",
+  "event": "SendActivationCode",
+  "source": "notifications-contacts.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "spendlimit_member.budgets.amazonaws.com",
+  "request_id": "45f96c5c-a096-44fd-bb9e-eed0ee437fa9",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:26+05:30",
+  "event": "GetResponseHeadersPolicy",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "6bb31cd1-7e39-4357-b399-c19191e38249",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:26+05:30",
+  "event": "ListEmailContacts",
+  "source": "notifications-contacts.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "spendlimit_member.budgets.amazonaws.com",
+  "request_id": "93e93a53-10f9-4e54-9329-42e7d38d70b9",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:26+05:30",
+  "event": "CreateBudget",
+  "source": "budgets.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "2b659dac-418b-45c1-bb67-7f5aeb7a9370",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:26+05:30",
+  "event": "CreateEmailContact",
+  "source": "notifications-contacts.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "spendlimit_member.budgets.amazonaws.com",
+  "request_id": "24528400-cc3a-441b-92df-7b249884600a",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:26+05:30",
+  "event": "SendActivationCode",
+  "source": "notifications-contacts.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "spendlimit_member.budgets.amazonaws.com",
+  "request_id": "9361b464-701a-43d4-a6e8-27b266dc5ce1",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:26+05:30",
+  "event": "DescribeTable",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "15LLGAPE5R3PM6UUQF5J9M549BVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": [
+   "remedy-ai-StateTable-1PA6I7Z97N88Z"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:27+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "6de6202d-d51f-468b-bfee-92c6b32c67e2",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:27+05:30",
+  "event": "PutBucketVersioning",
+  "source": "s3.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "ABS30H2ZPPTP1FW2",
+  "resources": [
+   "remedy-ai-snapshotbucket-sfjbb3pyjv17"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:27+05:30",
+  "event": "PutBucketEncryption",
+  "source": "s3.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "ABSBWEY9N51EF4KJ",
+  "resources": [
+   "remedy-ai-snapshotbucket-sfjbb3pyjv17"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:27+05:30",
+  "event": "PutBucketPublicAccessBlock",
+  "source": "s3.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "ABS9AYFJ3KBK8DAR",
+  "resources": [
+   "remedy-ai-sitebucket-fd3mw8e3lrts"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:27+05:30",
+  "event": "PutBucketPublicAccessBlock",
+  "source": "s3.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "ABS4BC5PEWNEQWTT",
+  "resources": [
+   "remedy-ai-snapshotbucket-sfjbb3pyjv17"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:27+05:30",
+  "event": "CreateGrant",
+  "source": "kms.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "dynamodb.amazonaws.com",
+  "request_id": "f160b42c-8511-4ab2-86cd-1978269b4e71",
+  "resources": [
+   "arn:aws:kms:us-east-1:2481****5724:key/e6aabd10-f3dd-4804-8b6d-3f115df23355"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:27+05:30",
+  "event": "CreateBucket",
+  "source": "s3.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "ABSATF34P3HMDE2G",
+  "resources": [
+   "remedy-ai-sitebucket-fd3mw8e3lrts"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:27+05:30",
+  "event": "CreateGrant",
+  "source": "kms.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "dynamodb.amazonaws.com",
+  "request_id": "63d000f9-e03c-41b2-a862-5bca521b711b",
+  "resources": [
+   "arn:aws:kms:us-east-1:2481****5724:key/e6aabd10-f3dd-4804-8b6d-3f115df23355"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:27+05:30",
+  "event": "CreateTable",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "41R2I0IISTSS4AUBUOLQBTDPOJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": [
+   "arn:aws:dynamodb:us-east-1:2481****5724:table/remedy-ai-StateTable-1PA6I7Z97N88Z",
+   "remedy-ai-StateTable-1PA6I7Z97N88Z",
+   "2cf3b22c-1a97-4d3d-8883-5f59b7488322"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:27+05:30",
+  "event": "CreateBucket",
+  "source": "s3.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "ABSAS28EFG23CSAC",
+  "resources": [
+   "remedy-ai-snapshotbucket-sfjbb3pyjv17"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:27+05:30",
+  "event": "DescribeKey",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "dynamodb.amazonaws.com",
+  "request_id": "df1e35b5-ee55-4d70-a4c1-813d4145e217",
+  "resources": [
+   "alias/aws/dynamodb"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:27+05:30",
+  "event": "PutBucketEncryption",
+  "source": "s3.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "ABS3A6862J4FX64A",
+  "resources": [
+   "remedy-ai-sitebucket-fd3mw8e3lrts"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:27+05:30",
+  "event": "DescribeTable",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "DKQC4A5ULG49R4IO8H8LM15I8RVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": [
+   "remedy-ai-StateTable-1PA6I7Z97N88Z"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:33+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "dc11e8ed-433d-43cb-b229-3489401fb7cb",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:34+05:30",
+  "event": "DescribeContributorInsights",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "RTV6N3749JO788KG94U08S6FA7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:34+05:30",
+  "event": "DescribeTimeToLive",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "9U1QKBONEDM2ED487Q3MAOUO8JVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:34+05:30",
+  "event": "DescribeContinuousBackups",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1085RAL74R6T0M5UBK1AJD2OP3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:34+05:30",
+  "event": "DescribeKinesisStreamingDestination",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "53AJVL12E2F7H2MG9IG5O2RUK7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:34+05:30",
+  "event": "ListTagsOfResource",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5BGLMJFNJFNGBD7487RTJHAC8FVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:34+05:30",
+  "event": "DescribeTable",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1BLONQRQF18RE30BHJP4S9K7G3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": [
+   "remedy-ai-StateTable-1PA6I7Z97N88Z"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketNotification",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ21ZM5JPDW4ZST",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "ListTagsForResource",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQCHWEVGE4NEMX8",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "2b91f4be-4cdf-4bbf-9881-b66ec95876b1",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketAnalyticsConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQFA7FRAP7VZFNA",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "DescribeTable",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "7OALABG2VVC1FU8VRNA86S2DERVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": [
+   "remedy-ai-StateTable-1PA6I7Z97N88Z"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetResourcePolicy",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "GRK7PAI4M2OD63OS8N4VDUIUQVVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketMetadataTableConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ0RAN4XFYCPW13",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketMetricsConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQB4ESZZN9W90WS",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "dynamodb.amazonaws.com",
+  "request_id": "a0fc9199-941e-4df7-a1a5-a09336e66ee4",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketLifecycle",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ8RMDH7WA20Z0D",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketCors",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ2BM3RX3HGZ553",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketLogging",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQC0PAKDX5KTHAP",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketReplication",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ61TNTRXY7CEAZ",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketVersioning",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQF62AH3GZTZKFF",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketMetadataConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ694NHG12ZAVCF",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketLifecycle",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ981KNHTS6P3ED",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "DescribeTimeToLive",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "R8EGJO463245HKU2G0IKO6JSB3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketMetricsConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQARG3G8055V8KM",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketIntelligentTieringConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ1PRRE882181VV",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketReplication",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ7GMQ1KH12WYJP",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketAbac",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ3RYJ0Q7G11TCW",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketInventoryConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQA1S1DXYPE0EAH",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketPublicAccessBlock",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ0JY5PJDWS1PCH",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketAnalyticsConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ8B8J0HM3A5374",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketCors",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ9J5C3C1AZ2CAQ",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketObjectLockConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQFQ0HWW53ZY5A5",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketWebsite",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQCWXHHXMR9N37D",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetAccelerateConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ8XC9R34EY77T0",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketEncryption",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ14W3NPT16EEBD",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "DescribeTimeToLive",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "9AAK5EK8DI6KK8OI0VINHMONVFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketInventoryConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ2ZEGD771EHC2V",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketLogging",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ3F5W76FYJ4TT3",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketNotification",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ26SHRZCWKRWMV",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "ListTagsOfResource",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "758EL76MMQHI2R13QI11LVIG53VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetAccelerateConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQFE4V07EDNRR4V",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "DescribeContinuousBackups",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "3UELHK50AB42R0M9UNVV6OGR93VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "DescribeKinesisStreamingDestination",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "76USIDU4TGS407UIC027FL5633VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "UpdateContinuousBackups",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "RQU132FLELRH7M0JUJ7OS1TLJRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": [
+   "remedy-ai-StateTable-1PA6I7Z97N88Z"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "UpdateTimeToLive",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "GOMNFJIB7ILJGN4CHS502T6MQ7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": [
+   "remedy-ai-StateTable-1PA6I7Z97N88Z"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "DescribeContinuousBackups",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "0VUOFK5COK7LVFB6VU99IOS6IRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "DescribeTable",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "59FVLGJJCIR4AA5D4409R10SKRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": [
+   "remedy-ai-StateTable-1PA6I7Z97N88Z"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketIntelligentTieringConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQEQ3NN611J1J5P",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketPublicAccessBlock",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ588VGGT7QF6KY",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketOwnershipControls",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ1CRY75B9Z2MY7",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketObjectLockConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQ1AMWG2JQNZFM1",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketEncryption",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQD26WS0NFCR7NN",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "DescribeContributorInsights",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "9H9T38MJAQAU8VGD1CSE87V4RJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:38+05:30",
+  "event": "GetBucketOwnershipControls",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JEQCG4DGF764VF8N",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "GetBucketWebsite",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "FSCGKSD51180F0ZC",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "DescribeContributorInsights",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "VDN9I61UIC3QHIUEI52G1UNNB7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "GetBucketAbac",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "FSCT5FS61SS4FXYN",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "GetBucketVersioning",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "FSCNGQF5BVQFZHZV",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "ListTagsOfResource",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "H4FLIPN88LGI9JOCBMDM9IDTBBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "DescribeTimeToLive",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "MC5D00QF4SB57K8C0NN541HPQJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "DescribeContinuousBackups",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "P5556RBLKHBHH5O90D8FPMMT2NVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "DescribeTable",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "TTJP1BTGVC81RS9KVIONN6QRPNVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": [
+   "remedy-ai-StateTable-1PA6I7Z97N88Z"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "DescribeTable",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "FFLVPOEM0NHK1958631A8AIAFJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": [
+   "remedy-ai-StateTable-1PA6I7Z97N88Z"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "GetBucketMetadataConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "FSCHAZMDNFAMFX9Q",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "DescribeKinesisStreamingDestination",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "4JN696IL353OOF1GKJ0U4LIAPVVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "DescribeTable",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "U7CH848MTBKJ9B0F1K95MC3V6BVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": [
+   "remedy-ai-StateTable-1PA6I7Z97N88Z"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "GetBucketMetadataTableConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "FSCHD1XEWPRRWY15",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "ListTagsForResource",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "FSCKCMZK9CBQ69W8",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:39+05:30",
+  "event": "GetResourcePolicy",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "DBSRNU6SNE8TCJNPNNGS0JH1J3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketIntelligentTieringConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHC10BYNPK79PM81",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetResourcePolicy",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "MCGD03HC44C0GUM2FC7AFJUS17VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketMetricsConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHCDPGZED52DNKTH",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "DescribeKinesisStreamingDestination",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "M8C0M7I2T1SR432CT7NIEAVND7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "ListTagsOfResource",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "697FTDRCHS645I93Q997FJ63OBVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketWebsite",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHC7J7R579PZHWMP",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetResourcePolicy",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "0HP79U9VAVE3FC59RBPI12VQD7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "ListTagsForResource",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHC5RMB66WSGCA17",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketCors",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHCBASWP12Y0AB4C",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketReplication",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHCA061Y5975TF6H",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "ListTagsOfResource",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "B82SBN6GF75CEE30H7LL3CNPRJVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "DescribeContinuousBackups",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "VOLUO7KD24PB32C9A8H58IIJKFVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "DescribeContributorInsights",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "OJPGACI2L8VGH4M5HSG1H57P3NVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketOwnershipControls",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHCCH5K9RXYRCZY2",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketLifecycle",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHCCHW6GNMS56YAS",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "DescribeTimeToLive",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "A1PKDD3AUG3COV1R6DUS8T9VM7VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "DescribeTimeToLive",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "Q2NFT3OKO5R0B5QNPD9PRR4O3VVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "DescribeContinuousBackups",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "NBVJO5N5AKVAGABBTMOICQVPV3VV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetAccelerateConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHCCSRAKWTR8N0ZJ",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketLogging",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHC45YHDCNPEMJYA",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketInventoryConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHC6EBVXZSGQHS9E",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketEncryption",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHC9QTDR3NM8XDNY",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "DescribeKinesisStreamingDestination",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "DL6B8UL2GF0R14697SGAHCF4HRVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketMetadataConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHC5ZGKC0VJR3ZWQ",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketNotification",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHCDY16838AT4B8V",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "DescribeContributorInsights",
+  "source": "dynamodb.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "KV0QFABMPLMJATHQ9V4H65DD9BVV4KQNSO5AEMVJF66Q9ASUAAJG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketAnalyticsConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHCEVW037P88CTM8",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketPublicAccessBlock",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHC8ZHPKFD64MME1",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketAbac",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHC8HF8Z5TG2YXFX",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketObjectLockConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHC2C58KJVG9G276",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketMetadataTableConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHCEEB956G9GJWB7",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:40+05:30",
+  "event": "GetBucketVersioning",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "CHC5D6P1XAB2YXBF",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:41+05:30",
+  "event": "AttachRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "504d5df3-3052-4cf3-a84b-3a7c4b0346b1",
+  "resources": [
+   "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+   "remedy-ai-SourceWatchFunctionRole-YvynaWvASHLA"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:41+05:30",
+  "event": "AttachRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "f40c43fd-4d73-43d5-b2d7-d60b1bf8e1f1",
+  "resources": [
+   "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess",
+   "remedy-ai-ApiFunctionRole-2qO9dh3BeQGf"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:41+05:30",
+  "event": "CreateRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "9df3a864-5161-4eda-9fdd-aa4accc5db74",
+  "resources": [
+   "remedy-ai-ApiFunctionRole-2qO9dh3BeQGf",
+   "AROATTSKF4BWK6FSPQU75",
+   "arn:aws:iam::2481****5724:role/remedy-ai-ApiFunctionRole-2qO9dh3BeQGf"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:41+05:30",
+  "event": "PutRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "23f51a50-ae7d-49cd-9d3a-450c9033a7fc",
+  "resources": [
+   "ApiFunctionRolePolicy0",
+   "remedy-ai-ApiFunctionRole-2qO9dh3BeQGf"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:41+05:30",
+  "event": "AttachRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "6781c451-f82a-4187-9573-9182fd9270f8",
+  "resources": [
+   "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+   "remedy-ai-ApiFunctionRole-2qO9dh3BeQGf"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:41+05:30",
+  "event": "CreateRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "2e0c3e02-afe5-4769-8af5-3a421acfe040",
+  "resources": [
+   "remedy-ai-SourceWatchFunctionRole-YvynaWvASHLA",
+   "arn:aws:iam::2481****5724:role/remedy-ai-SourceWatchFunctionRole-YvynaWvASHLA",
+   "AROATTSKF4BWPP34IHPJU"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:41+05:30",
+  "event": "PutRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "a147d6b5-1502-499d-9f5d-5e597544f0b3",
+  "resources": [
+   "SourceWatchFunctionRolePolicy0",
+   "remedy-ai-SourceWatchFunctionRole-YvynaWvASHLA"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:42+05:30",
+  "event": "AttachRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "707d2861-d1f2-4b45-8ff2-f59b766e157b",
+  "resources": [
+   "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess",
+   "remedy-ai-SourceWatchFunctionRole-YvynaWvASHLA"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:06:44+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "04d7a7c0-2767-4c30-979d-36b731814add",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:50+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "8277d9f9-f452-4936-b682-efbe40cfc725",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:57+05:30",
+  "event": "ListRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "2ea53f67-0058-40df-966a-740e2a6e002b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:57+05:30",
+  "event": "GetRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "caeb7465-e6a5-4da6-b684-2ee74c308ee5",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:57+05:30",
+  "event": "GetRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "fc826468-0ea5-47b5-848d-1b32e30f8d04",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:57+05:30",
+  "event": "ListAttachedRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "82662662-2acb-48da-9032-6cd64efcf3de",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:58+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "f37e0041-d0d9-4d57-89a0-d52e97d95696",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:58+05:30",
+  "event": "GetRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "372ee0ac-f6f4-4ce2-9b9c-3463d32f0fb1",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:58+05:30",
+  "event": "ListRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "c734dc78-4a77-4fcf-b749-6089e0815728",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:58+05:30",
+  "event": "GetRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "8171e978-c4b7-4ae0-8bf5-376e50e669b6",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:58+05:30",
+  "event": "ListAttachedRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "22e07b0f-b25f-4660-9104-2bcb947a5d94",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:58+05:30",
+  "event": "GetRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "428b2ed0-74b5-4971-a62d-868e18204b88",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:58+05:30",
+  "event": "ListAttachedRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "efb0d531-ade3-4fc6-9e51-598ec12565e4",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:58+05:30",
+  "event": "ListRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "9b157b11-4274-44c2-88f1-4c924a35e573",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:58+05:30",
+  "event": "GetRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "f4fa8dc7-2c75-42b4-ba0d-4eb8da90b58f",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:59+05:30",
+  "event": "GetRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "214022b6-7453-46d2-a527-97cf0a108e78",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:59+05:30",
+  "event": "GetRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "965f8559-5024-4845-a894-d3aa17ea1c0e",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:59+05:30",
+  "event": "ListRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "6122e35b-54af-4bce-baa5-3cef138b14fe",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:06:59+05:30",
+  "event": "ListAttachedRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "6a43c731-2583-44aa-9998-0826e2ab1f82",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:00+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "c381b45e-95ba-4748-a747-48de8a33f272",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:00+05:30",
+  "event": "DescribeKey",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "b4abbd42-39ac-4c8b-af3e-133900f5d0a8",
+  "resources": [
+   "alias/aws/lambda"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:00+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "1424c52c-dbe8-4e0f-bf3d-f48788bd9a19",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:00+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "b3665daa-c5d1-485e-b4a1-087bd2866d32",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:00+05:30",
+  "event": "Encrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "023a32b8-88d8-4fca-970c-87d0e4276331",
+  "resources": [
+   "alias/aws/lambda"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:00+05:30",
+  "event": "DescribeKey",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "05fba38a-c1ae-455e-84aa-d34aef098aa4",
+  "resources": [
+   "alias/aws/lambda"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:00+05:30",
+  "event": "Encrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "192bdecb-37f8-4df8-9c40-7af363c48aa1",
+  "resources": [
+   "alias/aws/lambda"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:00+05:30",
+  "event": "CreateFunction20150331",
+  "source": "lambda.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "44e599a5-b397-4ae4-80ef-ab75f6100805",
+  "resources": [
+   "remedy-ai-ApiFunction-Cx86aovHS5ce"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:01+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "f21c6a95-a836-4cab-b08e-2a24a3fe82c4",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:01+05:30",
+  "event": "CreateFunction20150331",
+  "source": "lambda.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "03d0233b-cb77-4325-9440-44d98f631600",
+  "resources": [
+   "remedy-ai-SourceWatchFunction-X5h8YoYfHd6H"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:01+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "ff26f8a5-77cf-4a36-a1d8-f04a853e1bd5",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:01+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "85e96600-dc68-4aa8-bc66-17f6904b9bb8",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:01+05:30",
+  "event": "GetRuntimeManagementConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "421c486d-9df0-4f98-bb04-95e3a1420cb2",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:01+05:30",
+  "event": "GetFunctionRecursionConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "e85e1165-b21b-484e-9c31-85c733be7e08",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:01+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "5329709d-b8b1-4b10-9a4e-2c1b97a8e409",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:01+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "2545b725-d7fb-413f-be8b-6a91b6ba09e8",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:01+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "f048a24a-3efd-4853-b9cf-e95b5716571f",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:01+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "171465df-9155-4981-abdd-fd5663465549",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:01+05:30",
+  "event": "GetFunctionRecursionConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "e2e46e8f-d6fb-4d11-a718-b80ec224a5bc",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:01+05:30",
+  "event": "GetFunctionCodeSigningConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "643af279-382a-4907-8057-16b6716a965d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:02+05:30",
+  "event": "GetFunctionCodeSigningConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "b5599123-caed-4816-98ff-a94191009907",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:02+05:30",
+  "event": "GetRuntimeManagementConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1977fa0f-719e-4cf1-97ad-7a3d5ba1d4e4",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:02+05:30",
+  "event": "DescribeLogGroups",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5b5f8603-8cc9-4b66-8cb8-b04de00c0fca",
+  "resources": [
+   "/aws/lambda/remedy-ai-ApiFunction-Cx86aovHS5ce"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:03+05:30",
+  "event": "ImportApi",
+  "source": "apigateway.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "86b25159-fd3a-4769-b45a-c2ac580bec06",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:03+05:30",
+  "event": "DescribeLogGroups",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "c9098eb9-f53a-41a4-8ba7-7ed7eca80ec0",
+  "resources": [
+   "/aws/lambda/remedy-ai-SourceWatchFunction-X5h8YoYfHd6H"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:03+05:30",
+  "event": "CreateServiceLinkedRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "apigateway.amazonaws.com",
+  "request_id": "e79a4644-7eba-4430-99f9-936512bf02da",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:03+05:30",
+  "event": "DescribeLogGroups",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1bfe68d6-a6af-4e21-949e-732fb281f2b5",
+  "resources": [
+   "/aws/lambda/remedy-ai-SourceWatchFunction-X5h8YoYfHd6H"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:03+05:30",
+  "event": "DescribeLogGroups",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "d22ce2de-a34e-45a7-9a03-ab912c2bb4ad",
+  "resources": [
+   "/aws/lambda/remedy-ai-ApiFunction-Cx86aovHS5ce"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:03+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "ab0584f3-742d-4b98-a12e-ec41bc580765",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:04+05:30",
+  "event": "GetApi",
+  "source": "apigateway.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "ea5c7ed4-781d-4bf7-a3a4-8022d5219c41",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:04+05:30",
+  "event": "CreateLogGroup",
+  "source": "logs.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "cb4d6b51-a8de-44b9-a421-2c0ba9fdc4f0",
+  "resources": [
+   "/aws/lambda/remedy-ai-SourceWatchFunction-X5h8YoYfHd6H"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:04+05:30",
+  "event": "CreateLogGroup",
+  "source": "logs.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1637c6d3-03f7-4d74-8219-a8c81468e518",
+  "resources": [
+   "/aws/lambda/remedy-ai-ApiFunction-Cx86aovHS5ce"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "ListTagsForResource",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHWETDCBKMX0TCW0",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketNotification",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHW5TAVE9CBTJGVB",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketLifecycle",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHW63KMG4XM2PR83",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketObjectLockConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHW7Q6JP129JFQ9T",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketAbac",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHWCHH1WYEN4FZ8S",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetAccelerateConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHW7X50SYDJVDAJH",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketAnalyticsConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHWBJ8NJVJBV1YV2",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketMetricsConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHWD7R6GNAP3Q1S2",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketInventoryConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHWFWY1G7QGXCHQP",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketLogging",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHW46DB2N95N9FPV",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketVersioning",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHW9ZWC9VXC7D1RD",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketReplication",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHWA07QQTJMFWRJV",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketPublicAccessBlock",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHW2JCG1DN1ZNJHJ",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketCors",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHWCDY8BNRN2WHH3",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetOriginAccessControl",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "cd19d6dd-43b8-4778-a8e9-e72500ff568d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketIntelligentTieringConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHW0KQ3WQEP4E3EC",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketOwnershipControls",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHW00E6Q4Z5ETQZZ",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:05+05:30",
+  "event": "GetBucketEncryption",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHW4VPCH3QFS8F0Z",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:06+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "5fbaa76e-140e-474f-b271-ae2313de68b1",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:06+05:30",
+  "event": "GetFunctionRecursionConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "4406ef04-517c-4a78-bc48-aad8233a6701",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:06+05:30",
+  "event": "GetBucketMetadataConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "F1KGJ0QDRTNS71XY",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:06+05:30",
+  "event": "GetStage",
+  "source": "apigateway.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "f006665b-5d32-47ea-8be9-bd31851d9b90",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:06+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "8f6bf870-c169-4d6d-b931-06bb55c2908d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:06+05:30",
+  "event": "AddPermission20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "f690c15b-786f-439e-8eaf-706e932ab7ba",
+  "resources": [
+   "remedy-ai-ApiFunction-Cx86aovHS5ce"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:06+05:30",
+  "event": "CreateStage",
+  "source": "apigateway.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "6b4a1c5c-d0b2-4cde-bb08-a5ad619ea6b6",
+  "resources": [
+   "$default"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:06+05:30",
+  "event": "GetFunctionCodeSigningConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "08632526-d5a2-4251-be42-7e1004eaf907",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:06+05:30",
+  "event": "GetBucketWebsite",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "SHW1R9DKKHST42NM",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:06+05:30",
+  "event": "GetBucketMetadataTableConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "F1KKCKQSRCQ0J72X",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:06+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "f0049f6a-1e25-4fa7-8ad7-7ad0133d39e0",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:06+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1a0a9026-c0b9-4925-ad27-9242fec9ac3a",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:07+05:30",
+  "event": "GetFunctionRecursionConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "268a814d-1335-445c-b00a-57063d310c05",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:07+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "99666eee-1e4a-429b-8dc1-ba72bd46643e",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:07+05:30",
+  "event": "GetDistribution",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "c132baa3-df6a-430b-b528-b620d2da0b20",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:07+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "2dd99991-a41b-4fa8-a62f-445ae430180a",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:07+05:30",
+  "event": "GetRuntimeManagementConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "fd656602-6b21-4f7f-84ae-d47ed482981a",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:07+05:30",
+  "event": "CreateDistributionWithTags",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "58da3207-d41d-4516-bd0a-5758686bc50d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:07+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "93b20ed6-53e3-47b5-a382-a4a4158c9f72",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:07+05:30",
+  "event": "GetRuntimeManagementConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "a2045177-4929-4e89-bc2e-c619ee8e8c1b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:07+05:30",
+  "event": "GetFunctionCodeSigningConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "892fe820-ac4b-4dd7-a1f6-86f5be122178",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:07+05:30",
+  "event": "GetPolicy20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "2812eb77-945f-4f42-9640-f6aeef97c637",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:07+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "a1d6dc85-c11e-4f92-a1ec-11b21252dae8",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:08+05:30",
+  "event": "GetDistribution",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "48b1b1f2-673c-4bd8-9004-7d8938987c16",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:08+05:30",
+  "event": "ListTagsForResource",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "74e4c84d-f27b-4969-bfd0-73b37afc197d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:09+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "35f4da25-e21b-4393-9498-7463****7112",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:09+05:30",
+  "event": "PutRetentionPolicy",
+  "source": "logs.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "6096485c-bf19-4910-b5b2-a72e635db26f",
+  "resources": [
+   "/aws/lambda/remedy-ai-SourceWatchFunction-X5h8YoYfHd6H"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:09+05:30",
+  "event": "PutRetentionPolicy",
+  "source": "logs.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "4c0907cf-0e84-4125-85a1-1ae5120f76b2",
+  "resources": [
+   "/aws/lambda/remedy-ai-ApiFunction-Cx86aovHS5ce"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:09+05:30",
+  "event": "PutRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "6a1e2174-966d-4036-877a-564a5ca6e93b",
+  "resources": [
+   "SourceWatchFunctionDailyLambdaPolicy",
+   "remedy-ai-SourceWatchFunctionDailyRole-OZ7NfVW6F5uy"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:09+05:30",
+  "event": "CreateRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "00cb20eb-d8c9-43e9-a24f-631e633f530c",
+  "resources": [
+   "arn:aws:iam::2481****5724:role/remedy-ai-SourceWatchFunctionDailyRole-OZ7NfVW6F5uy",
+   "remedy-ai-SourceWatchFunctionDailyRole-OZ7NfVW6F5uy",
+   "AROATTSKF4BWBHYSFMNPC"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:11+05:30",
+  "event": "DescribeLogGroups",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "6ed29bb2-19c8-4312-9766-795dac86c7d4",
+  "resources": [
+   "/aws/lambda/remedy-ai-ApiFunction-Cx86aovHS5ce"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:11+05:30",
+  "event": "DescribeIndexPolicies",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "e79c69b2-13fb-43a3-a4a8-cb7467bf9a0b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:11+05:30",
+  "event": "ListTagsForResource",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "367c6b7c-935c-4717-902f-d3ad05d3b196",
+  "resources": [
+   "arn:aws:logs:us-east-1:2481****5724:log-group:/aws/lambda/remedy-ai-SourceWatchFunction-X5h8YoYfHd6H"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:11+05:30",
+  "event": "DescribeResourcePolicies",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "61da14ea-c519-4672-8d37-69818e0072b9",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:11+05:30",
+  "event": "DescribeLogGroups",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "8d1607f5-239d-44c8-94cf-e8f025ab927f",
+  "resources": [
+   "/aws/lambda/remedy-ai-ApiFunction-Cx86aovHS5ce"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:11+05:30",
+  "event": "ListTagsForResource",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "dbc8f26b-60b1-4b0a-9956-577fc6c77eb2",
+  "resources": [
+   "arn:aws:logs:us-east-1:2481****5724:log-group:/aws/lambda/remedy-ai-ApiFunction-Cx86aovHS5ce"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:11+05:30",
+  "event": "DescribeResourcePolicies",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "597699e2-c736-46b0-ad01-a20ea29927c7",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:11+05:30",
+  "event": "DescribeResourcePolicies",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5d7b2f5e-48ee-423d-ab3d-c454758ac1c1",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:11+05:30",
+  "event": "DescribeIndexPolicies",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "4aef90ba-f81c-4c42-b351-1f0bffdaeef4",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:11+05:30",
+  "event": "DescribeIndexPolicies",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "3cd6ebab-d3fd-4c8c-9c0b-1adb51c4ba9a",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:11+05:30",
+  "event": "ListTagsForResource",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "bae6a386-2bd4-4ba0-bbb5-d45ba63b3d1c",
+  "resources": [
+   "arn:aws:logs:us-east-1:2481****5724:log-group:/aws/lambda/remedy-ai-ApiFunction-Cx86aovHS5ce"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:11+05:30",
+  "event": "DescribeLogGroups",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "db734092-9143-4d72-a138-7e5106fada54",
+  "resources": [
+   "/aws/lambda/remedy-ai-SourceWatchFunction-X5h8YoYfHd6H"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:12+05:30",
+  "event": "DescribeResourcePolicies",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5ae16348-93c4-4a05-b1a5-21519c71f039",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:12+05:30",
+  "event": "DescribeIndexPolicies",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "6349184f-4fae-471d-8b0b-76f2460d21bf",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:12+05:30",
+  "event": "DescribeLogGroups",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5dec3f22-f61f-49f0-b5f4-8a217ab0a1bb",
+  "resources": [
+   "/aws/lambda/remedy-ai-SourceWatchFunction-X5h8YoYfHd6H"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:12+05:30",
+  "event": "ListTagsForResource",
+  "source": "logs.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "644f55d6-8425-431a-a84e-d6579faf2606",
+  "resources": [
+   "arn:aws:logs:us-east-1:2481****5724:log-group:/aws/lambda/remedy-ai-SourceWatchFunction-X5h8YoYfHd6H"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:15+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "cc5cd774-63da-4bf3-8914-15e78ba17517",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:23+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "b5bffb54-c6f1-41fd-9b67-983bf44990c8",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:25+05:30",
+  "event": "GetRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "4b3e0ece-9122-4623-a8a4-4e5fce6fae6f",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:25+05:30",
+  "event": "ListAttachedRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "fdac8249-486f-4699-ba36-9d1e287ec297",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:25+05:30",
+  "event": "ListRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "47f54492-3cbc-44a2-bbff-b99018203ff0",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:25+05:30",
+  "event": "GetRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "c0329d71-fef7-42d3-8c47-3a7954110b0d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:26+05:30",
+  "event": "GetRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "e67939b8-8704-4c92-b2b4-6ce2ad4e4b58",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:26+05:30",
+  "event": "ListAttachedRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "b92e0aa1-a865-4d05-ac47-8324318ff1e2",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:26+05:30",
+  "event": "ListRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "360b0666-3f1b-448b-8133-0e2d99516b66",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:26+05:30",
+  "event": "GetRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "97a27d1f-d086-49f3-bc53-6d1cd2369122",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:27+05:30",
+  "event": "CreateSchedule",
+  "source": "scheduler.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "b57330a7-5775-46fc-b473-85e6341476d5",
+  "resources": [
+   "arn:aws:scheduler:us-east-1:2481****5724:schedule/default/SourceWatchFunctionDaily"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:07:27+05:30",
+  "event": "GetSchedule",
+  "source": "scheduler.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "a304c3e2-cce7-4a7c-bdd6-b3bba3d3659e",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:27+05:30",
+  "event": "GetSchedule",
+  "source": "scheduler.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "79b264ad-f3f2-4e7a-a07c-f110dc7ffe06",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:28+05:30",
+  "event": "GetSchedule",
+  "source": "scheduler.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "92bf7796-42d5-41f6-97d6-c978abacb5b3",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:29+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "cbc86788-add3-4352-9962-85bb7b42af3e",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:37+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "2fc1afc8-f366-4661-b933-e8a284fd677d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:38+05:30",
+  "event": "GetDistribution",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "2867d3a5-501b-46df-9508-96fbf63fb972",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:43+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "d308e686-9cce-49d4-9195-491a7adb15a0",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:50+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "a59b0371-82bc-488c-aadc-a0332e0458c4",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:07:56+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "3c854c93-da97-4205-ac27-1c0fbda55780",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:08:03+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "6a4b3b75-b98d-4755-9a52-38af51ce3d69",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:08:08+05:30",
+  "event": "GetDistribution",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "f6c2ce6f-3744-4fb6-b918-56e6853c3a8e",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:08:09+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "324a907a-c8e6-4240-b4f5-87b2730ff6e9",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:08:17+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "43faf761-fcae-473c-b955-6ff143bc926b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:08:23+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "8c02cbcc-5d15-4995-b933-ba440f9aa686",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:08:31+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "8c47ad7c-75ab-4bdd-a42c-faaeddbd7bab",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:08:37+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "131ca8c1-bff9-4320-9a2a-cf46e5c8c934",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:08:37+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "6edb785b-822b-40d2-8987-81326c91e952",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:08:39+05:30",
+  "event": "GetDistribution",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "51d6e234-f1f0-4f80-ae9b-7cefa10ba731",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:08:45+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "5c614aec-ca77-4626-a2a4-f8b50c5f23c1",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:08:51+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "919bfb01-6d27-4495-8e73-53d16e7d6721",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:08:58+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "f8c8ba8d-030c-462d-8dad-23ec575f075d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:09:04+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "26eabe83-46a9-4962-b9d9-d003e0708a59",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:09:05+05:30",
+  "event": "DescribeStackResource",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "50b0a231-f26c-4e70-b63d-ddf212e184ab",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:09:09+05:30",
+  "event": "GetDistribution",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "a122e626-7d2a-4d6d-b2ae-e099214f6973",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:09:13+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "a9794273-fa03-4738-867d-3b2951931662",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:09:19+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "d95e9241-eb8a-4480-a107-36bb93696e15",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:09:27+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "2672ba6c-7a2e-4d61-81ec-fa1d589af573",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:09:33+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "6721ea06-1f64-4606-bc63-579d5beeead4",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:09:39+05:30",
+  "event": "GetDistribution",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "a3dbde58-28c4-441a-9483-dc2273a920c9",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:09:40+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "29350968-bcca-4b6a-b648-8355e36063fa",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:09:46+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "1c145d34-5fe8-44bb-9879-eced8efb639d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:09:54+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "3fd9a446-8336-496c-809c-0fa59be8df77",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:00+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "92f7118b-2595-4de4-ba4e-1f5841923350",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:08+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "37eb87ae-b5f6-4ec6-bab1-3d701c03830b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:10+05:30",
+  "event": "GetDistribution",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "d05ebd65-a99b-433b-9415-211f42d32fda",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:10+05:30",
+  "event": "GetDistribution",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "7b7d9276-9e8a-4d49-8082-3e3ba822090b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:10+05:30",
+  "event": "ListTagsForResource",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "dcf9d32d-f25e-4865-b3b3-25041c167c4a",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketWebsite",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJ9XKHMF68FZFBR",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketMetadataTableConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJ7T3TSKB1CAEEZ",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketAbac",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJFFFBSTEFF7JMS",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketOwnershipControls",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJF57D7Q8VW40MB",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketAnalyticsConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJ2AZ5GR5PCT0EQ",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketNotification",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJA4M6C0A4SD7YZ",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketCors",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJEMJK36M224MSW",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetAccelerateConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJ74MHQWNAXZ4FX",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketReplication",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJ3CFJE6QRSKK3F",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketLifecycle",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJ7B4W33C2J6YGS",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketInventoryConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJ6P33E65YEE1S2",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketVersioning",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJDYQKS209VB7AB",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketEncryption",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJ22SNYCGSZ6SAD",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketLogging",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJ55SVG27FVREFN",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "ListTagsForResource",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJ2XS9RFC6RRQE9",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketMetricsConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJ2D47837M3AHP3",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketMetadataConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJ8M6RC7RQP8330",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketObjectLockConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJAHW6PFQ1FTG3V",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketPublicAccessBlock",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJ6KD405JH9MCYR",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:11+05:30",
+  "event": "GetBucketIntelligentTieringConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5JJ341992BD8WJFH",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:12+05:30",
+  "event": "PutBucketPolicy",
+  "source": "s3.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "16EQ5MG7M9JC9APD",
+  "resources": [
+   "remedy-ai-sitebucket-fd3mw8e3lrts"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:10:12+05:30",
+  "event": "GetBucketPolicy",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "16EHQTQ716SA27TQ",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:13+05:30",
+  "event": "GetBucketPolicy",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "JES1E4JX2F8ZV2M0",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:14+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "5af8a66a-a6eb-4952-941a-7fb92b0f6115",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:14+05:30",
+  "event": "ListTagsForResource",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "4ecdce47-29e3-4a44-8c22-09b78bfe5975",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:14+05:30",
+  "event": "GetDistribution",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "02255f9d-52c3-47fe-b5ce-01123d013510",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:21+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "93be6f60-cde9-424a-874f-82cc27ef5802",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:22+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "3873c58c-640b-453d-9fd3-83944df8c80c",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:23+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "ff73f1f1-dd61-4461-b9cd-f034d4a07655",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:26+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "194107ac-379e-4afc-9180-ffd9b0df526b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:29+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "c58b78fd-6019-4e7e-bf10-e3281e800ff7",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:31+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "30c3a989-ce52-4929-9e40-b85b03ff064a",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:34+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "db00037a-02a5-4dcf-8ec7-4de01bf2be17",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:10:44+05:30",
+  "event": "CreateInvalidation",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "a063afe1-ac6c-4d26-8d38-1ec3407e4145",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:17:47+05:30",
+  "event": "GetCallerIdentity",
+  "source": "sts.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "aae10628-b524-42fb-9452-961850d61331",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:17:58+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "eaeb04f8-4969-45ab-8b33-443b691802c2",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:34+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "0eb60e49-98d9-4cb6-8f46-a0b63279d2d8",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:34+05:30",
+  "event": "GetTemplateSummary",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "42cb36f7-540b-481a-b2b2-bc7754e14867",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:36+05:30",
+  "event": "DescribeChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "2f210a6c-0003-4011-9b68-d75a81eee6c2",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:36+05:30",
+  "event": "CreateChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "cc2cd933-94fa-45b1-91ca-ef76b55b22c4",
+  "resources": [
+   "remedy-ai"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:18:42+05:30",
+  "event": "DescribeChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "a4fa536f-a40e-4d27-ab85-88560670bcf8",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:44+05:30",
+  "event": "GetCallerIdentity",
+  "source": "sts.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "5d3cb561-ea99-457c-8bed-3b83caba2c87",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:44+05:30",
+  "event": "GetUserPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1cf9eb9f-1286-4c0c-9593-724a91bff721",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:44+05:30",
+  "event": "ListGroupsForUser",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "a8bee5ca-aeb8-481e-a123-e01e148d0c21",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:44+05:30",
+  "event": "GetUserPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1a5bdf59-25a6-4b93-9444-725381dd24ff",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:44+05:30",
+  "event": "ListAttachedUserPolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "a1feaa95-4f0b-4b68-8321-2844e3cbf352",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:44+05:30",
+  "event": "ListUserPolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "771f6595-500c-4905-80de-a0427bdbde3e",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:44+05:30",
+  "event": "GetUserPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "7c6b79a5-fa04-4eb2-b1f7-96cbcaa13617",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:44+05:30",
+  "event": "GetUserPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "4bab3c21-c218-4c5b-915e-699cf8085f4d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:44+05:30",
+  "event": "ListPoliciesGrantingServiceAccess",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "abf8e674-49b3-4edd-b640-80d47e5540f7",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:44+05:30",
+  "event": "GetUserPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "e898c180-ba98-4dab-8add-1c040320bac9",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketVersioning",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "36817FWQ07J92NW8",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "ff08fab1-a5b4-4f4b-a922-f69598356123",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "ListRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "8d8fbcdd-94d0-468c-89d5-47d4705b29ec",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "a7ac338e-253e-4458-b06e-580e853f832b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "6922bb78-865c-43bb-8238-b91e8d52a2db",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketObjectLockConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "36805ZQTARZ54Q8M",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "ListAttachedRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "0c981446-c734-44ea-9193-1920a5d64087",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketPublicAccessBlock",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "368FN5G6WFY6HH2X",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketInventoryConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "3689S68FKRJDMG6D",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "18a9485b-07db-473f-96f5-c576ab27392e",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "4f86bc86-599a-4fe2-968e-b2ed580b7fdc",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketMetadataConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "368A7QAFZMZR8JMY",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "b13e05ce-b61d-4f22-8aab-7d0fbe15e42c",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "7d13af52-4b13-462e-bcfa-89c1b616ba2c",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "b122b858-48a8-4b65-9cb0-f429933561fd",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetUserPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "83d9f996-f1a7-4cb5-9c54-aecbfcf3dad2",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "60a790c2-6803-49db-ac52-4ccda8a3fe75",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "ListTagsForResource",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "3682N123YMJTWN5N",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketLogging",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "368CX6RAXQ3MZ8QK",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketOwnershipControls",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "368CDSRH2E6ZZ6QR",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "691f14a5-0e2a-431c-8783-49df4d69ee8e",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketAbac",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "3683YY1RFMAP8JKJ",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketNotification",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "368AZE59HCZNKQGV",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "ListRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "2b7d6029-1d74-4dad-b306-96e035c42f6b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "f64019c2-02ab-433d-a837-824e9e1e75ae",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketCors",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "3685HHMJECRDVP30",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketWebsite",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "368DRY3HJE7Y2TTC",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketEncryption",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "368ED34SBB17ZFC1",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "a9bf14dd-619d-4f5c-b4ee-6a4a9d42fc13",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "da2be9df-882e-412e-addc-51b1f0ed6700",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "e0f01418-ecb9-43ce-941d-9e607b174006",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketReplication",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "3681SVZ0M8N1XP9E",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "4662a629-a968-41d3-b43f-aa5b073ef67a",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "6fc607e5-35b1-4670-b512-4fa474dad7c9",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketLifecycle",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "3687E9280YRMYHS6",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "19c0a75e-6321-4983-af29-3ccaa1e64772",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "f34fe348-a183-42b6-809f-4468ddc14197",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketMetadataTableConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "368DMTV1ABG2SJEE",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "3005f306-ffd5-46d3-9ed7-106bfb04ce70",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "ListAttachedRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "c9822d58-128a-4fbd-9ee4-8ba81a016efe",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "27bd0f9a-9fc9-4667-a5d6-ca82be10e51c",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketIntelligentTieringConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "3689V8MY4ZW44TV6",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetAccelerateConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "368F1Q0EQ39X6M01",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketMetricsConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "368FAKVM7BX1R8BG",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetBucketAnalyticsConfiguration",
+  "source": "s3.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "368EN2EVD307BHD4",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "cf455918-e9a0-416d-bf22-a6058bfb13b9",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:45+05:30",
+  "event": "GetPolicyVersion",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "51cc30b7-2b9e-454f-abb0-22b2befdef61",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:47+05:30",
+  "event": "DescribeChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "d03105bc-bb62-4a94-a86a-f2e67ce249a6",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:48+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "896e67af-8b0d-4853-a490-5636a555482a",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:48+05:30",
+  "event": "DescribeChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "60c2edb2-cc5b-4343-b6cc-e093ae48c1ad",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:49+05:30",
+  "event": "ExecuteChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "84db3d94-2480-4cfb-9715-7efbf5dc32d5",
+  "resources": [
+   "remedy-ai"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:18:52+05:30",
+  "event": "GetRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "d628facd-79f7-43b9-88e5-3183e0587650",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:52+05:30",
+  "event": "GetRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "011aedeb-78e1-43cf-b600-a549f7c31759",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:53+05:30",
+  "event": "ListAttachedRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "d3d970fc-8a81-48a9-ab0e-8aac0610c00f",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:53+05:30",
+  "event": "GetRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "72b91974-8539-4d7b-a41c-ddea294c511a",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:53+05:30",
+  "event": "ListRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "13a17f71-819c-4264-9369-b355a46ab699",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:53+05:30",
+  "event": "GetRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "bc05df4e-9794-46a1-96ad-24e8af3e4d28",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:53+05:30",
+  "event": "ListAttachedRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "fd1932ce-4c15-4a72-bb93-62bc9ff26171",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:53+05:30",
+  "event": "ListRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "425d3535-56aa-4740-a52d-6bb936cfcbce",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:54+05:30",
+  "event": "GetFunctionRecursionConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "fa99c46b-0463-455c-a12d-f4a6b66f9658",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:54+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "50ee6a30-c685-400a-a054-cae1aac7954e",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:54+05:30",
+  "event": "GetFunctionCodeSigningConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "30309ae3-acd9-47f0-8e8a-5c792873c335",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:54+05:30",
+  "event": "GetFunctionCodeSigningConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "81af3c7b-ecd3-4ed8-93d2-41f367ff6666",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:54+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "64853a77-7eec-4808-83ab-ead56cd221cc",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:54+05:30",
+  "event": "GetFunctionRecursionConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1dbb2eb5-829d-47c0-807e-3173b524ca15",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:54+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "6eb35375-689d-41e8-b962-a069b3354d4e",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:54+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "cb9072c3-39da-461f-b1db-93273c85bafe",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:54+05:30",
+  "event": "GetRuntimeManagementConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "e583af16-3853-4c7d-8fac-d829f8446b32",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:54+05:30",
+  "event": "GetRuntimeManagementConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "71354a43-e048-47be-bf45-84f24b59e868",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:55+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1a3db582-482f-4354-a759-2f6919f0c693",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:55+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "ba39d4ea-1768-4e27-9d53-a6cda46c51ad",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:55+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "f6cc61b1-33b0-4cec-a4c0-cc126470425f",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:55+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "1b463327-ab85-4480-8201-ac25d99c9d72",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:55+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "9fca9b9c-5a6f-464b-9350-d2036e7314c0",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:56+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "0ac01a7b-e1c1-47ca-8251-3248437f02d9",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:56+05:30",
+  "event": "UpdateFunctionCode20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "6ad97ae3-90e9-4d88-8ca2-ee9017e88949",
+  "resources": [
+   "remedy-ai-ApiFunction-Cx86aovHS5ce"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:18:56+05:30",
+  "event": "UpdateFunctionCode20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "4a681162-ab87-446f-a1fc-1b0b9fbb2519",
+  "resources": [
+   "remedy-ai-SourceWatchFunction-X5h8YoYfHd6H"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:18:56+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "1f31e4e3-a4d6-414f-87d4-70ecb492b95d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:56+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "c11cb841-34ed-4554-9755-a17e56cc087e",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:56+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "b63415bd-f6be-4ccb-adbe-b0841cbc4d2c",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:56+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "ed93cff5-8d75-47b7-acc8-618e75477036",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:18:56+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "bbf9bba5-8e22-454a-b21f-13f05a64d0ad",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:01+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "329a05a5-2772-43a0-874e-92086cc66cdc",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:01+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "b0047952-d158-41f6-a823-ec51e7c283ff",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:01+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "f4458d4c-dff8-490f-bae8-8aa2804359f5",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:01+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "8dfd25b5-0a4d-41e7-bffb-e1b04d0ffdad",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:01+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "a8a99cc9-a12a-4d6b-a7ee-71f3f584e8ab",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:01+05:30",
+  "event": "GetFunctionRecursionConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "7f6d269b-b1a0-4b70-9f43-b6fa1a6cd205",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:01+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "fe2e6222-e076-4b76-baa5-9a728dfbafe6",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:02+05:30",
+  "event": "GetFunctionCodeSigningConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "e2ed9a5e-30fd-4b16-bfd0-664cbe330159",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:02+05:30",
+  "event": "GetRuntimeManagementConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "765aa36f-2a08-4c58-af0b-df5b90961d35",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:02+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "fa74bcd4-a8a9-435e-83f8-f4c4d2eeefba",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:02+05:30",
+  "event": "GetRuntimeManagementConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "10cb8498-4c15-46a4-a84e-6f62115304b8",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:02+05:30",
+  "event": "GetFunction20150331v2",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "c8d05592-1c38-4c6c-b30c-a2165a437160",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:02+05:30",
+  "event": "GetFunctionCodeSigningConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "90ddc22a-7ae3-4189-b73d-531797af26d0",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:02+05:30",
+  "event": "GetFunctionRecursionConfig",
+  "source": "lambda.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "159f800d-3268-46cd-8870-36b7ce1a8d7a",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:02+05:30",
+  "event": "Decrypt",
+  "source": "kms.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "lambda.amazonaws.com",
+  "request_id": "a887f3c3-50c2-49d5-bf8c-342364f6ec9e",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:03+05:30",
+  "event": "GetRole",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "e1d9ae02-9c51-4abc-988d-726615031f47",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:03+05:30",
+  "event": "GetRolePolicy",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "e513b4c0-08ec-4d16-856c-3887cdbc4d55",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:03+05:30",
+  "event": "ListRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "4c019bdc-108a-4232-a73a-19bd44b64a44",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:03+05:30",
+  "event": "ListAttachedRolePolicies",
+  "source": "iam.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "07f7597d-59d6-4675-91f8-db85a02fba7b",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:04+05:30",
+  "event": "GetDistribution",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "d6dbc52f-e3d5-4740-9281-b698cee21c86",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:04+05:30",
+  "event": "ListTagsForResource",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "cloudformation.amazonaws.com",
+  "request_id": "4d5313b5-e841-485d-a359-b0c4c06b8d0a",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:08+05:30",
+  "event": "DescribeStackEvents",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "56297e56-3968-4ef6-8f30-bf34f6c20f0a",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:09+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "e1d51ce2-31d9-48b6-b353-89fb6b18997d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:09+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "bc74c5c6-8106-4f00-9ecc-b627b36caa71",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:13+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "63f90703-fc94-44e2-845d-22d15f79b963",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:17+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "a4a74ed7-a648-47da-818a-97524988c310",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:20+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "b1768627-15da-4694-9bdb-7098e5888b26",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:23+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "28cbdd1a-686d-4c26-b8b5-44d01b7902f7",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:19:33+05:30",
+  "event": "CreateInvalidation",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "0e73df12-d5a5-4358-a3b1-8f9ca0941b63",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:21:51+05:30",
+  "event": "GetCallerIdentity",
+  "source": "sts.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "14c9523c-72cf-4ac3-b2e8-d8e566035e9c",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:22:03+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "9ca3e096-e1f5-4fe0-a9c5-d104cf4e2136",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:22:32+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "7edf42c6-05a3-497f-86ec-10d91aca2b83",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:22:32+05:30",
+  "event": "GetTemplateSummary",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "b64c4656-a767-4dd1-865c-eb582a89b7ee",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:22:34+05:30",
+  "event": "CreateChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "387b805e-dd26-419f-bec5-17c264f15944",
+  "resources": [
+   "remedy-ai"
+  ]
+ },
+ {
+  "time": "2026-09-30T00:22:34+05:30",
+  "event": "DescribeChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "f8315a91-38ef-4bad-a333-d6f0eb9391ef",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:22:40+05:30",
+  "event": "DescribeChangeSet",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "Boto3/1.43.38 md/Botocore#1.43.38 md/awscrt#0.32.2 ua/2.1 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/",
+  "request_id": "94f43f18-96cd-4dda-96b3-c1b7efcc2750",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:22:43+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "38c90554-acec-40b6-ab70-1efb3491169d",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:22:46+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "a55b4499-e4e9-4efc-94ba-70ab574ecebd",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:22:48+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "05488b5c-d7da-4ade-bbce-0004471a6838",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:22:51+05:30",
+  "event": "DescribeStacks",
+  "source": "cloudformation.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "b3baf1a2-fdc1-44cf-8923-b4ff00932424",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:23:01+05:30",
+  "event": "CreateInvalidation",
+  "source": "cloudfront.amazonaws.com",
+  "read_only": "false",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "6a372a6f-4bda-44b1-ae7f-890697e5edf0",
+  "resources": []
+ },
+ {
+  "time": "2026-09-30T00:24:06+05:30",
+  "event": "GetCallerIdentity",
+  "source": "sts.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 md/awscrt#0.23.8 ua/2.0 os/linux#6.6.x.x-microsoft-standard-WSL2 md/arch#x86_64 lang/python#3.12.9 md/p",
+  "request_id": "de2e886f-1347-4b08-ba16-54741bfd8c74",
+  "resources": []
+ }
+]

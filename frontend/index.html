@@ -3,12 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RemedyAI — Evidence-Grounded Consumer Coverage Discovery & Claim Preparation</title>
-    <meta name="description" content="Find the coverage you didn't know you had. Closed-World Consumer Claim Preparation Engine powered by Amazon Bedrock and Amazon Textract." />
+    <title>RemedyAI: find the free repair or refund you may still be owed after your warranty ends</title>
+    <meta name="description" content="RemedyAI checks a broken product against the published source for each repair or refund route (manufacturer service programs, card warranty benefits, consumer law), shows why it matched and what could stop it, and re-checks every source daily." />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230284c7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/></svg>" />
   </head>
   <body class="bg-slate-950 text-slate-100">
-    <div id="root"></div>
+    <div id="root">
+      <!-- Static summary for clients that do not run JavaScript. React replaces this on load. -->
+      <main style="max-width:48rem;margin:2rem auto;padding:0 1rem;font-family:system-ui,sans-serif;line-height:1.5">
+        <h1>RemedyAI: your warranty ended. That does not always mean you pay.</h1>
+        <p>Manufacturers run free repair programs for known faults, some credit cards extend warranties, and consumer law can outlast both. RemedyAI checks a case against the published source for each route, shows why it matched and what could stop it, and prepares a claim PDF. If no source covers the case, it says so.</p>
+        <h2>Routes it checks (each tied to a primary source)</h2>
+        <ul>
+          <li><a href="https://support.apple.com/iphone-14-plus-service-program-for-rear-camera-issue">Apple iPhone 14 Plus Service Program for Rear Camera Issue</a>: free repair for 3 years from first retail sale; serial check required.</li>
+          <li><a href="https://support.apple.com/en-in/iphone-12-and-iphone-12-pro-service-program-for-no-sound-issues">Apple iPhone 12 / 12 Pro no-sound program</a>: page still online but no longer on Apple's service-program index.</li>
+          <li><a href="https://www.visa.com/en-us/personal/cards/credit/visa-infinite">Visa Infinite Extended Warranty Protection</a>: +1 year on eligible warranties of 3 years or less.</li>
+          <li><a href="https://www.gov.uk/accepting-returns-and-giving-refunds">UK consumer rights on faulty goods</a>: up to 6 years to claim (5 in Scotland).</li>
+        </ul>
+        <h2>Source Watch</h2>
+        <p>Every source above is re-fetched daily. A route whose source page disappears, or whose Apple program leaves Apple's index, is downgraded to "re-verify first". Live status: <a href="/api/sources">/api/sources</a>.</p>
+        <h2>Try it without the interface</h2>
+        <p>Demo cases: <a href="/api/fixtures">/api/fixtures</a>. Evaluate one with <code>POST /api/evaluate</code>. Health: <a href="/health">/health</a>.</p>
+        <p>Built on AWS Lambda, Amazon Textract, Amazon Bedrock, DynamoDB, S3, CloudFront and EventBridge Scheduler. This page needs JavaScript for the interactive version.</p>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

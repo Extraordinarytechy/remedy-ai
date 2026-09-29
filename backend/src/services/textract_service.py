@@ -66,17 +66,22 @@ class TextractService:
             elif field_type in ["PAYMENT_METHOD", "CARD_TYPE"]:
                 extracted.payment_type = val_text
 
-        # Extract Line Items
+        # Extract line items: one name per line item. Textract returns both ITEM (the name) and
+        # EXPENSE_ROW (the whole printed row); use ITEM and fall back to the row only when absent.
         item_names = []
         for group in doc.get("LineItemGroups", []):
             for line_item in group.get("LineItems", []):
-                for expense_field in line_item.get("LineItemExpenseFields", []):
-                    field_type = expense_field.get("Type", {}).get("Text", "")
-                    if field_type in ["ITEM", "EXPENSE_ROW"]:
-                        item_names.append(expense_field.get("ValueDetection", {}).get("Text", ""))
+                fields = {
+                    f.get("Type", {}).get("Text", ""): f.get("ValueDetection", {}).get("Text", "").strip()
+                    for f in line_item.get("LineItemExpenseFields", [])
+                }
+                name = fields.get("ITEM") or fields.get("EXPENSE_ROW")
+                if name and name not in item_names:
+                    item_names.append(name)
 
         if item_names:
-            extracted.item_description = ", ".join(item_names)
+            # First line item first: the UI pre-fills the product name from it.
+            extracted.item_description = "; ".join(item_names)
 
         # Normalise the receipt date to ISO so it can pre-fill the purchase date.
         if extracted.purchase_date:

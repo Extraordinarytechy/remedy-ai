@@ -1,0 +1,9 @@
+fixtures 200 ['case1_apple_iphone14plus', 'case2_visa_infinite_sony', 'case3_uk_samsung_tv', 'case4_unknown_unsupported']
+  case1_apple_iphone14plus 200 True [('apple_iphone14plus_rear_camera_2024', 'PENDING_SERIAL_VERIFICATION', True)] 2026-09-29
+  case2_visa_infinite_sony 200 True [('visa_infinite_extended_warranty_us', 'POTENTIALLY_ELIGIBLE', True)] 2026-09-29
+  case3_uk_samsung_tv 200 True [('uk_cra_2015_goods', 'POTENTIALLY_ELIGIBLE', True)] 2026-09-29
+  case4_unknown_unsupported 200 False [] 2026-09-29
+extract 200
+  receipt: {"store_name": "BEST BUY", "purchase_date": "2023-11-24", "item_description": "Apple iPhone 14 Plus 128GB; Screen protector", "total_amount": 885.58, "currency": "USD", "payment_type": null, "confidence_score": 1.0, "source": "textract", "raw_fields": {"ADDRESS": "BEST BUY #1024\n1000 Main Street Springfield", "STREET": "1000 Main Street", "CITY": "Springfield", "NAME": "BEST BUY", "ADDRESS_BLOCK": "1000 Main Street Springfield", "INVOICE_RECEIPT_DATE": "11/24/2023", "SUBTOTAL": "819.98", "TAX": "65.60", "TOTAL": "$885.58", "VENDOR_ADDRESS": "BEST BUY #1024\n1000 Main Street Springfield", "VEN
+  visual : {"anomaly_detected": false, "visible_physical_damage": false, "physical_damage_severity": "none", "symptom_category": "none", "visual_observations": ["No visible physical anomalies or damage observed", "Image shows a placeholder 'Camera: no preview' message indicating no actual product view"], "source": "bedrock", "disclaimer": "Visual defect evidence analysis documents visible physical anomalies and reported symptoms; it explicitly abstains from internal electrical or root-cause engineering diagnosis."}
+E2E_DONE

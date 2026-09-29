@@ -106,8 +106,8 @@ export default function App() {
               <p className="text-xs text-slate-400">Find the free repair or refund you may still be owed after the warranty ends</p>
             </div>
           </div>
-          <a href="https://github.com/" className="text-xs text-slate-400 hover:text-slate-200 underline" id="repo-link">
-            How it works
+          <a href="#sw-heading" className="text-xs text-slate-300 hover:text-white underline">
+            Where the answers come from
           </a>
         </div>
       </header>
