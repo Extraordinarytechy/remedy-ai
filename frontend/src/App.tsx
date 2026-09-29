@@ -106,9 +106,10 @@ export default function App() {
               <p className="text-xs text-slate-400">Find the free repair or refund you may still be owed after the warranty ends</p>
             </div>
           </div>
-          <a href="#sw-heading" className="text-xs text-slate-300 hover:text-white underline">
-            Where the answers come from
-          </a>
+          <nav className="flex items-center gap-4 text-xs" aria-label="Project links">
+            <a href="#sw-heading" className="text-slate-300 hover:text-white underline">Where the answers come from</a>
+            <a href="https://github.com/Extraordinarytechy/remedy-ai" className="text-slate-300 hover:text-white underline">Source code</a>
+          </nav>
         </div>
       </header>
 

@@ -1,0 +1,57 @@
+== caller identity (the credentials the coding agent deploys with)
+{
+    "UserId": "AIDATTSKF4BWMSUYKT4XA",
+    "Account": "2481****5724",
+    "Arn": "arn:aws:iam::2481****5724:user/aksilhoutte"
+}
+== lambda package
+_pydantic_core.cpython-313-aarch64-linux-gnu.so: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, BuildID[sha1]=2c8edb78c49087d21d9162ed83f3d9177f673680, stripped
+== validate
+/mnt/h/Antigravity/remedy-ai/template.yaml is a valid SAM Template
+== deploy stack remedy-ai
+
+	Managed S3 bucket: aws-sam-cli-managed-default-samclisourcebucket-ruo8zrzfsc8g
+	Auto resolution of buckets can be turned off by setting resolve_s3=False
+	To use a specific S3 bucket, set --s3-bucket=<bucket_name>
+	Above settings can be stored in samconfig.toml
+
+	File with same data already exists at 6355e6e3757f849f2ca6bfa084b379ed, skipping upload
+
+	File with same data already exists at 6355e6e3757f849f2ca6bfa084b379ed, skipping upload
+
+	Deploying with following values
+	===============================
+	Stack name                   : remedy-ai
+	Region                       : us-east-1
+	Confirm changeset            : False
+	Disable rollback             : False
+	Deployment s3 bucket         : aws-sam-cli-managed-default-samclisourcebucket-ruo8zrzfsc8g
+	Capabilities                 : ["CAPABILITY_IAM"]
+	Parameter overrides          : {"AlertEmail": "<redacted-email>"}
+	Signing Profiles             : {}
+
+Initiating deployment
+=====================
+
+
+	File with same data already exists at d42d08430f9221cd47323653fe99065a.template, skipping upload
+
+
+Waiting for changeset to be created..
+
+No changes to deploy. Stack remedy-ai is up to date
+== frontend -> s3://remedy-ai-sitebucket-fd3mw8e3lrts
+delete: s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-COuCXaNx.js
+Completed 0 Bytes/557.9 KiB (0 Bytes/s) with 3 file(s) remainingdelete: s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-Dcq5O6bK.css
+Completed 0 Bytes/557.9 KiB (0 Bytes/s) with 2 file(s) remainingCompleted 27.8 KiB/557.9 KiB (22.2 KiB/s) with 2 file(s) remainingupload: frontend/dist/assets/index-UhxyPR5J.css to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-UhxyPR5J.css
+Completed 27.8 KiB/557.9 KiB (22.2 KiB/s) with 1 file(s) remainingCompleted 279.1 KiB/557.9 KiB (112.4 KiB/s) with 1 file(s) remainingupload: frontend/dist/assets/index-cLBCph6T.js to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-cLBCph6T.js
+Completed 3.2 KiB/3.2 KiB (3.2 KiB/s) with 1 file(s) remainingupload: frontend/dist/index.html to s3://remedy-ai-sitebucket-fd3mw8e3lrts/index.html
+I3WV6WWZCWH24ZEKV7YI6MTL93
+== first Source Watch run
+200
+{"apple_index": {"http_status": 200}, "visa_infinite_extended_warranty_us": {"http_status": 200, "changed_this_run": false}, "uk_cra_2015_goods": {"http_status": 200, "changed_this_run": false}, "apple_iphone12_no_sound_2021": {"http_status": 200, "changed_this_run": false, "listed_on_apple_index": false}, "apple_iphone14plus_rear_camera_2024": {"http_status": 200, "changed_this_run": false, "listed_on_apple_index": true}}
+== smoke test https://d1fnfajqesgvsl.cloudfront.net
+site 200
+{"status":"healthy","service":"RemedyAI","version":"1.1.0","policy":"Closed-World Evidence Policy","knowledge_records":["apple_iphone12_no_sound_2021","apple_iphone14plus_rear_camera_2024","uk_cra_2015_goods","visa_infinite_extended_warranty_us"]}
+sources 200
+DEPLOYED https://d1fnfajqesgvsl.cloudfront.net

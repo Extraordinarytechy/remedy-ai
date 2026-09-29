@@ -1,6 +1,6 @@
 # RemedyAI: find the free repair or refund you may still be owed after your warranty ends
 
-**Live:** https://d1fnfajqesgvsl.cloudfront.net (no sign-up) · **Code:** {{REPO_URL}} · **Category:** `#daily-life-enhancement` · **Lane:** `#startups`
+**Live:** https://d1fnfajqesgvsl.cloudfront.net (no sign-up) · **Code:** https://github.com/Extraordinarytechy/remedy-ai · **Category:** `#daily-life-enhancement` · **Lane:** `#startups`
 
 ## The problem, in one real example
 

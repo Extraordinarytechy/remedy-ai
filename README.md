@@ -1,6 +1,6 @@
 # RemedyAI: find the free repair or refund you may still be owed after your warranty ends
 
-**Live:** https://d1fnfajqesgvsl.cloudfront.net (no sign-up)
+**Live:** https://d1fnfajqesgvsl.cloudfront.net (no sign-up) · **Repo:** https://github.com/Extraordinarytechy/remedy-ai
 
 RemedyAI checks a broken product against the published source for each repair or refund route it knows (manufacturer service programs, payment-card warranty benefits, consumer law), shows why it matched and what could stop it, and prepares a claim PDF. It only reports a route when a verified source record matches; otherwise it returns `NO VERIFIED COVERAGE FOUND`. Every source is re-checked daily by **Source Watch**.
 
