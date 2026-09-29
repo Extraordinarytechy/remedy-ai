@@ -41,9 +41,13 @@ Waiting for changeset to be created..
 
 No changes to deploy. Stack remedy-ai is up to date
 == frontend -> s3://remedy-ai-sitebucket-fd3mw8e3lrts
-Completed 27.7 KiB/278.8 KiB (22.9 KiB/s) with 2 file(s) remainingupload: frontend/dist/assets/index-Dcq5O6bK.css to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-Dcq5O6bK.css
-Completed 27.7 KiB/278.8 KiB (22.9 KiB/s) with 1 file(s) remainingCompleted 278.8 KiB/278.8 KiB (200.5 KiB/s) with 1 file(s) remainingupload: frontend/dist/assets/index-COuCXaNx.js to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-COuCXaNx.js
-Completed 3.2 KiB/3.2 KiB (3.3 KiB/s) with 1 file(s) remainingupload: frontend/dist/index.html to s3://remedy-ai-sitebucket-fd3mw8e3lrts/index.html
+Completed 27.7 KiB/278.8 KiB (22.9 KiB/s) with 2 file(s) remaining
+upload: frontend/dist/assets/index-Dcq5O6bK.css to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-Dcq5O6bK.css
+Completed 27.7 KiB/278.8 KiB (22.9 KiB/s) with 1 file(s) remaining
+Completed 278.8 KiB/278.8 KiB (200.5 KiB/s) with 1 file(s) remaining
+upload: frontend/dist/assets/index-COuCXaNx.js to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-COuCXaNx.js
+Completed 3.2 KiB/3.2 KiB (3.3 KiB/s) with 1 file(s) remaining
+upload: frontend/dist/index.html to s3://remedy-ai-sitebucket-fd3mw8e3lrts/index.html
 I15VZMQW38DW6Y087GAQXHTEO8
 == first Source Watch run
 200

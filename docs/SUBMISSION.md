@@ -1,6 +1,6 @@
 # RemedyAI: find the free repair or refund you may still be owed after your warranty ends
 
-**Live:** {{SITE_URL}} · **Code:** {{REPO_URL}} · **Category:** `#daily-life-enhancement` · **Lane:** `#startups`
+**Live:** https://d1fnfajqesgvsl.cloudfront.net (no sign-up) · **Code:** {{REPO_URL}} · **Category:** `#daily-life-enhancement` · **Lane:** `#startups`
 
 ## The problem, in one real example
 
@@ -43,7 +43,26 @@ The Source Watch table is on the home page, so anyone can see when each source w
 
 ## How it's built
 
-{{ARCHITECTURE_IMAGE}}
+```
+ browser
+    │
+ CloudFront ── security headers (CSP, HSTS, frame-deny)
+    ├── /        → S3 site bucket (private, Origin Access Control)
+    └── /api/*   → API Gateway HTTP API (10 rps, burst 20)
+                      │
+                   Lambda: FastAPI (Python 3.13, arm64)
+                      ├── deterministic engine  ← backend/knowledge/*.json
+                      ├── Amazon Textract AnalyzeExpense  (receipt, optional)
+                      ├── Amazon Bedrock, Nova 2 Lite     (fault photo, optional)
+                      └── DynamoDB  (Source Watch status, daily AI-call cap)
+
+ EventBridge Scheduler (06:00 UTC) → Lambda: Source Watch
+                      ├── fetch Apple index + every source page, hash visible text
+                      ├── DynamoDB (status per source)
+                      └── S3 (versioned snapshot whenever a page changes)
+
+ AWS Budgets → email alert
+```
 
 | Piece | Choice | Why |
 | --- | --- | --- |
@@ -76,7 +95,8 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 **Proof of the connection** is AWS's own record, not a screenshot of a chat:
 
 - `aws sts get-caller-identity` from the agent's session, at the top of every deploy log in `docs/evidence/`.
-- A **CloudTrail** export of every API call made with the agent's IAM user: {{CLOUDTRAIL_SUMMARY}} (`docs/evidence/cloudtrail-*.md`).
+- A **CloudTrail** export of every API call made with the agent's IAM user (`docs/evidence/cloudtrail-*.md`). On the first deploy day (2026-09-29, UTC) that was **748 events, 56 of them mutating, across 12 AWS services**, starting with the stack's `CreateChangeSet` at 18:36:09Z. Every entry keeps AWS's own request ID, so any line can be checked against the account's event history.
+- The live site's own `/api/sources` shows Source Watch runs with timestamps, triggered first by the agent's deploy script and then by the daily schedule.
 
 ## What went wrong (and what it changed)
 
@@ -98,7 +118,10 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 
 ## Cost
 
-{{COST_SECTION}}
+- **Idle cost is close to zero.** Lambda, HTTP API, DynamoDB on-demand, S3, CloudFront and one daily scheduled run are all billed per use.
+- **The paid part is the optional photo reading.** Textract `AnalyzeExpense` is $0.01 per page ([pricing](https://aws.amazon.com/textract/pricing/)). One Bedrock call on Nova 2 Lite used a few hundred tokens in our tests.
+- **The ceiling is enforced, not hoped for.** At most 100 photo reads per UTC day (about $1/day in the worst case), counted in DynamoDB with a conditional write that refuses the call if the counter cannot be read. API Gateway throttles at 10 requests/second. An AWS Budgets alert fires at 50% of $10/month.
+- Checking a case without photos calls no paid AI service at all.
 
 ## Where it goes next (Startups lane)
 

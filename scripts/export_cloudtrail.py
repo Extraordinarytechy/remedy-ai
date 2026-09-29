@@ -52,7 +52,8 @@ def main():
     for e in events:
         detail = json.loads(e.get("CloudTrailEvent", "{}"))
         rows.append({
-            "time": e["EventTime"] if isinstance(e["EventTime"], str) else str(e["EventTime"]),
+            # CloudTrail's own eventTime is UTC; the CLI's EventTime is rendered in the local timezone.
+            "time": detail.get("eventTime") or str(e["EventTime"]),
             "event": e["EventName"],
             "source": e.get("EventSource"),
             "read_only": e.get("ReadOnly"),
@@ -69,18 +70,24 @@ def main():
 
     writes = [r for r in rows if r["read_only"] == "false"]
     by_service = collections.Counter(r["source"] for r in writes)
-    by_agent = collections.Counter(
-        "SAM CLI" if "sam-cli" in r["user_agent"].lower() or "aws-sam" in r["user_agent"].lower()
-        else "AWS CLI" if "aws-cli" in r["user_agent"].lower()
-        else "AWS CloudFormation" if "cloudformation" in r["user_agent"].lower()
-        else "other"
-        for r in writes
-    )
+    def client(ua: str) -> str:
+        u = ua.lower()
+        if "sam-cli" in u or "aws-sam" in u:
+            return "SAM CLI (run by the agent)"
+        if "aws-cli" in u:
+            return "AWS CLI (run by the agent)"
+        if "cloudformation" in u:
+            return "CloudFormation (stack deployed by the agent)"
+        if "boto" in u or "botocore" in u:
+            return "AWS SDK for Python (SAM CLI internals, run by the agent)"
+        return f"other: {ua[:40] or 'no user agent'}"
+
+    by_agent = collections.Counter(client(r["user_agent"]) for r in writes)
     lines = [
         f"# CloudTrail: calls made with `{args.user}` since {args.since}",
         "",
         f"Exported {datetime.now(timezone.utc).isoformat(timespec='seconds')} from CloudTrail event history "
-        f"(`aws cloudtrail lookup-events`). Account IDs and IPs redacted.",
+        f"(`aws cloudtrail lookup-events`). All times are UTC (CloudTrail `eventTime`). Account IDs and IPs redacted.",
         "",
         f"- Total events: **{len(rows)}**, of which **{len(writes)}** changed something (ReadOnly=false).",
         "",

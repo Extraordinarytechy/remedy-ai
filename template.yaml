@@ -14,7 +14,7 @@ Parameters:
       reached end-of-life on Bedrock on 2026-07-30.)
   DailyAiCallLimit:
     Type: Number
-    Default: 300
+    Default: 100  # worst case ~$1/day: Textract AnalyzeExpense is $0.01/page
     Description: Maximum Textract + Bedrock calls per UTC day from the public upload endpoint.
   AlertEmail:
     Type: String

@@ -15,19 +15,19 @@ _pydantic_core.cpython-313-aarch64-linux-gnu.so: ELF 64-bit LSB shared object, A
 	To use a specific S3 bucket, set --s3-bucket=<bucket_name>
 	Above settings can be stored in samconfig.toml
 
-	Uploading to 2faaf6be694295f793a4e717845d57de  1048576 / 11434363  (9.17%)
-	Uploading to 2faaf6be694295f793a4e717845d57de  2097152 / 11434363  (18.34%)
-	Uploading to 2faaf6be694295f793a4e717845d57de  3145728 / 11434363  (27.51%)
-	Uploading to 2faaf6be694295f793a4e717845d57de  4194304 / 11434363  (36.68%)
-	Uploading to 2faaf6be694295f793a4e717845d57de  5242880 / 11434363  (45.85%)
-	Uploading to 2faaf6be694295f793a4e717845d57de  6291456 / 11434363  (55.02%)
-	Uploading to 2faaf6be694295f793a4e717845d57de  7340032 / 11434363  (64.19%)
-	Uploading to 2faaf6be694295f793a4e717845d57de  8388608 / 11434363  (73.36%)
-	Uploading to 2faaf6be694295f793a4e717845d57de  9437184 / 11434363  (82.53%)
-	Uploading to 2faaf6be694295f793a4e717845d57de  10485760 / 11434363  (91.70%)
-	Uploading to 2faaf6be694295f793a4e717845d57de  11434363 / 11434363  (100.00%)
+	Uploading to 6355e6e3757f849f2ca6bfa084b379ed  1048576 / 11434364  (9.17%)
+	Uploading to 6355e6e3757f849f2ca6bfa084b379ed  2097152 / 11434364  (18.34%)
+	Uploading to 6355e6e3757f849f2ca6bfa084b379ed  3145728 / 11434364  (27.51%)
+	Uploading to 6355e6e3757f849f2ca6bfa084b379ed  4194304 / 11434364  (36.68%)
+	Uploading to 6355e6e3757f849f2ca6bfa084b379ed  5242880 / 11434364  (45.85%)
+	Uploading to 6355e6e3757f849f2ca6bfa084b379ed  6291456 / 11434364  (55.02%)
+	Uploading to 6355e6e3757f849f2ca6bfa084b379ed  7340032 / 11434364  (64.19%)
+	Uploading to 6355e6e3757f849f2ca6bfa084b379ed  8388608 / 11434364  (73.36%)
+	Uploading to 6355e6e3757f849f2ca6bfa084b379ed  9437184 / 11434364  (82.53%)
+	Uploading to 6355e6e3757f849f2ca6bfa084b379ed  10485760 / 11434364  (91.70%)
+	Uploading to 6355e6e3757f849f2ca6bfa084b379ed  11434364 / 11434364  (100.00%)
 
-	File with same data already exists at 2faaf6be694295f793a4e717845d57de, skipping upload
+	File with same data already exists at 6355e6e3757f849f2ca6bfa084b379ed, skipping upload
 
 	Deploying with following values
 	===============================
@@ -44,7 +44,7 @@ Initiating deployment
 =====================
 
 
-	Uploading to 5f7c09e4d9a358d7e9198a1f6d7b035a.template  10555 / 10555  (100.00%)
+	Uploading to d42d08430f9221cd47323653fe99065a.template  10555 / 10555  (100.00%)
 
 
 Waiting for changeset to be created..
@@ -63,10 +63,10 @@ Operation                LogicalResourceId        ResourceType             Repla
 -------------------------------------------------------------------------------------------------
 
 
-Changeset created successfully. arn:aws:cloudformation:us-east-1:2481****5724:changeSet/samcli-deploy1790708091/a7a32f9f-d3ad-492f-b557-cc9ffa5a0552
+Changeset created successfully. arn:aws:cloudformation:us-east-1:2481****5724:changeSet/samcli-deploy1790708405/cca296ce-8a7c-4e9a-8fac-5072e600b415
 
 
-2026-09-30 00:25:12 - Waiting for stack create/update to complete
+2026-09-30 00:30:26 - Waiting for stack create/update to complete
 
 CloudFormation events from stack operations (refresh every 5.0 seconds)
 -------------------------------------------------------------------------------------------------
@@ -74,8 +74,8 @@ ResourceStatus           ResourceType             LogicalResourceId        Resou
 -------------------------------------------------------------------------------------------------
 UPDATE_IN_PROGRESS       AWS::CloudFormation::S   remedy-ai                User Initiated         
                          tack                                                                     
-UPDATE_IN_PROGRESS       AWS::Lambda::Function    SourceWatchFunction      -                      
 UPDATE_IN_PROGRESS       AWS::Lambda::Function    ApiFunction              -                      
+UPDATE_IN_PROGRESS       AWS::Lambda::Function    SourceWatchFunction      -                      
 UPDATE_COMPLETE          AWS::Lambda::Function    ApiFunction              -                      
 UPDATE_COMPLETE          AWS::Lambda::Function    SourceWatchFunction      -                      
 UPDATE_COMPLETE_CLEANU   AWS::CloudFormation::S   remedy-ai                -                      
@@ -116,4 +116,15 @@ Value               remedy-ai-SourceWatchFunction-X5h8YoYfHd6H
 
 Successfully created/updated stack - remedy-ai in us-east-1
 
-./scripts/deploy.sh: line 35: syntax error near unexpected token `}'
+== frontend -> s3://remedy-ai-sitebucket-fd3mw8e3lrts
+Completed 3.2 KiB/3.2 KiB (3.1 KiB/s) with 1 file(s) remaining
+upload: frontend/dist/index.html to s3://remedy-ai-sitebucket-fd3mw8e3lrts/index.html
+I17XN4WUMPPVBGNLU55328UH0G
+== first Source Watch run
+200
+{"apple_index": {"http_status": 200}, "visa_infinite_extended_warranty_us": {"http_status": 200, "changed_this_run": false}, "uk_cra_2015_goods": {"http_status": 200, "changed_this_run": false}, "apple_iphone12_no_sound_2021": {"http_status": 200, "changed_this_run": false, "listed_on_apple_index": false}, "apple_iphone14plus_rear_camera_2024": {"http_status": 200, "changed_this_run": false, "listed_on_apple_index": true}}
+== smoke test https://d1fnfajqesgvsl.cloudfront.net
+site 200
+{"status":"healthy","service":"RemedyAI","version":"1.1.0","policy":"Closed-World Evidence Policy","knowledge_records":["apple_iphone12_no_sound_2021","apple_iphone14plus_rear_camera_2024","uk_cra_2015_goods","visa_infinite_extended_warranty_us"]}
+sources 200
+DEPLOYED https://d1fnfajqesgvsl.cloudfront.net

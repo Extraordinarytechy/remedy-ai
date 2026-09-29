@@ -19,7 +19,7 @@ def consume(units: int = 1) -> None:
     name = os.getenv("TABLE_NAME")
     if not name or units <= 0:
         return
-    limit = int(os.getenv("DAILY_AI_CALL_LIMIT", "300"))
+    limit = int(os.getenv("DAILY_AI_CALL_LIMIT", "100"))
     day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     try:
         import boto3

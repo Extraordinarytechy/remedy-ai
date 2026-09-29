@@ -14,7 +14,18 @@ _pydantic_core.cpython-313-aarch64-linux-gnu.so: ELF 64-bit LSB shared object, A
 	Auto resolution of buckets can be turned off by setting resolve_s3=False
 	To use a specific S3 bucket, set --s3-bucket=<bucket_name>
 	Above settings can be stored in samconfig.toml
-	Uploading to 31acce0798cf4c05d8a2c21ad507037a  1048576 / 11434344  (9.17%)	Uploading to 31acce0798cf4c05d8a2c21ad507037a  2097152 / 11434344  (18.34%)	Uploading to 31acce0798cf4c05d8a2c21ad507037a  3145728 / 11434344  (27.51%)	Uploading to 31acce0798cf4c05d8a2c21ad507037a  4194304 / 11434344  (36.68%)	Uploading to 31acce0798cf4c05d8a2c21ad507037a  5242880 / 11434344  (45.85%)	Uploading to 31acce0798cf4c05d8a2c21ad507037a  6291456 / 11434344  (55.02%)	Uploading to 31acce0798cf4c05d8a2c21ad507037a  7340032 / 11434344  (64.19%)	Uploading to 31acce0798cf4c05d8a2c21ad507037a  8288616 / 11434344  (72.49%)	Uploading to 31acce0798cf4c05d8a2c21ad507037a  9337192 / 11434344  (81.66%)	Uploading to 31acce0798cf4c05d8a2c21ad507037a  10385768 / 11434344  (90.83%)	Uploading to 31acce0798cf4c05d8a2c21ad507037a  11434344 / 11434344  (100.00%)
+
+	Uploading to 31acce0798cf4c05d8a2c21ad507037a  1048576 / 11434344  (9.17%)
+	Uploading to 31acce0798cf4c05d8a2c21ad507037a  2097152 / 11434344  (18.34%)
+	Uploading to 31acce0798cf4c05d8a2c21ad507037a  3145728 / 11434344  (27.51%)
+	Uploading to 31acce0798cf4c05d8a2c21ad507037a  4194304 / 11434344  (36.68%)
+	Uploading to 31acce0798cf4c05d8a2c21ad507037a  5242880 / 11434344  (45.85%)
+	Uploading to 31acce0798cf4c05d8a2c21ad507037a  6291456 / 11434344  (55.02%)
+	Uploading to 31acce0798cf4c05d8a2c21ad507037a  7340032 / 11434344  (64.19%)
+	Uploading to 31acce0798cf4c05d8a2c21ad507037a  8288616 / 11434344  (72.49%)
+	Uploading to 31acce0798cf4c05d8a2c21ad507037a  9337192 / 11434344  (81.66%)
+	Uploading to 31acce0798cf4c05d8a2c21ad507037a  10385768 / 11434344  (90.83%)
+	Uploading to 31acce0798cf4c05d8a2c21ad507037a  11434344 / 11434344  (100.00%)
 
 	File with same data already exists at 31acce0798cf4c05d8a2c21ad507037a, skipping upload
 
@@ -32,7 +43,8 @@ _pydantic_core.cpython-313-aarch64-linux-gnu.so: ELF 64-bit LSB shared object, A
 Initiating deployment
 =====================
 
-	Uploading to 7d4f8430f090ab999192d9df53f7b119.template  10555 / 10555  (100.00%)
+
+	Uploading to 7d4f8430f090ab999192d9df53f7b119.template  10555 / 10555  (100.00%)
 
 
 Waiting for changeset to be created..
@@ -106,10 +118,16 @@ Successfully created/updated stack - remedy-ai in us-east-1
 
 == frontend -> s3://remedy-ai-sitebucket-fd3mw8e3lrts
 delete: s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-BuPIKE75.css
-Completed 0 Bytes/557.6 KiB (0 Bytes/s) with 3 file(s) remainingdelete: s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-DT7aIiw6.js
-Completed 0 Bytes/557.6 KiB (0 Bytes/s) with 2 file(s) remainingCompleted 27.7 KiB/557.6 KiB (19.0 KiB/s) with 2 file(s) remainingupload: frontend/dist/assets/index-Dcq5O6bK.css to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-Dcq5O6bK.css
-Completed 27.7 KiB/557.6 KiB (19.0 KiB/s) with 1 file(s) remainingCompleted 278.8 KiB/557.6 KiB (105.8 KiB/s) with 1 file(s) remainingupload: frontend/dist/assets/index-COuCXaNx.js to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-COuCXaNx.js
-Completed 966 Bytes/966 Bytes (1017 Bytes/s) with 1 file(s) remainingupload: frontend/dist/index.html to s3://remedy-ai-sitebucket-fd3mw8e3lrts/index.html
+Completed 0 Bytes/557.6 KiB (0 Bytes/s) with 3 file(s) remaining
+delete: s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-DT7aIiw6.js
+Completed 0 Bytes/557.6 KiB (0 Bytes/s) with 2 file(s) remaining
+Completed 27.7 KiB/557.6 KiB (19.0 KiB/s) with 2 file(s) remaining
+upload: frontend/dist/assets/index-Dcq5O6bK.css to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-Dcq5O6bK.css
+Completed 27.7 KiB/557.6 KiB (19.0 KiB/s) with 1 file(s) remaining
+Completed 278.8 KiB/557.6 KiB (105.8 KiB/s) with 1 file(s) remaining
+upload: frontend/dist/assets/index-COuCXaNx.js to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-COuCXaNx.js
+Completed 966 Bytes/966 Bytes (1017 Bytes/s) with 1 file(s) remaining
+upload: frontend/dist/index.html to s3://remedy-ai-sitebucket-fd3mw8e3lrts/index.html
 I3N2EF6Y6ZE45TIYZMJFDX9TTZ
 == first Source Watch run
 200
