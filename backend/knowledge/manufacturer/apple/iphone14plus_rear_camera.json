@@ -1,0 +1,46 @@
+{
+  "id": "apple_iphone14plus_rear_camera_2024",
+  "category": "manufacturer_service_program",
+  "issuer_or_brand": "Apple Inc.",
+  "program_name": "iPhone 14 Plus Service Program for Rear Camera Issue",
+  "source_url": "https://support.apple.com/iphone-14-plus-service-program-for-rear-camera-issue",
+  "source_information_as_of": "2024-11-01",
+  "verified_at": "2026-09-29",
+  "listed_on_apple_service_programs_index": true,
+  "applicable_devices": [
+    "iPhone 14 Plus"
+  ],
+  "excluded_devices": [],
+  "manufacturing_window_start": "2023-04-10",
+  "manufacturing_window_end": "2024-04-28",
+  "manufacturing_window": "April 10, 2023 to April 28, 2024",
+  "coverage_window_years_from_sale": 3,
+  "symptom": "Rear camera may exhibit no preview",
+  "symptom_keywords": [
+    "rear camera",
+    "back camera",
+    "main camera",
+    "camera preview",
+    "no preview",
+    "camera shows black",
+    "black camera",
+    "camera app"
+  ],
+  "requires_serial_check": true,
+  "serial_check_note": "Eligibility is confirmed only by Apple's serial number checker on the program page. RemedyAI cannot verify the serial number range.",
+  "refund_for_prior_paid_repair": true,
+  "remedy": "Service free of charge by Apple or an Apple Authorized Service Provider",
+  "mandatory_conditions": [
+    "Device must be an iPhone 14 Plus (no other iPhone models are part of this program)",
+    "Device serial number must be confirmed as eligible using Apple's serial number checker on the program page",
+    "Device will be examined prior to any service to verify that it is eligible for this program",
+    "Service must be obtained within three years after the first retail sale of the unit"
+  ],
+  "exclusions_and_caveats": [
+    "Any damage which impairs the ability to complete the repair, such as a cracked back glass, will need to be resolved prior to the service; in some cases there may be a cost associated with the additional repair",
+    "Apple may restrict or limit repair to the original country or region of purchase",
+    "This program does not extend the standard warranty coverage of the iPhone 14 Plus",
+    "The three-year window runs from the first retail sale of the unit, which may be earlier than your purchase date if the device was bought used or refurbished",
+    "If you believe your iPhone 14 Plus was affected and you already paid to have the rear camera repaired, Apple says you can contact Apple about a refund"
+  ]
+}

@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Build outputs
+dist/
+build/
+.aws-sam/
+.serverless/
+
+.pytest_cache/
+samconfig.toml
+
+# Environment and secrets
+.env
+.env.local
+*.pem
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

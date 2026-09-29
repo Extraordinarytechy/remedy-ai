@@ -1,0 +1,21 @@
+{
+  "id": "uk_cra_2015_goods",
+  "category": "statutory_consumer_law",
+  "issuer_or_brand": "UK Government Legislation",
+  "program_name": "Consumer Rights Act 2015 (Statutory Rights on Goods)",
+  "source_url": "https://www.gov.uk/accepting-returns-and-giving-refunds",
+  "verified_at": "2026-09-28",
+  "jurisdiction": "England, Wales, and Northern Ireland (5 years in Scotland)",
+  "claim_limitation_years": 6,
+  "core_standard": "Goods must be of satisfactory quality, fit for purpose, and as described",
+  "mandatory_conditions": [
+    "Claim is made against the selling retailer, not the manufacturer",
+    "Proof of purchase from the specific retailer must be provided",
+    "Failure must relate to lack of satisfactory quality or inherent defect"
+  ],
+  "exclusions_and_caveats": [
+    "Important: This is a legal limitation period to bring a claim, NOT a 6-year warranty",
+    "Because the fault occurred after the first 6 months, the customer can be asked to prove the item was faulty when purchased (burden of proof shifts to consumer)",
+    "Remedy is subject to proportionality: repair or replacement first; partial refund may account for consumer's period of trouble-free use"
+  ]
+}

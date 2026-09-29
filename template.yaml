@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: RemedyAI Backend - Evidence-Grounded Consumer Claim Preparation Engine
+
+Parameters:
+  BedrockModelId:
+    Type: String
+    Description: >-
+      Vision-capable Bedrock model or inference profile ID that is ACTIVE in the deploy region.
+      Confirm with `aws bedrock list-foundation-models` / `aws bedrock list-inference-profiles`.
+      (anthropic.claude-3-5-sonnet-20240620-v1:0 reached end-of-life on Bedrock on 2026-07-30.)
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 512
+    Runtime: python3.13
+    Architectures:
+      - arm64
+    Environment:
+      Variables:
+        BEDROCK_MODEL_ID: !Ref BedrockModelId
+
+Resources:
+  RemedyAIApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: backend.src.lambda_handler.handler
+      Description: FastAPI API Gateway handler for RemedyAI
+      Policies:
+        # Least privilege permissions for Amazon Textract and Bedrock
+        - Statement:
+            - Effect: Allow
+              Action:
+                - textract:AnalyzeExpense
+                - textract:DetectDocumentText
+              Resource: "*"
+            - Effect: Allow
+              Action:
+                - bedrock:InvokeModel
+                - bedrock:Converse
+              Resource: "*"
+      Events:
+        ApiRoot:
+          Type: HttpApi
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+        ApiHome:
+          Type: HttpApi
+          Properties:
+            Path: /
+            Method: ANY
+
+Outputs:
+  HttpApiUrl:
+    Description: HTTP API Gateway endpoint URL
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com"

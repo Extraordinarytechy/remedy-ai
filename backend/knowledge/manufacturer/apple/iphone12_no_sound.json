@@ -1,0 +1,48 @@
+{
+  "id": "apple_iphone12_no_sound_2021",
+  "category": "manufacturer_service_program",
+  "issuer_or_brand": "Apple Inc.",
+  "program_name": "iPhone 12 and iPhone 12 Pro Service Program for No Sound Issues",
+  "source_url": "https://support.apple.com/en-in/iphone-12-and-iphone-12-pro-service-program-for-no-sound-issues",
+  "source_information_as_of": "2022-08-19",
+  "verified_at": "2026-09-29",
+  "listed_on_apple_service_programs_index": false,
+  "index_note": "The program page is still reachable, but the program is no longer listed on support.apple.com/service-programs (checked 2026-09-29).",
+  "applicable_devices": [
+    "iPhone 12",
+    "iPhone 12 Pro"
+  ],
+  "excluded_devices": [
+    "iPhone 12 mini",
+    "iPhone 12 Pro Max"
+  ],
+  "manufacturing_window_start": "2020-10-01",
+  "manufacturing_window_end": "2021-04-30",
+  "manufacturing_window": "October 2020 - April 2021",
+  "coverage_window_years_from_sale": 3,
+  "symptom": "Receiver module does not emit sound when making or receiving calls",
+  "symptom_keywords": [
+    "receiver",
+    "earpiece",
+    "no sound",
+    "can't hear",
+    "cannot hear",
+    "sound during calls",
+    "sound on calls"
+  ],
+  "requires_serial_check": false,
+  "refund_for_prior_paid_repair": false,
+  "remedy": "Service free of charge by Apple or an Apple Authorized Service Provider (AASP)",
+  "mandatory_conditions": [
+    "Device must be an iPhone 12 or iPhone 12 Pro (excludes iPhone 12 mini and iPhone 12 Pro Max)",
+    "Device must exhibit receiver failure symptom",
+    "Device will be examined prior to any service to verify eligibility",
+    "Service must be obtained within three years after the first retail sale of the unit"
+  ],
+  "exclusions_and_caveats": [
+    "Any damage that impairs the ability to complete the repair (such as a cracked screen) must be resolved prior to service, which may incur a fee",
+    "Program does not extend standard warranty coverage period",
+    "Service may be restricted to original country or region of purchase",
+    "The three-year window runs from the first retail sale of the unit, which may be earlier than your purchase date if the device was bought used or refurbished"
+  ]
+}

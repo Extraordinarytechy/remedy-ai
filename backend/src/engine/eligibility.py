@@ -1,0 +1,453 @@
+import json
+from pathlib import Path
+from datetime import datetime, date, timezone
+from typing import List, Optional, Dict, Any, Tuple
+from dateutil import parser as date_parser
+from dateutil.relativedelta import relativedelta
+
+from backend.src.models.schemas import (
+    NormalizedCase,
+    MatchedRoute,
+    ProvenanceChain,
+    RemedyEvaluation,
+)
+
+# Base path to knowledge corpus
+KNOWLEDGE_DIR = Path(__file__).resolve().parent.parent.parent / "knowledge"
+
+DISCLAIMER_NEXT_STEPS_MATCHED = [
+    "Review specific mandatory conditions and potential exceptions for each matched route.",
+    "Download the Claim Summary PDF and attach verified receipts and photo evidence.",
+    "Contact the designated provider (service center, claims administrator, or retailer) directly.",
+]
+
+
+def load_knowledge_records(knowledge_dir: Path = KNOWLEDGE_DIR) -> Dict[str, Dict[str, Any]]:
+    """Loads all primary-source JSON knowledge records from the knowledge corpus."""
+    records: Dict[str, Dict[str, Any]] = {}
+    if not knowledge_dir.exists():
+        return records
+
+    for file_path in sorted(knowledge_dir.glob("**/*.json")):
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if "id" in data:
+                    records[data["id"]] = data
+        except Exception as e:
+            print(f"Warning: Failed to load knowledge record {file_path}: {e}")
+    return records
+
+
+def parse_date(date_str: str) -> date:
+    """Safely parse ISO or common date strings to date objects."""
+    return date_parser.parse(date_str).date()
+
+
+def add_years(d: date, years: float) -> date:
+    """Adds whole years (and any fractional remainder as months) to a date, handling Feb 29."""
+    whole = int(years)
+    months = int(round((years - whole) * 12))
+    return d + relativedelta(years=whole, months=months)
+
+
+class EligibilityEngine:
+    def __init__(self, knowledge_dir: Optional[Path] = None):
+        self.knowledge_dir = knowledge_dir or KNOWLEDGE_DIR
+        self.records = load_knowledge_records(self.knowledge_dir)
+
+    # ------------------------------------------------------------------
+    # Public entry point
+    # ------------------------------------------------------------------
+    def evaluate(self, case: NormalizedCase) -> RemedyEvaluation:
+        """
+        Evaluates a NormalizedCase against the closed-world knowledge corpus.
+        Enforces strict evidence grounding: no routes are generated unless
+        explicitly verified in primary-source records.
+        """
+        now_iso = datetime.now(timezone.utc).isoformat()
+
+        try:
+            p_date = parse_date(case.purchase_date)
+            f_date = parse_date(case.failure_date)
+            as_of = (
+                parse_date(case.evaluation_date)
+                if case.evaluation_date
+                else datetime.now(timezone.utc).date()
+            )
+        except Exception as e:
+            return self._invalid(case, now_iso, None, f"Date parsing failed: {e}")
+
+        if f_date < p_date:
+            return self._invalid(
+                case, now_iso, as_of,
+                f"Failure date ({f_date.isoformat()}) is before purchase date ({p_date.isoformat()}).",
+            )
+        if f_date > as_of:
+            return self._invalid(
+                case, now_iso, as_of,
+                f"Failure date ({f_date.isoformat()}) is after the evaluation date ({as_of.isoformat()}).",
+            )
+
+        days_elapsed = (f_date - p_date).days
+        years_elapsed = days_elapsed / 365.25
+        months_elapsed = days_elapsed / 30.4375
+
+        matched_routes: List[MatchedRoute] = []
+        notes: List[str] = []
+
+        # 1. Manufacturer service programs (data-driven: every record in the category)
+        for record in self.records.values():
+            if record.get("category") != "manufacturer_service_program":
+                continue
+            route, note = self._evaluate_service_program(case, record, p_date, as_of, years_elapsed)
+            if route:
+                matched_routes.append(route)
+            if note:
+                notes.append(note)
+
+        # 2. Payment-card extended warranty
+        visa_record = self.records.get("visa_infinite_extended_warranty_us")
+        if visa_record:
+            route = self._evaluate_visa_extended_warranty(case, visa_record, years_elapsed)
+            if route:
+                matched_routes.append(route)
+
+        # 3. Statutory consumer law
+        uk_record = self.records.get("uk_cra_2015_goods")
+        if uk_record:
+            route, note = self._evaluate_uk_consumer_rights(
+                case, uk_record, p_date, as_of, years_elapsed, months_elapsed
+            )
+            if route:
+                matched_routes.append(route)
+            if note:
+                notes.append(note)
+
+        # Closed-world determination
+        if matched_routes:
+            return RemedyEvaluation(
+                case_id=case.case_id,
+                evaluated_at=now_iso,
+                evaluation_date=as_of.isoformat(),
+                has_coverage=True,
+                matched_routes=matched_routes,
+                notes=notes,
+                next_steps=list(DISCLAIMER_NEXT_STEPS_MATCHED),
+            )
+
+        next_steps = [
+            "Contact the manufacturer to request an out-of-warranty courtesy inspection or goodwill repair.",
+            "Verify if another credit card with extended warranty protections was used for the purchase.",
+            "Check for independent certified repair options if official replacement cost exceeds item value.",
+        ]
+        if years_elapsed <= case.original_warranty_years:
+            notes.append(
+                f"The failure occurred {years_elapsed:.2f} years after purchase, which appears to be inside the "
+                f"{case.original_warranty_years:.1f}-year original manufacturer warranty. That warranty is not part of "
+                "the RemedyAI source corpus, so it is not scored here; contact the manufacturer under the standard warranty."
+            )
+            next_steps.insert(0, "Contact the manufacturer first: the failure appears to fall within the original warranty period.")
+
+        return RemedyEvaluation(
+            case_id=case.case_id,
+            evaluated_at=now_iso,
+            evaluation_date=as_of.isoformat(),
+            has_coverage=False,
+            unmatched_reason=(
+                "NO VERIFIED COVERAGE FOUND in current evidence corpus. "
+                "No manufacturer service program, qualifying payment-card extended warranty benefit, "
+                "or applicable statutory route in the verified source corpus matches the submitted documentation."
+            ),
+            notes=notes,
+            next_steps=next_steps,
+        )
+
+    # ------------------------------------------------------------------
+    # Helpers
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _invalid(case: NormalizedCase, now_iso: str, as_of: Optional[date], reason: str) -> RemedyEvaluation:
+        return RemedyEvaluation(
+            case_id=case.case_id,
+            evaluated_at=now_iso,
+            evaluation_date=as_of.isoformat() if as_of else None,
+            has_coverage=False,
+            unmatched_reason=f"INVALID INPUT: {reason}",
+            next_steps=["Please provide valid ISO dates (YYYY-MM-DD): purchase date <= failure date <= today."],
+        )
+
+    @staticmethod
+    def _device_matches(case: NormalizedCase, record: Dict[str, Any]) -> bool:
+        name = f"{case.product_name} {case.product_model or ''}".lower()
+        for excluded in record.get("excluded_devices", []):
+            if excluded.lower() in name:
+                return False
+        return any(dev.lower() in name for dev in record.get("applicable_devices", []))
+
+    @staticmethod
+    def _symptom_matches(case: NormalizedCase, record: Dict[str, Any]) -> bool:
+        desc = case.defect_description.lower()
+        return any(k.lower() in desc for k in record.get("symptom_keywords", []))
+
+    # ------------------------------------------------------------------
+    # Route evaluators
+    # ------------------------------------------------------------------
+    def _evaluate_service_program(
+        self,
+        case: NormalizedCase,
+        record: Dict[str, Any],
+        p_date: date,
+        as_of: date,
+        years_elapsed: float,
+    ) -> Tuple[Optional[MatchedRoute], Optional[str]]:
+        if not self._device_matches(case, record) or not self._symptom_matches(case, record):
+            return None, None
+
+        program = record["program_name"]
+
+        # A unit sold before the affected manufacturing window started cannot be an affected unit.
+        mfg_start = record.get("manufacturing_window_start")
+        if mfg_start and p_date < parse_date(mfg_start):
+            return None, (
+                f"{program}: not applicable. Purchase date {p_date.isoformat()} is before the affected "
+                f"manufacturing window ({record.get('manufacturing_window')}), so this unit cannot be an affected device."
+            )
+
+        window_years = float(record.get("coverage_window_years_from_sale", 3))
+        coverage_end = add_years(p_date, window_years)
+        if as_of > coverage_end:
+            return None, (
+                f"{program}: device and symptom match, but the {window_years:.0f}-year program window "
+                f"from retail sale closed on {coverage_end.isoformat()} (evaluated as of {as_of.isoformat()})."
+            )
+
+        requires_serial = bool(record.get("requires_serial_check"))
+        status = "PENDING_SERIAL_VERIFICATION" if requires_serial else "ELIGIBLE_PENDING_INSPECTION"
+
+        exceptions = list(record.get("exclusions_and_caveats", []))
+        if not record.get("listed_on_apple_service_programs_index", True) and record.get("index_note"):
+            exceptions.insert(0, record["index_note"])
+        if case.visual_evidence and case.visual_evidence.physical_damage_severity in ["screen_cracked", "severe"]:
+            exceptions.insert(
+                0,
+                "Visible physical damage was recorded in the evidence photos. Per the program terms, damage that "
+                "impairs the repair must be resolved first and may incur a separate fee.",
+            )
+
+        days_left = (coverage_end - as_of).days
+        evidence_items = [
+            f"Purchase date: {case.purchase_date}. Program window ({window_years:.0f} years from retail sale) "
+            f"ends {coverage_end.isoformat()}; {days_left} days remain as of {as_of.isoformat()}.",
+            f"Device model named in case: {case.product_name}.",
+            f"Reported symptom: '{case.defect_description}' matches the program symptom: {record.get('symptom')}.",
+        ]
+        if case.visual_evidence and case.visual_evidence.visual_observations:
+            evidence_items.extend(
+                f"Visual defect observation: {obs}" for obs in case.visual_evidence.visual_observations
+            )
+
+        if requires_serial:
+            claim = (
+                f"Possible free service under {program}, pending Apple's serial number check."
+            )
+            action = (
+                f"Run the serial number checker on the program page ({record['source_url']}). If it confirms "
+                "eligibility, book service at an Apple Store, an Apple Authorized Service Provider, or by mail-in "
+                "through Apple Support. Bring proof of purchase; the device is examined before service."
+            )
+        else:
+            claim = f"Potentially eligible for free service under {program}."
+            action = (
+                "Book service at an Apple Store or Apple Authorized Service Provider. Present the device and proof "
+                "of purchase for the mandatory pre-service inspection."
+            )
+
+        if case.already_paid_for_repair and record.get("refund_for_prior_paid_repair"):
+            evidence_items.append("Case states the owner already paid for this repair.")
+            action += (
+                " Because you already paid for this repair, Apple's program page says you can contact Apple "
+                "about a refund; keep the repair invoice."
+            )
+
+        provenance = ProvenanceChain(
+            claim=claim,
+            why_matched=(
+                f"The case names an eligible device ({case.product_name}), the reported defect matches the program "
+                f"symptom, and the claim date {as_of.isoformat()} is inside the {window_years:.0f}-year window from "
+                f"the {case.purchase_date} purchase (failure occurred {years_elapsed:.2f} years after purchase)."
+            ),
+            evidence=evidence_items,
+            source_citation=program,
+            source_url=record["source_url"],
+            conditions=record.get("mandatory_conditions", []),
+            exceptions=exceptions,
+        )
+
+        summary = (
+            f"{record.get('issuer_or_brand')} states that affected devices manufactured {record.get('manufacturing_window')} "
+            f"may show this issue: {record.get('symptom').lower()}. {record.get('remedy')}."
+        )
+
+        return (
+            MatchedRoute(
+                route_id=record["id"],
+                route_type="manufacturer_service_program",
+                title=program,
+                provider=record["issuer_or_brand"],
+                status=status,
+                summary=summary,
+                primary_source={
+                    "title": program,
+                    "url": record["source_url"],
+                    "verified_at": record.get("verified_at", ""),
+                },
+                provenance=provenance,
+                recommended_action=action,
+                confidence_score=0.80 if requires_serial else 0.90,
+            ),
+            None,
+        )
+
+    def _evaluate_visa_extended_warranty(
+        self, case: NormalizedCase, record: Dict[str, Any], years_elapsed: float
+    ) -> Optional[MatchedRoute]:
+        payment_lower = (case.payment_method or "").lower()
+        if "visa infinite" not in payment_lower:
+            return None
+
+        orig_warranty = case.original_warranty_years
+        max_eligible = record.get("max_eligible_manufacturer_warranty_years", 3.0)
+        extension = record.get("benefit_extension_years", 1.0)
+
+        if orig_warranty > max_eligible:
+            return None
+
+        total_coverage_years = orig_warranty + extension
+        if years_elapsed <= orig_warranty:
+            return None  # still inside the original warranty
+        if years_elapsed > total_coverage_years:
+            return None  # outside the extended window
+
+        evidence_items = [
+            f"Payment proof: Purchased via {case.payment_method}.",
+            f"Original warranty: {orig_warranty:.1f} year(s) (eligible for extension; threshold is <= {max_eligible} years).",
+            f"Failure timeline: Occurred {years_elapsed:.2f} years after purchase, within the +{extension:.1f} year extension window.",
+            f"Defect description: '{case.defect_description}'.",
+        ]
+
+        provenance = ProvenanceChain(
+            claim="Potentially eligible for Visa Infinite Extended Warranty Protection (+1 year extension).",
+            why_matched=(
+                f"Item was purchased using {case.payment_method}. The failure occurred at {years_elapsed:.2f} years, "
+                f"which is beyond the original {orig_warranty:.1f}-year manufacturer warranty but within the "
+                f"{total_coverage_years:.1f}-year total extended protection period."
+            ),
+            evidence=evidence_items,
+            source_citation=record["program_name"],
+            source_url=record["source_url"],
+            conditions=record.get("mandatory_conditions", []),
+            exceptions=record.get("exclusions_and_caveats", []),
+        )
+
+        return MatchedRoute(
+            route_id=record["id"],
+            route_type="card_benefit",
+            title=record["program_name"],
+            provider=record["issuer_or_brand"],
+            status="POTENTIALLY_ELIGIBLE",
+            summary=(
+                "Extends the period of the original manufacturer's written warranty by up to one additional year "
+                "on eligible warranties of three years or less for items purchased entirely with a covered card."
+            ),
+            primary_source={
+                "title": record["program_name"],
+                "url": record["source_url"],
+                "verified_at": record.get("verified_at", ""),
+            },
+            provenance=provenance,
+            recommended_action=(
+                "Open a claim with your issuing bank's card benefit administrator. Have your itemized receipt, "
+                "card statement showing the charge, and warranty document ready. Check your Guide to Benefits "
+                "for the claim reporting deadline."
+            ),
+            confidence_score=0.85,
+        )
+
+    def _evaluate_uk_consumer_rights(
+        self,
+        case: NormalizedCase,
+        record: Dict[str, Any],
+        p_date: date,
+        as_of: date,
+        years_elapsed: float,
+        months_elapsed: float,
+    ) -> Tuple[Optional[MatchedRoute], Optional[str]]:
+        country_code = (case.purchase_country or "").strip().upper()
+        if country_code not in ["GB", "UK"]:
+            return None, None
+
+        if not case.defect_description.strip():
+            return None, None
+
+        limitation_years = float(record.get("claim_limitation_years", 6))
+        limitation_end = add_years(p_date, limitation_years)
+        if as_of > limitation_end:
+            return None, (
+                f"{record['program_name']}: the {limitation_years:.0f}-year limitation period from purchase "
+                f"ended on {limitation_end.isoformat()} (evaluated as of {as_of.isoformat()})."
+            )
+
+        evidence_items = [
+            f"Jurisdiction & Retailer: Purchased in {case.purchase_country} from {case.retailer or 'Retailer'}.",
+            f"Failure occurred {years_elapsed:.2f} years ({months_elapsed:.1f} months) after purchase.",
+            f"Limitation period (England/Wales) ends {limitation_end.isoformat()}; claim date {as_of.isoformat()} is inside it.",
+            f"Documented fault: '{case.defect_description}'.",
+        ]
+
+        exceptions = list(record.get("exclusions_and_caveats", []))
+        if months_elapsed > 6.0:
+            exceptions.insert(
+                0,
+                f"Because the defect appeared after 6 months ({months_elapsed:.1f} months elapsed), the consumer "
+                "may need to show the fault existed at purchase. The retailer may ask for an independent report.",
+            )
+
+        provenance = ProvenanceChain(
+            claim="Potentially eligible to seek repair, replacement, or partial refund under UK Consumer Rights Act 2015.",
+            why_matched=(
+                f"Goods were purchased in the UK from a retailer ({case.retailer or 'UK Retailer'}), and the claim date is "
+                f"within the {limitation_years:.0f}-year limitation period in England/Wales for goods not of satisfactory quality."
+            ),
+            evidence=evidence_items,
+            source_citation=record["program_name"],
+            source_url=record["source_url"],
+            conditions=record.get("mandatory_conditions", []),
+            exceptions=exceptions,
+        )
+
+        return (
+            MatchedRoute(
+                route_id=record["id"],
+                route_type="statutory_consumer_law",
+                title=record["program_name"],
+                provider=record["issuer_or_brand"],
+                status="POTENTIALLY_ELIGIBLE",
+                summary=(
+                    "Under the UK Consumer Rights Act 2015, goods must be of satisfactory quality, fit for purpose, and as described. "
+                    "Consumers may have statutory recourse against the selling retailer for up to 6 years in England and Wales."
+                ),
+                primary_source={
+                    "title": record["program_name"],
+                    "url": record["source_url"],
+                    "verified_at": record.get("verified_at", ""),
+                },
+                provenance=provenance,
+                recommended_action=(
+                    f"Send a written Consumer Rights Act 2015 claim to the selling retailer ({case.retailer or 'the selling retailer'}). "
+                    "Attach proof of purchase and defect evidence. After 6 months, an independent inspection report may be required."
+                ),
+                confidence_score=0.80,
+            ),
+            None,
+        )
