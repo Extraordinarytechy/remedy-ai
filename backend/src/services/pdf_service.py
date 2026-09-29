@@ -12,7 +12,7 @@ from reportlab.platypus import (
     HRFlowable,
     KeepTogether,
 )
-from backend.src.models.schemas import NormalizedCase, RemedyEvaluation
+from src.models.schemas import NormalizedCase, RemedyEvaluation
 
 
 class ClaimPdfService:

@@ -1,21 +1,23 @@
 {
   "id": "uk_cra_2015_goods",
   "category": "statutory_consumer_law",
-  "issuer_or_brand": "UK Government Legislation",
-  "program_name": "Consumer Rights Act 2015 (Statutory Rights on Goods)",
+  "issuer_or_brand": "UK consumer law (GOV.UK guidance for retailers)",
+  "program_name": "UK consumer rights on faulty goods (GOV.UK: Accepting returns and giving refunds)",
   "source_url": "https://www.gov.uk/accepting-returns-and-giving-refunds",
-  "verified_at": "2026-09-28",
-  "jurisdiction": "England, Wales, and Northern Ireland (5 years in Scotland)",
+  "verified_at": "2026-09-29",
+  "jurisdiction": "UK (the page states 6 years to make a claim, 5 years in Scotland)",
   "claim_limitation_years": 6,
-  "core_standard": "Goods must be of satisfactory quality, fit for purpose, and as described",
+  "core_standard": "A retailer must repair or replace an item that was faulty when bought; the customer has the same right to free repairs or a replacement whether or not a warranty or guarantee exists or has run out",
   "mandatory_conditions": [
-    "Claim is made against the selling retailer, not the manufacturer",
-    "Proof of purchase from the specific retailer must be provided",
-    "Failure must relate to lack of satisfactory quality or inherent defect"
+    "The claim is made against the retailer that sold the item",
+    "Proof of purchase from that retailer (receipt, bank statement or packaging)",
+    "The item was faulty when it was bought",
+    "The claim is made by the person who bought the item"
   ],
   "exclusions_and_caveats": [
-    "Important: This is a legal limitation period to bring a claim, NOT a 6-year warranty",
-    "Because the fault occurred after the first 6 months, the customer can be asked to prove the item was faulty when purchased (burden of proof shifts to consumer)",
-    "Remedy is subject to proportionality: repair or replacement first; partial refund may account for consumer's period of trouble-free use"
+    "This is the period to make a claim, not a 6-year warranty",
+    "After 6 months, the retailer can ask the customer to prove the item was faulty when it was bought",
+    "In Scotland the period is 5 years, not 6",
+    "A refund may not be owed if the customer knew about the fault when buying or damaged the item by trying to repair it (repair, replacement or a partial refund may still apply)"
   ]
 }

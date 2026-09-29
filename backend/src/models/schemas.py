@@ -10,7 +10,9 @@ class ReceiptData(BaseModel):
     total_amount: Optional[float] = None
     currency: Optional[str] = "USD"
     payment_type: Optional[str] = None
-    confidence_score: float = Field(default=1.0, ge=0.0, le=1.0)
+    # Amazon Textract's own mean field confidence (0-1). None for sample or manual data.
+    confidence_score: Optional[float] = Field(default=None, ge=0.0, le=1.0)
+    source: Literal["textract", "sample", "unavailable"] = "sample"
     raw_fields: Dict[str, Any] = Field(default_factory=dict)
 
 
@@ -20,7 +22,8 @@ class VisualDefectEvidence(BaseModel):
     physical_damage_severity: Literal["none", "cosmetic", "screen_cracked", "severe"] = "none"
     symptom_category: Optional[str] = None
     visual_observations: List[str] = Field(default_factory=list)
-    confidence_score: float = Field(default=1.0, ge=0.0, le=1.0)
+    # Where these observations came from: "bedrock", "sample" (demo fixture) or "unavailable".
+    source: Literal["bedrock", "sample", "unavailable"] = "sample"
     disclaimer: str = (
         "Visual defect evidence analysis documents visible physical anomalies and reported symptoms; "
         "it explicitly abstains from internal electrical or root-cause engineering diagnosis."
@@ -66,6 +69,7 @@ class MatchedRoute(BaseModel):
         "POTENTIALLY_ELIGIBLE",
         "ELIGIBLE_PENDING_INSPECTION",
         "PENDING_SERIAL_VERIFICATION",
+        "NEEDS_REVERIFICATION",
         "OUTSIDE_WINDOW",
         "INSUFFICIENT_EVIDENCE",
     ]
@@ -73,7 +77,8 @@ class MatchedRoute(BaseModel):
     primary_source: Dict[str, str]
     provenance: ProvenanceChain
     recommended_action: str
-    confidence_score: float = Field(default=1.0, ge=0.0, le=1.0)
+    # Result of the latest automated Source Watch check for this route's source, if available.
+    source_check: Optional[Dict[str, Any]] = None
 
 
 class RemedyEvaluation(BaseModel):

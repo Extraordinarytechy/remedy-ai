@@ -2,7 +2,7 @@ import os
 import json
 import boto3
 from typing import Optional
-from backend.src.models.schemas import VisualDefectEvidence
+from src.models.schemas import VisualDefectEvidence
 
 # The model must be ACTIVE in the deployment region. Set BEDROCK_MODEL_ID at deploy time
 # (see template.yaml) and confirm it with `aws bedrock list-foundation-models`.
@@ -28,6 +28,16 @@ class BedrockVisionService:
         """
         if not self.client or not self.model_id:
             return self._unavailable("Amazon Bedrock is not configured for this environment.")
+
+        # Trust the bytes, not the caller: detect the real image format.
+        if image_bytes[:3] == b"\xff\xd8\xff":
+            image_format = "jpeg"
+        elif image_bytes[:8] == b"\x89PNG\r\n\x1a\n":
+            image_format = "png"
+        elif image_bytes[:4] == b"RIFF" and image_bytes[8:12] == b"WEBP":
+            image_format = "webp"
+        else:
+            return self._unavailable("Unsupported image format (use JPEG, PNG or WebP).")
 
         system_prompt = (
             "You are an evidence intake assistant for RemedyAI, a consumer claim preparation engine. "
@@ -84,13 +94,16 @@ class BedrockVisionService:
                 cleaned_text = cleaned_text.split("```")[1].split("```")[0].strip()
 
             parsed = json.loads(cleaned_text)
+            severity = parsed.get("physical_damage_severity", "none")
+            if severity not in ("none", "cosmetic", "screen_cracked", "severe"):
+                severity = "severe" if parsed.get("visible_physical_damage") else "none"
             return VisualDefectEvidence(
                 anomaly_detected=parsed.get("anomaly_detected", False),
                 visible_physical_damage=parsed.get("visible_physical_damage", False),
-                physical_damage_severity=parsed.get("physical_damage_severity", "none"),
+                physical_damage_severity=severity,
                 symptom_category=parsed.get("symptom_category"),
                 visual_observations=parsed.get("visual_observations", []),
-                confidence_score=0.9,
+                source="bedrock",
             )
 
         except Exception as e:
@@ -106,5 +119,5 @@ class BedrockVisionService:
             physical_damage_severity="none",
             symptom_category=None,
             visual_observations=[f"{reason} No visual observations were recorded."],
-            confidence_score=0.0,
+            source="unavailable",
         )

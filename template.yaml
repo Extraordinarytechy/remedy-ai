@@ -1,59 +1,304 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: RemedyAI Backend - Evidence-Grounded Consumer Claim Preparation Engine
+Description: >-
+  RemedyAI - finds documented repair, card-benefit and consumer-law routes after a product
+  fails, and re-checks its own primary sources daily (Source Watch).
 
 Parameters:
   BedrockModelId:
     Type: String
+    Default: us.amazon.nova-2-lite-v1:0
     Description: >-
-      Vision-capable Bedrock model or inference profile ID that is ACTIVE in the deploy region.
-      Confirm with `aws bedrock list-foundation-models` / `aws bedrock list-inference-profiles`.
-      (anthropic.claude-3-5-sonnet-20240620-v1:0 reached end-of-life on Bedrock on 2026-07-30.)
+      Vision-capable Bedrock model or inference profile that is ACTIVE in this region.
+      Verified with a live Converse call on 2026-09-29. (anthropic.claude-3-5-sonnet-20240620-v1:0
+      reached end-of-life on Bedrock on 2026-07-30.)
+  DailyAiCallLimit:
+    Type: Number
+    Default: 300
+    Description: Maximum Textract + Bedrock calls per UTC day from the public upload endpoint.
+  AlertEmail:
+    Type: String
+    Description: Email that receives the AWS Budgets alert.
+  MonthlyBudgetUsd:
+    Type: Number
+    Default: 10
 
 Globals:
   Function:
-    Timeout: 30
-    MemorySize: 512
     Runtime: python3.13
-    Architectures:
-      - arm64
+    Architectures: [arm64]
+    MemorySize: 1024
+    Timeout: 29
+    Tracing: Active
     Environment:
       Variables:
+        TABLE_NAME: !Ref StateTable
         BEDROCK_MODEL_ID: !Ref BedrockModelId
+        DAILY_AI_CALL_LIMIT: !Ref DailyAiCallLimit
+        POWERTOOLS_SERVICE_NAME: remedyai
 
 Resources:
-  RemedyAIApiFunction:
+  # ---------------------------------------------------------------------------
+  # State: one table for Source Watch status and the daily AI-call counter
+  # ---------------------------------------------------------------------------
+  StateTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+      TimeToLiveSpecification:
+        AttributeName: expires_at
+        Enabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      SSESpecification:
+        SSEEnabled: true
+
+  SnapshotBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      VersioningConfiguration:
+        Status: Enabled
+
+  # ---------------------------------------------------------------------------
+  # API: FastAPI on Lambda behind an HTTP API with throttling
+  # ---------------------------------------------------------------------------
+  HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 20
+        ThrottlingRateLimit: 10
+
+  ApiFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./
-      Handler: backend.src.lambda_handler.handler
-      Description: FastAPI API Gateway handler for RemedyAI
+      CodeUri: .build/lambda/  # produced by scripts/build_lambda.sh (arm64 wheels)
+      Handler: src.lambda_handler.handler
+      Description: RemedyAI API (evaluate, intake, claim PDF, sources)
       Policies:
-        # Least privilege permissions for Amazon Textract and Bedrock
         - Statement:
-            - Effect: Allow
-              Action:
-                - textract:AnalyzeExpense
-                - textract:DetectDocumentText
-              Resource: "*"
-            - Effect: Allow
-              Action:
-                - bedrock:InvokeModel
-                - bedrock:Converse
-              Resource: "*"
+            - Sid: ReceiptExtraction
+              Effect: Allow
+              Action: textract:AnalyzeExpense  # does not support resource-level scoping
+              Resource: '*'
+            - Sid: DefectPhotoAnalysis
+              Effect: Allow
+              Action: bedrock:InvokeModel
+              Resource:
+                - !Sub arn:aws:bedrock:*:${AWS::AccountId}:inference-profile/${BedrockModelId}
+                - arn:aws:bedrock:*::foundation-model/amazon.nova-2-lite-v1:0
+            - Sid: StateReadAndDailyCounter
+              Effect: Allow
+              Action: [dynamodb:GetItem, dynamodb:UpdateItem]
+              Resource: !GetAtt StateTable.Arn
       Events:
-        ApiRoot:
+        Proxy:
           Type: HttpApi
           Properties:
+            ApiId: !Ref HttpApi
             Path: /{proxy+}
             Method: ANY
-        ApiHome:
-          Type: HttpApi
+
+  ApiLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${ApiFunction}
+      RetentionInDays: 14
+
+  # ---------------------------------------------------------------------------
+  # Source Watch: daily re-check of every primary source
+  # ---------------------------------------------------------------------------
+  SourceWatchFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .build/lambda/
+      Handler: src.services.source_watch.handler
+      Description: Re-checks every primary source and Apple's service-program index
+      Timeout: 120
+      MemorySize: 512
+      Environment:
+        Variables:
+          SNAPSHOT_BUCKET: !Ref SnapshotBucket
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: [dynamodb:GetItem, dynamodb:PutItem]
+              Resource: !GetAtt StateTable.Arn
+            - Effect: Allow
+              Action: s3:PutObject
+              Resource: !Sub ${SnapshotBucket.Arn}/snapshots/*
+      Events:
+        Daily:
+          Type: ScheduleV2
           Properties:
-            Path: /
-            Method: ANY
+            ScheduleExpression: cron(0 6 * * ? *)
+            ScheduleExpressionTimezone: UTC
+
+  SourceWatchLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${SourceWatchFunction}
+      RetentionInDays: 30
+
+  # ---------------------------------------------------------------------------
+  # Frontend: private S3 bucket + one CloudFront distribution for site and API
+  # ---------------------------------------------------------------------------
+  SiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  SiteOAC:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Name: !Sub ${AWS::StackName}-site-oac
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  SiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref SiteBucket
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource: !Sub ${SiteBucket.Arn}/*
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub arn:aws:cloudfront::${AWS::AccountId}:distribution/${Distribution}
+
+  SecurityHeaders:
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Properties:
+      ResponseHeadersPolicyConfig:
+        Name: !Sub ${AWS::StackName}-security-headers
+        SecurityHeadersConfig:
+          StrictTransportSecurity:
+            AccessControlMaxAgeSec: 31536000
+            IncludeSubdomains: true
+            Override: true
+          ContentTypeOptions:
+            Override: true
+          FrameOptions:
+            FrameOption: DENY
+            Override: true
+          ReferrerPolicy:
+            ReferrerPolicy: strict-origin-when-cross-origin
+            Override: true
+          ContentSecurityPolicy:
+            ContentSecurityPolicy: "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+            Override: true
+
+  Distribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Comment: RemedyAI site and API
+        DefaultRootObject: index.html
+        HttpVersion: http2and3
+        PriceClass: PriceClass_100
+        Origins:
+          - Id: site
+            DomainName: !GetAtt SiteBucket.RegionalDomainName
+            OriginAccessControlId: !GetAtt SiteOAC.Id
+            S3OriginConfig:
+              OriginAccessIdentity: ''
+          - Id: api
+            DomainName: !Sub ${HttpApi}.execute-api.${AWS::Region}.amazonaws.com
+            CustomOriginConfig:
+              OriginProtocolPolicy: https-only
+              OriginSSLProtocols: [TLSv1.2]
+        DefaultCacheBehavior:
+          TargetOriginId: site
+          ViewerProtocolPolicy: redirect-to-https
+          Compress: true
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6  # Managed-CachingOptimized
+          ResponseHeadersPolicyId: !Ref SecurityHeaders
+        CacheBehaviors:
+          - PathPattern: /api/*
+            TargetOriginId: api
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD, OPTIONS, PUT, PATCH, POST, DELETE]
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad  # Managed-CachingDisabled
+            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac  # Managed-AllViewerExceptHostHeader
+            ResponseHeadersPolicyId: !Ref SecurityHeaders
+          - PathPattern: /health
+            TargetOriginId: api
+            ViewerProtocolPolicy: redirect-to-https
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+
+  # ---------------------------------------------------------------------------
+  # Cost guard
+  # ---------------------------------------------------------------------------
+  MonthlyBudget:
+    Type: AWS::Budgets::Budget
+    Properties:
+      Budget:
+        BudgetName: !Sub ${AWS::StackName}-monthly
+        BudgetType: COST
+        TimeUnit: MONTHLY
+        BudgetLimit:
+          Amount: !Ref MonthlyBudgetUsd
+          Unit: USD
+      NotificationsWithSubscribers:
+        - Notification:
+            NotificationType: ACTUAL
+            ComparisonOperator: GREATER_THAN
+            Threshold: 50
+            ThresholdType: PERCENTAGE
+          Subscribers:
+            - SubscriptionType: EMAIL
+              Address: !Ref AlertEmail
+        - Notification:
+            NotificationType: FORECASTED
+            ComparisonOperator: GREATER_THAN
+            Threshold: 100
+            ThresholdType: PERCENTAGE
+          Subscribers:
+            - SubscriptionType: EMAIL
+              Address: !Ref AlertEmail
 
 Outputs:
-  HttpApiUrl:
-    Description: HTTP API Gateway endpoint URL
-    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com"
+  SiteUrl:
+    Description: Public URL (site and API on one origin)
+    Value: !Sub https://${Distribution.DomainName}
+  DistributionId:
+    Value: !Ref Distribution
+  SiteBucketName:
+    Value: !Ref SiteBucket
+  SnapshotBucketName:
+    Value: !Ref SnapshotBucket
+  ApiUrl:
+    Value: !Sub https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com
+  SourceWatchFunctionName:
+    Value: !Ref SourceWatchFunction

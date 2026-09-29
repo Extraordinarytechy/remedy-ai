@@ -5,7 +5,7 @@ from typing import List, Optional, Dict, Any, Tuple
 from dateutil import parser as date_parser
 from dateutil.relativedelta import relativedelta
 
-from backend.src.models.schemas import (
+from src.models.schemas import (
     NormalizedCase,
     MatchedRoute,
     ProvenanceChain,
@@ -59,11 +59,14 @@ class EligibilityEngine:
     # ------------------------------------------------------------------
     # Public entry point
     # ------------------------------------------------------------------
-    def evaluate(self, case: NormalizedCase) -> RemedyEvaluation:
+    def evaluate(
+        self, case: NormalizedCase, source_status: Optional[Dict[str, Dict[str, Any]]] = None
+    ) -> RemedyEvaluation:
         """
         Evaluates a NormalizedCase against the closed-world knowledge corpus.
         Enforces strict evidence grounding: no routes are generated unless
-        explicitly verified in primary-source records.
+        explicitly verified in primary-source records. `source_status` is the latest
+        Source Watch result; a route whose source is unreachable or delisted is downgraded.
         """
         now_iso = datetime.now(timezone.utc).isoformat()
 
@@ -124,6 +127,9 @@ class EligibilityEngine:
             if note:
                 notes.append(note)
 
+        for route in matched_routes:
+            self._apply_source_status(route, (source_status or {}).get(route.route_id))
+
         # Closed-world determination
         if matched_routes:
             return RemedyEvaluation(
@@ -176,6 +182,40 @@ class EligibilityEngine:
             unmatched_reason=f"INVALID INPUT: {reason}",
             next_steps=["Please provide valid ISO dates (YYYY-MM-DD): purchase date <= failure date <= today."],
         )
+
+    @staticmethod
+    def _apply_source_status(route: MatchedRoute, st: Optional[Dict[str, Any]]) -> None:
+        """Attach the latest Source Watch result and downgrade routes whose source is in doubt."""
+        if not st:
+            return
+        route.source_check = {
+            k: st.get(k)
+            for k in ("checked_at", "http_status", "reachable", "last_changed_at", "human_verified_at", "listed_on_apple_index")
+            if k in st
+        }
+        checked = (st.get("checked_at") or "")[:10]
+        warnings = []
+        if st.get("reachable") is False:
+            warnings.append(
+                f"Source Watch could not load the source page on {checked} (HTTP {st.get('http_status')}). "
+                "Re-verify the source before relying on this route."
+            )
+        if st.get("listed_on_apple_index") is False:
+            warnings.append(
+                f"Source Watch found that this program is not listed on Apple's service-program index as of {checked}. "
+                "It may have ended; confirm with Apple before relying on it."
+            )
+        if warnings:
+            route.status = "NEEDS_REVERIFICATION"
+            route.provenance.exceptions[:0] = warnings
+        changed = (st.get("last_changed_at") or "")[:10]
+        verified = (st.get("human_verified_at") or "")[:10]
+        if changed and verified and changed > verified:
+            route.provenance.exceptions.insert(
+                0,
+                f"The source page's text changed on {changed}, after it was last checked by a person on {verified}. "
+                "The terms shown here may be out of date.",
+            )
 
     @staticmethod
     def _device_matches(case: NormalizedCase, record: Dict[str, Any]) -> bool:
@@ -304,7 +344,6 @@ class EligibilityEngine:
                 },
                 provenance=provenance,
                 recommended_action=action,
-                confidence_score=0.80 if requires_serial else 0.90,
             ),
             None,
         )
@@ -371,7 +410,6 @@ class EligibilityEngine:
                 "card statement showing the charge, and warranty document ready. Check your Guide to Benefits "
                 "for the claim reporting deadline."
             ),
-            confidence_score=0.85,
         )
 
     def _evaluate_uk_consumer_rights(
@@ -445,9 +483,8 @@ class EligibilityEngine:
                 provenance=provenance,
                 recommended_action=(
                     f"Send a written Consumer Rights Act 2015 claim to the selling retailer ({case.retailer or 'the selling retailer'}). "
-                    "Attach proof of purchase and defect evidence. After 6 months, an independent inspection report may be required."
+                    "Attach proof of purchase and defect evidence. After 6 months, the retailer can ask you to show the item was faulty when you bought it."
                 ),
-                confidence_score=0.80,
             ),
             None,
         )

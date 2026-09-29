@@ -1,7 +1,7 @@
 import os
 import boto3
 from typing import Dict, Any, Optional
-from backend.src.models.schemas import ReceiptData
+from src.models.schemas import ReceiptData
 
 
 class TextractService:
@@ -20,8 +20,8 @@ class TextractService:
         """
         if not self.client:
             return ReceiptData(
-                confidence_score=0.5,
-                raw_fields={"warning": "AWS Textract client not available; using fallback."},
+                source="unavailable",
+                raw_fields={"warning": "Amazon Textract is not available in this environment."},
             )
 
         try:
@@ -32,12 +32,12 @@ class TextractService:
         except Exception as e:
             print(f"Error calling Textract AnalyzeExpense: {e}")
             return ReceiptData(
-                confidence_score=0.0,
-                raw_fields={"error": str(e)},
+                source="unavailable",
+                raw_fields={"error": type(e).__name__},
             )
 
     def _parse_expense_response(self, response: Dict[str, Any]) -> ReceiptData:
-        extracted = ReceiptData()
+        extracted = ReceiptData(source="textract")
         raw_fields = {}
 
         expense_documents = response.get("ExpenseDocuments", [])
@@ -78,6 +78,22 @@ class TextractService:
         if item_names:
             extracted.item_description = ", ".join(item_names)
 
+        # Normalise the receipt date to ISO so it can pre-fill the purchase date.
+        if extracted.purchase_date:
+            try:
+                from dateutil import parser as date_parser
+
+                extracted.purchase_date = date_parser.parse(extracted.purchase_date, fuzzy=True).date().isoformat()
+            except (ValueError, OverflowError):
+                pass  # keep the raw text; the user confirms dates before evaluation
+
+        # Confidence is Textract's own mean confidence over the fields we used, not a constant.
+        used = [
+            f.get("ValueDetection", {}).get("Confidence")
+            for f in doc.get("SummaryFields", [])
+            if f.get("Type", {}).get("Text") in ("VENDOR_NAME", "INVOICE_RECEIPT_DATE", "TOTAL")
+        ]
+        used = [c for c in used if isinstance(c, (int, float))]
         extracted.raw_fields = raw_fields
-        extracted.confidence_score = 0.95
+        extracted.confidence_score = round(sum(used) / len(used) / 100, 3) if used else 0.0
         return extracted

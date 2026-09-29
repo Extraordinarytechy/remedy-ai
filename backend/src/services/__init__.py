@@ -1,5 +1,2 @@
-from .textract_service import TextractService
-from .bedrock_service import BedrockVisionService
-from .pdf_service import ClaimPdfService
-
-__all__ = ["TextractService", "BedrockVisionService", "ClaimPdfService"]
+# Services are imported directly (e.g. `from src.services.source_watch import ...`) so that the
+# Source Watch Lambda does not load PDF or AI dependencies it never uses.

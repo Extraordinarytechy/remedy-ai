@@ -10,6 +10,7 @@ env/
 # Build outputs
 dist/
 build/
+.build/
 .aws-sam/
 .serverless/
 

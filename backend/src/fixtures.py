@@ -27,7 +27,6 @@ DEMO_FIXTURES = {
             "total_amount": 799.99,
             "currency": "USD",
             "payment_type": "DEBIT",
-            "confidence_score": 0.98,
         },
         "visual_evidence": {
             "anomaly_detected": True,
@@ -39,7 +38,6 @@ DEMO_FIXTURES = {
                 "Camera app open on rear camera shows a fully black preview.",
                 "No visible signs of impact or liquid damage.",
             ],
-            "confidence_score": 0.90,
         },
     },
     "case2_visa_infinite_sony": {
@@ -61,7 +59,6 @@ DEMO_FIXTURES = {
             "total_amount": 399.99,
             "currency": "USD",
             "payment_type": "VISA INFINITE (Ending 4092)",
-            "confidence_score": 0.99,
         },
         "visual_evidence": {
             "anomaly_detected": True,
@@ -73,7 +70,6 @@ DEMO_FIXTURES = {
                 "Ear cushions and headband show normal light wear.",
                 "No visible crush or impact marks.",
             ],
-            "confidence_score": 0.90,
         },
     },
     "case3_uk_samsung_tv": {
@@ -95,7 +91,6 @@ DEMO_FIXTURES = {
             "total_amount": 479.00,
             "currency": "GBP",
             "payment_type": "MASTERCARD DEBIT",
-            "confidence_score": 0.97,
         },
         "visual_evidence": {
             "anomaly_detected": True,
@@ -107,7 +102,6 @@ DEMO_FIXTURES = {
                 "Horizontal dark lines visible across the lower part of the panel.",
                 "Artifact appears on the TV's own menus, not only on one input.",
             ],
-            "confidence_score": 0.90,
         },
     },
     "case4_unknown_unsupported": {
@@ -129,7 +123,6 @@ DEMO_FIXTURES = {
             "total_amount": 189.95,
             "currency": "USD",
             "payment_type": "CASH",
-            "confidence_score": 0.90,
         },
         "visual_evidence": {
             "anomaly_detected": False,
@@ -137,7 +130,6 @@ DEMO_FIXTURES = {
             "physical_damage_severity": "none",
             "symptom_category": "internal_pump",
             "visual_observations": ["Enclosure exterior clean; no external damage or leaks."],
-            "confidence_score": 0.85,
         },
     },
 }

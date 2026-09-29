@@ -1,6 +1,6 @@
-from backend.src.models.schemas import NormalizedCase, VisualDefectEvidence
-from backend.src.engine.eligibility import EligibilityEngine
-from backend.src.services.pdf_service import ClaimPdfService
+from src.models.schemas import NormalizedCase, VisualDefectEvidence
+from src.engine.eligibility import EligibilityEngine
+from src.services.pdf_service import ClaimPdfService
 
 
 def test_pdf_generation_eligible_case():

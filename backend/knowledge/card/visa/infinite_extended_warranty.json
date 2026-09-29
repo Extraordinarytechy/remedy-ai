@@ -1,22 +1,20 @@
 {
   "id": "visa_infinite_extended_warranty_us",
   "category": "card_benefit",
-  "issuer_or_brand": "Visa Inc. (Representative U.S. Benefit Configuration)",
+  "issuer_or_brand": "Visa (U.S. Visa Infinite benefit; your issuing bank's Guide to Benefits governs)",
   "program_name": "Visa Infinite Extended Warranty Protection",
   "source_url": "https://www.visa.com/en-us/personal/cards/credit/visa-infinite",
-  "verified_at": "2026-09-28",
+  "verified_at": "2026-09-29",
   "benefit_extension_years": 1,
   "max_eligible_manufacturer_warranty_years": 3,
-  "max_claim_amount_usd": 10000,
-  "max_annual_limit_usd": 50000,
   "mandatory_conditions": [
-    "Item must be purchased entirely with the covered Visa Infinite card (or associated rewards points)",
-    "Item must have a valid original manufacturer warranty of three (3) years or less",
-    "Claim must be reported within documented timeframe (typically 60-90 days from failure)"
+    "The item was bought with a covered Visa Infinite card",
+    "The item has an eligible manufacturer's U.S. warranty of 3 years or less",
+    "The claim follows the terms and reporting deadline in your issuer's Guide to Benefits"
   ],
   "exclusions_and_caveats": [
-    "This demonstration uses a representative Visa Infinite benefit configuration. Final coverage depends on the issuing bank, specific Guide to Benefits, documentation, and exclusions",
-    "Excludes motorized vehicles, computer software, real estate, and items purchased for commercial use",
-    "Cardholder must provide itemized store receipt, monthly billing statement, original warranty terms, and authorized repair diagnostic if requested"
+    "Visa's page says certain terms, conditions and exclusions apply; the exact terms are in the Guide to Benefits from your card issuer",
+    "Claim limits, reporting deadlines and required documents are not stated on Visa's page and vary by issuer",
+    "Not every Visa card carries this benefit; check that your specific card is a covered Visa Infinite card"
   ]
 }

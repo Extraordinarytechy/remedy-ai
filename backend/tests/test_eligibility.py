@@ -1,6 +1,6 @@
 import pytest
-from backend.src.models.schemas import NormalizedCase, VisualDefectEvidence
-from backend.src.engine.eligibility import EligibilityEngine
+from src.models.schemas import NormalizedCase, VisualDefectEvidence
+from src.engine.eligibility import EligibilityEngine
 
 # Fixed "claim date" so window checks are deterministic regardless of when tests run.
 AS_OF = "2026-09-29"

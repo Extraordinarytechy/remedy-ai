@@ -1,6 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
-from backend.src.app import app, DEMO_FIXTURES
+from src.app import app, DEMO_FIXTURES
 
 client = TestClient(app)
 AS_OF = "2026-09-29"
@@ -57,6 +57,36 @@ def test_intake_without_image_records_no_visual_evidence():
     data = client.post("/api/intake", json=payload).json()
     assert data["visual_evidence"] is None
     assert data["receipt_data"] is None
+
+
+def test_sources_endpoint_lists_every_record():
+    data = client.get("/api/sources").json()
+    ids = {s["id"] for s in data["sources"]}
+    assert "apple_iphone14plus_rear_camera_2024" in ids
+    assert all(s["source_url"].startswith("https://") for s in data["sources"])
+
+
+def test_intake_rejects_invalid_image():
+    payload = {
+        "product_name": "iPhone 14 Plus",
+        "purchase_date": "2023-11-24",
+        "failure_date": "2026-08-30",
+        "defect_description": "Rear camera no preview",
+        "defect_image_base64": "not base64!!",
+    }
+    assert client.post("/api/intake", json=payload).status_code == 400
+
+
+def test_demo_fixtures_are_labelled_as_sample_data():
+    for fx in DEMO_FIXTURES.values():
+        case = client.post("/api/evaluate", json={**fx, "evaluation_date": AS_OF})
+        assert case.status_code == 200
+    from src.models.schemas import NormalizedCase
+
+    parsed = NormalizedCase(**DEMO_FIXTURES["case1_apple_iphone14plus"])
+    assert parsed.receipt_data.source == "sample"
+    assert parsed.visual_evidence.source == "sample"
+    assert parsed.receipt_data.confidence_score is None
 
 
 def test_generate_package_pdf():
