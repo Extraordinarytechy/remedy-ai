@@ -17,6 +17,9 @@ build/
 .pytest_cache/
 samconfig.toml
 
+# Local-only notes and AWS resource inventory (account-specific; never pushed)
+local/
+
 # Environment and secrets
 .env
 .env.local
