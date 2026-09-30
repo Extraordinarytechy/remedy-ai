@@ -90,7 +90,7 @@ hackathon, `#daily-life-enhancement` `#startups`).
 ```bash
 cd backend
 pip install -r requirements-dev.txt
-python -m pytest tests -q                    # 90 tests
+python -m pytest tests -q                    # 93 tests
 python -m uvicorn src.app:app --port 8082    # the Vite dev server proxies /api here
 ```
 

@@ -20,6 +20,6 @@ Please don't test against the live site in ways that could affect other visitors
 | Abuse and cost | API Gateway throttling (10 req/s, burst 20). Paid AI calls capped per UTC day overall and per visitor; visitors are counted by an HMAC of the IP with a random daily key (2-day TTL), never the raw IP. The cap fails closed. AWS Budgets alert. |
 | Input | Length limits on every free-text field; strict schema validation (Pydantic); generic error messages. |
 | Transport and browser | HTTPS only, HSTS, a strict Content Security Policy (`default-src 'self'`, no third-party scripts, fonts or images), `X-Frame-Options: DENY`, `nosniff`. |
-| Infrastructure | Private S3 buckets behind CloudFront Origin Access Control, encryption at rest, one least-privilege IAM role per function, one SAM template. |
-| AI data use | The AWS account has an AI services opt-out policy, so AWS may not use Textract or Bedrock content to improve its services. |
+| Infrastructure | Private S3 buckets behind CloudFront Origin Access Control, encryption at rest, one least-privilege IAM role per function, one SAM template. The API only answers requests that carry CloudFront's secret origin header (a random 256-bit value, passed as a NoEcho parameter and masked in deploy logs), so the API Gateway URL can't be used to skip the security headers or forge the visitor address used by the per-visitor limit. |
+| AI data use | The AWS account has an AI services opt-out policy (AWS Organizations), so Textract content is not stored or used by AWS to improve its services. Bedrock does not use prompts or images for training. |
 | Dependencies | Pinned runtime versions; `pip-audit` and `npm audit` run in CI on every push. |
