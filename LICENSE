@@ -1,0 +1,13 @@
+Copyright (c) 2026 Extraordinarytechy. All rights reserved.
+
+This repository is published so that the RemedyAI project can be reviewed and evaluated,
+including by the organizers and judges of the AWS Zero to Shipped hackathon. You may view
+and run the code for that purpose.
+
+No other license is granted. Copying, modifying, distributing or using this code or its
+knowledge records in another product or service requires written permission from the
+copyright holder.
+
+Third-party components keep their own licenses (see backend/requirements.txt and
+frontend/package.json). Text quoted from GOV.UK is public sector information licensed
+under the Open Government Licence v3.0.
