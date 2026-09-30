@@ -103,3 +103,19 @@ def test_usage_guard_is_disabled_without_table():
     from src.services import usage_guard
 
     usage_guard.consume(2)  # no TABLE_NAME in tests: must not raise
+
+
+def test_gap_alert_lists_programs_without_a_record(monkeypatch):
+    engine = EligibilityEngine()
+    html = APPLE_INDEX_HTML.replace(
+        "</ul>", '<li><a href="/d">iPad Pro Service Program for Display Issue</a> October 1, 2026</li></ul>'
+    )
+    monkeypatch.setattr(
+        source_watch, "fetch",
+        lambda url, timeout=15: {"http_status": 200, "html": html if url == source_watch.APPLE_INDEX_URL else "<p>ok</p>"},
+    )
+    idx = run_check(engine.records, previous={})["apple_index"]
+    assert idx["uncovered_service_programs"] == ["iPad Pro Service Program for Display Issue"]
+    assert idx["uncovered_recall_or_exchange_programs"] == ["15-inch MacBook Pro Battery Recall Program"]
+    # The Mac mini program now has a record, so it is not reported as a gap.
+    assert "Mac mini Service Program for No Power Issue" not in idx["uncovered_service_programs"]

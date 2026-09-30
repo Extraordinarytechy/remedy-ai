@@ -114,7 +114,18 @@ def run_check(records: Dict[str, Dict[str, Any]], previous: Dict[str, Dict[str, 
             status["listed_on_apple_index"] = (_normalise_title(rec["program_name"]) in listed) if titles else None
         out[rid] = status
         out[rid]["_text"] = text  # kept in memory only, for snapshots
+
+    # Gap alert: programs Apple lists that RemedyAI has no record for. Repair programs need a
+    # person to verify and add a record; recall and exchange programs are reported separately.
+    covered = {_normalise_title(r.get("program_name", "")) for r in records.values()}
+    uncovered = [t for t in titles if _normalise_title(t) not in covered]
+    out["apple_index"]["uncovered_service_programs"] = [t for t in uncovered if not is_recall_or_exchange(t)]
+    out["apple_index"]["uncovered_recall_or_exchange_programs"] = [t for t in uncovered if is_recall_or_exchange(t)]
     return out
+
+
+def is_recall_or_exchange(title: str) -> bool:
+    return bool(re.search(r"\b(recall|exchange)\b", title, re.IGNORECASE))
 
 
 # ---------------------------------------------------------------------------
