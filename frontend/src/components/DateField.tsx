@@ -12,8 +12,7 @@ interface Props {
   required?: boolean;
 }
 
-const fieldCls =
-  'w-full rounded-lg bg-slate-950 border border-slate-600 pl-3 pr-12 py-2.5 text-[15px] text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400';
+const fieldCls = 'field pr-12';
 
 /**
  * A date the user can type (in several formats) or pick from the browser's calendar.
@@ -59,7 +58,7 @@ export function DateField({ label, value, onChange, country, hint, error, requir
 
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="block text-sm font-medium text-slate-100">{label}</label>
+      <label htmlFor={id} className="label">{label}</label>
       <div className="relative">
         <input
           id={id}
@@ -78,7 +77,7 @@ export function DateField({ label, value, onChange, country, hint, error, requir
         <button
           type="button"
           onClick={openPicker}
-          className="absolute right-1 top-1/2 -translate-y-1/2 w-10 h-10 inline-flex items-center justify-center rounded-md text-sky-300 hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+          className="absolute right-1 top-1/2 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-lg text-accent-text hover:bg-accent-soft"
           aria-label={`Choose ${label.toLowerCase()} from a calendar`}
           title="Open calendar"
         >
@@ -96,11 +95,11 @@ export function DateField({ label, value, onChange, country, hint, error, requir
           className="absolute right-1 bottom-0 w-10 h-1 opacity-0 pointer-events-none"
         />
       </div>
-      <p id={`${id}-read`} className="text-sm text-slate-400" aria-live="polite">
+      <p id={`${id}-read`} className="text-sm font-medium text-accent-text" aria-live="polite">
         {parsed && !future ? `Read as ${formatIso(parsed)}` : ''}
       </p>
-      {hint && <p id={`${id}-hint`} className="text-sm text-slate-400">{hint}</p>}
-      {shownError && <p id={`${id}-err`} role="alert" className="text-sm text-rose-300">{shownError}</p>}
+      {hint && <p id={`${id}-hint`} className="hint">{hint}</p>}
+      {shownError && <p id={`${id}-err`} role="alert" className="text-sm font-medium text-bad-ink">{shownError}</p>}
     </div>
   );
 }

@@ -1,7 +1,173 @@
 @import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+/* Dark mode is a class on <html>, set by /theme-init.js before first paint and by the toggle. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Design tokens. Components use these names (bg-canvas, text-ink, border-line, bg-accent ...),
+ * so both themes stay consistent and contrast is decided in one place.
+ */
+@theme inline {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --color-canvas: var(--c-canvas);
+  --color-surface: var(--c-surface);
+  --color-subtle: var(--c-subtle);
+  --color-line: var(--c-line);
+  --color-line-strong: var(--c-line-strong);
+  --color-ink: var(--c-ink);
+  --color-muted: var(--c-muted);
+  --color-faint: var(--c-faint);
+  --color-accent: var(--c-accent);
+  --color-accent-hover: var(--c-accent-hover);
+  --color-accent-ink: var(--c-accent-ink);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-accent-text: var(--c-accent-text);
+  --color-good-soft: var(--c-good-soft);
+  --color-good-ink: var(--c-good-ink);
+  --color-warn-soft: var(--c-warn-soft);
+  --color-warn-ink: var(--c-warn-ink);
+  --color-warn-line: var(--c-warn-line);
+  --color-bad-soft: var(--c-bad-soft);
+  --color-bad-ink: var(--c-bad-ink);
+}
+
+:root {
+  color-scheme: light;
+  --c-canvas: #f7f7f5;
+  --c-surface: #ffffff;
+  --c-subtle: #f1f2ef;
+  --c-line: #e4e5e0;
+  --c-line-strong: #cfd2ca;
+  --c-ink: #0e1a16;
+  --c-muted: #4b5751;
+  --c-faint: #66726c;
+  --c-accent: #0f6f63;
+  --c-accent-hover: #0b5a50;
+  --c-accent-ink: #ffffff;
+  --c-accent-soft: #e3f3ef;
+  --c-accent-text: #0c6258;
+  --c-good-soft: #e3f5e9;
+  --c-good-ink: #14622f;
+  --c-warn-soft: #fdf3dc;
+  --c-warn-ink: #7a4b06;
+  --c-warn-line: #ecd29a;
+  --c-bad-soft: #fde8ea;
+  --c-bad-ink: #8f1d2c;
+}
+
+.dark {
+  color-scheme: dark;
+  --c-canvas: #0a0f0d;
+  --c-surface: #111916;
+  --c-subtle: #16201c;
+  --c-line: #22302b;
+  --c-line-strong: #33443d;
+  --c-ink: #e9f1ed;
+  --c-muted: #aab8b1;
+  --c-faint: #8d9c95;
+  --c-accent: #3ecfb1;
+  --c-accent-hover: #6adcc4;
+  --c-accent-ink: #062520;
+  --c-accent-soft: #10302a;
+  --c-accent-text: #6fe0c8;
+  --c-good-soft: #10291a;
+  --c-good-ink: #86e0a6;
+  --c-warn-soft: #2b2310;
+  --c-warn-ink: #f1cf83;
+  --c-warn-line: #5b4a1f;
+  --c-bad-soft: #2d1418;
+  --c-bad-ink: #f5a3ae;
+}
 
 @layer base {
-  body {
-    @apply bg-slate-950 text-slate-100 antialiased min-h-screen selection:bg-indigo-500 selection:text-white font-sans;
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
+  body {
+    @apply bg-canvas text-ink antialiased min-h-screen font-sans;
+    font-feature-settings: "cv11", "ss01";
+  }
+  :focus-visible {
+    outline: 2px solid var(--c-accent);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--c-accent-soft);
+    color: var(--c-ink);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+  .card {
+    @apply rounded-3xl border border-line bg-surface;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.14em] text-accent-text;
+  }
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 text-[15px] font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-45;
+  }
+  .btn-primary {
+    @apply bg-accent text-accent-ink hover:bg-accent-hover;
+  }
+  .btn-secondary {
+    @apply border border-line-strong bg-surface text-ink hover:bg-subtle;
+  }
+  .btn-ghost {
+    @apply px-3 text-accent-text hover:bg-accent-soft;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-xs font-medium text-muted;
+  }
+  .field {
+    @apply w-full rounded-xl border border-line-strong bg-surface px-3.5 py-2.5 text-[15px] text-ink placeholder:text-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30;
+  }
+  .label {
+    @apply block text-sm font-semibold text-ink;
+  }
+  .hint {
+    @apply text-sm text-faint;
+  }
+  .link {
+    @apply font-medium text-accent-text underline decoration-1 underline-offset-2 hover:decoration-2;
+  }
+  .disclosure {
+    @apply rounded-2xl border border-line bg-surface;
+  }
+  .disclosure > summary {
+    @apply flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-4 font-semibold text-ink;
+  }
+  .disclosure > summary::-webkit-details-marker {
+    display: none;
+  }
+  .disclosure > summary::after {
+    content: "";
+    @apply size-2.5 shrink-0 rotate-45 border-r-2 border-b-2 border-faint transition-transform;
+  }
+  .disclosure[open] > summary::after {
+    @apply -rotate-135;
+  }
+}
+
+dialog::backdrop {
+  background: rgb(8 14 12 / 0.55);
+  backdrop-filter: blur(2px);
 }

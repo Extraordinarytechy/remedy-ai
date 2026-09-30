@@ -13,8 +13,7 @@ interface Props {
   maxLength: number;
 }
 
-const fieldCls =
-  'w-full rounded-lg bg-slate-950 border border-slate-600 px-3 py-2.5 text-[15px] text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400';
+const fieldCls = 'field';
 
 /** Text input with a suggestion list (WAI-ARIA combobox pattern). Free text is always allowed. */
 export function Combobox({ label, hint, value, onChange, suggestions, placeholder, required, multiline, maxLength }: Props) {
@@ -70,7 +69,7 @@ export function Combobox({ label, hint, value, onChange, suggestions, placeholde
 
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="block text-sm font-medium text-slate-100">
+      <label htmlFor={id} className="label">
         {label}
       </label>
       <div className="relative">
@@ -92,7 +91,7 @@ export function Combobox({ label, hint, value, onChange, suggestions, placeholde
             id={listId}
             role="listbox"
             aria-label={`Suggestions for ${label}`}
-            className="absolute z-20 mt-1 w-full max-h-60 overflow-auto rounded-lg border border-slate-600 bg-slate-900 shadow-xl"
+            className="absolute z-20 mt-1.5 max-h-64 w-full overflow-auto rounded-2xl border border-line bg-surface p-1 shadow-xl"
           >
             {matches.map((s, i) => (
               <li
@@ -102,10 +101,10 @@ export function Combobox({ label, hint, value, onChange, suggestions, placeholde
                 aria-selected={i === active}
                 onMouseDown={(e) => { e.preventDefault(); pick(s); }}
                 onMouseEnter={() => setActive(i)}
-                className={`px-3 py-2.5 text-[15px] cursor-pointer flex items-center justify-between gap-3 ${i === active ? 'bg-sky-700 text-white' : 'text-slate-100'}`}
+                className={`flex cursor-pointer items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-[15px] ${i === active ? 'bg-accent-soft text-ink' : 'text-ink'}`}
               >
                 <Highlight text={s.value} query={value} />
-                {s.note && <span className="text-xs text-emerald-300 shrink-0">{s.note}</span>}
+                {s.note && <span className="shrink-0 text-xs font-medium text-accent-text">{s.note}</span>}
               </li>
             ))}
           </ul>
@@ -114,7 +113,7 @@ export function Combobox({ label, hint, value, onChange, suggestions, placeholde
       <p className="sr-only" aria-live="polite">
         {show ? `${matches.length} suggestion${matches.length === 1 ? '' : 's'} available. Use the arrow keys to choose.` : ''}
       </p>
-      {hint && <p id={hintId} className="text-sm text-slate-400">{hint}</p>}
+      {hint && <p id={hintId} className="hint">{hint}</p>}
     </div>
   );
 }

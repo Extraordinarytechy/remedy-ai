@@ -11,11 +11,11 @@ export const STATUS_LABEL: Record<RouteStatus, { text: string; tone: string }> =
 };
 
 export const TONE_CLASSES: Record<string, string> = {
-  emerald: 'bg-emerald-500/15 text-emerald-200 border-emerald-400/40',
-  sky: 'bg-sky-500/15 text-sky-200 border-sky-400/40',
-  amber: 'bg-amber-500/15 text-amber-200 border-amber-400/40',
-  rose: 'bg-rose-500/15 text-rose-200 border-rose-400/40',
-  slate: 'bg-slate-700/60 text-slate-100 border-slate-500',
+  emerald: 'bg-good-soft text-good-ink border-transparent',
+  sky: 'bg-accent-soft text-accent-text border-transparent',
+  amber: 'bg-warn-soft text-warn-ink border-warn-line',
+  rose: 'bg-bad-soft text-bad-ink border-transparent',
+  slate: 'bg-subtle text-muted border-line',
 };
 
 export const ROUTE_TYPE_LABEL = {
