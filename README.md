@@ -15,6 +15,9 @@ Built for the **AWS Zero to Shipped** hackathon. Tags: `#daily-life-enhancement`
 - Every result carries a **timeline**: purchase, failure and claim dates, plus each option's deadline.
 - **Receipt checks** (`backend/src/engine/case_checks.py`) compare a Textract-read receipt with what the user typed. A currency printed on the receipt that doesn't fit the chosen country (e.g. `$` for a UK purchase) is a hard check: the consumer-law option is held and the claim PDF refused until the user confirms. A different receipt date or store is a soft check: shown and printed, never blocking. Country is never inferred from currency.
 - **UK regions**: England and Wales and Northern Ireland use 6 years, Scotland 5.
+- **Key wording**: a record can list `watch_phrases`, the exact sentences it relies on. Source Watch then tracks only those lines (ignoring unrelated page edits) and downgrades the route if they disappear. Used for Visa's long benefits page.
+- **Gap alert**: Source Watch compares Apple's service-program list with the corpus and reports any repair program RemedyAI has no record for (recall and exchange programs are listed separately).
+- **Deadlines to calendar**: each option's deadline can be saved as an `.ics` calendar event (reminders 14 days and 1 day before), built in the browser. Dates can be typed in common formats or picked from a calendar.
 
 ## Security and privacy
 - The claim PDF is built from the server's own evaluation; an evaluation sent by the browser is ignored. All text in the PDF is escaped.
@@ -26,6 +29,8 @@ Built for the **AWS Zero to Shipped** hackathon. Tags: `#daily-life-enhancement`
 
 | Record | Source | Human check | Notes |
 | :--- | :--- | :--- | :--- |
+| Apple One (1) Year Limited Warranty (iPhone, iPad, iPod, Apple TV, HomePod, Vision Pro; U.S.) | [Apple](https://www.apple.com/legal/warranty/products/ios-warranty-document-us.html) | 2026-09-30 | Defects in materials and workmanship for 1 year from original retail purchase; claim during the Warranty Period. Covers new launches such as iPhone 18 Pro. Accidental damage not covered. |
+| Mac mini Service Program for No Power Issue | [Apple](https://support.apple.com/mac-mini-2023-service-program-for-no-power-issue) | 2026-09-30 | On Apple's index. Mac mini (2023, M2) made Jun 16 to Nov 23, 2024. 3 years from first retail sale. Serial check required. |
 | iPhone 14 Plus Service Program for Rear Camera Issue | [Apple](https://support.apple.com/iphone-14-plus-service-program-for-rear-camera-issue) | 2026-09-29 | On Apple's index. Units made Apr 10, 2023 to Apr 28, 2024. 3 years from first retail sale. Serial check required. Refund possible if already paid. |
 | iPhone 12 / 12 Pro Service Program for No Sound Issues | [Apple](https://support.apple.com/en-in/iphone-12-and-iphone-12-pro-service-program-for-no-sound-issues) | 2026-09-29 | Page live, **not on Apple's index**. Nearly all units past the window. |
 | Visa Infinite Extended Warranty Protection | [Visa](https://www.visa.com/en-us/personal/cards/credit/visa-infinite) | 2026-09-30 | +1 year on eligible warranties of 3 years or less. Issuer's Guide to Benefits governs limits and deadlines. |
@@ -55,7 +60,7 @@ Everything is one AWS SAM template (`template.yaml`).
 ```bash
 cd backend
 pip install -r requirements-dev.txt
-python -m pytest tests -q                    # 74 tests
+python -m pytest tests -q                    # 89 tests
 python -m uvicorn src.app:app --port 8080    # use another port if 8080 is taken; update frontend/vite.config.ts
 ```
 ```bash

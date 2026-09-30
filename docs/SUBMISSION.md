@@ -24,10 +24,12 @@ If a receipt photo was read, RemedyAI also **checks it against what you typed**.
 
 If no source covers the case, it says so: `NO VERIFIED COVERAGE FOUND`, plus the sources it checked that did not apply and why.
 
-Four routes today, from three kinds of source:
+Six routes today, from four kinds of source:
 
 | Route | Source | Status in RemedyAI |
 | --- | --- | --- |
+| Apple One (1) Year Limited Warranty (U.S.; iPhone, iPad and other iOS devices) | Apple | Covers new launches such as iPhone 18 Pro (on sale September 18, 2026): defects for one year from purchase, claimed during the year. Accidental damage is not covered |
+| Mac mini (2023, M2) no-power program | Apple | Active, on Apple's index since June 2025; serial check required. Found missing on 2026-09-30, verified by a person and added |
 | iPhone 14 Plus rear camera program | Apple | Active; requires Apple's serial check, so RemedyAI never says "eligible", only "possible: check your serial number" |
 | iPhone 12 / 12 Pro no-sound program | Apple | Page still online, **not on Apple's index**; nearly every unit is past its window |
 | Visa Infinite extended warranty (+1 year on warranties of 3 years or less) | Visa | Issuer's Guide to Benefits governs; RemedyAI shows only what Visa's page states |
@@ -44,7 +46,9 @@ A static warranty database goes stale quietly. We found this out the hard way (s
 
 The Source Watch table is on the home page, so anyone can see when each source was last checked by a person and by the machine.
 
-It has already done its job once. On 2026-09-30 it recorded that the text of Visa's Visa Infinite page had changed since the last human check. A person re-read the page: the Extended Warranty wording (one extra year on eligible warranties of 3 years or less) was unchanged, so the record's human-check date was updated. Until then, the Visa option carried a warning saying the page had changed.
+It also compares Apple's list with the corpus and publishes a **gap alert**: any repair program Apple lists that RemedyAI has no record for. That check exists because the Mac mini (2023) no-power program had been on Apple's list since June 2025 without a RemedyAI record; a person verified its page and added it on 2026-09-30.
+
+It has already done its job, and taught us something. On 2026-09-30 it recorded that the text of Visa's Visa Infinite page had changed since the last human check. A person re-read the page: the Extended Warranty wording (one extra year on eligible warranties of 3 years or less) was unchanged, so the record's human-check date was updated. The page then changed again the same day, for reasons unrelated to that benefit. Watching a whole marketing page is noisy, so a record can now name the exact sentence it relies on: Source Watch tracks only that sentence and downgrades the option to "check it first" if the sentence disappears.
 
 ## How it's built
 
@@ -92,7 +96,8 @@ It has already done its job once. On 2026-09-30 it recorded that the text of Vis
 - RemedyAI stores nothing a user enters: no accounts, cookies, analytics or saved cases.
 - Photos are optional. Before anything is uploaded the form asks the user to cover their name, address, card number and faces, and the upload button stays disabled until they tick a box. Photos are re-encoded in the browser, which removes GPS metadata, and are only sent when the user presses "Read photos".
 - The site has a plain-language privacy section covering what is used, who processes it (AWS, US East), what is kept (nothing; error logs hold only error types for 14 days) and how the per-visitor limit works.
-- Typing is always an option, and the form suggests products, stores, payment methods and fault descriptions as you type. The suggestions are bundled with the site, so nothing is sent while typing.
+- Typing is always an option, and the form suggests products, stores, payment methods and fault descriptions as you type. The suggestions are bundled with the site, so nothing is sent while typing. Dates can be typed in common formats or picked from a calendar.
+- **No sign-up, on purpose.** Accounts would mean storing names and emails for no benefit to a one-off check. Deadline reminders come from an "Add to my calendar" file built in the browser instead, so RemedyAI still stores nothing. Optional accounts only make sense later, for tracked claims.
 
 ## How the coding agent built and shipped it
 
@@ -128,7 +133,7 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 | Whether your iPhone 14 Plus serial is in Apple's affected range | Only Apple's serial checker knows. RemedyAI sends you there |
 | Your device's first retail sale date | If it was bought used or refurbished, the 3-year window may have started before your purchase |
 | Your card issuer's exact terms | Visa's page defers to the issuer's Guide to Benefits |
-| Every program that exists | Four verified routes today. Adding one means verifying its source by hand first |
+| Every program that exists | Six verified routes today. Adding one means verifying its source by hand first. Source Watch flags Apple programs that have no record yet |
 | Whether a changed page changed the terms | Source Watch detects that text changed, not what the change means. A person re-verifies |
 
 ## Cost
