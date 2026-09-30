@@ -101,6 +101,16 @@ class EligibilityEngine:
         matched_routes: List[MatchedRoute] = []
         notes: List[str] = []
 
+        # 0. Manufacturer's own warranty, while it still runs (data-driven)
+        for record in self.records.values():
+            if record.get("category") != "manufacturer_warranty":
+                continue
+            route, note = self._evaluate_manufacturer_warranty(case, record, p_date, f_date, as_of)
+            if route:
+                matched_routes.append(route)
+            if note:
+                notes.append(note)
+
         # 1. Manufacturer service programs (data-driven: every record in the category)
         for record in self.records.values():
             if record.get("category") != "manufacturer_service_program":
@@ -173,7 +183,13 @@ class EligibilityEngine:
             "Verify if another credit card with extended warranty protections was used for the purchase.",
             "Check for independent certified repair options if official replacement cost exceeds item value.",
         ]
-        if years_elapsed <= case.original_warranty_years:
+        warranty_record_applies = any(
+            r.get("category") == "manufacturer_warranty"
+            and (not r.get("countries") or (case.purchase_country or "").upper() in r["countries"])
+            and self._device_matches(case, r)
+            for r in self.records.values()
+        )
+        if years_elapsed <= case.original_warranty_years and not warranty_record_applies:
             notes.append(
                 f"The failure occurred {years_elapsed:.2f} years after purchase, which appears to be inside the "
                 f"{case.original_warranty_years:.1f}-year original manufacturer warranty. That warranty is not part of "
@@ -262,6 +278,85 @@ class EligibilityEngine:
     # ------------------------------------------------------------------
     # Route evaluators
     # ------------------------------------------------------------------
+    def _evaluate_manufacturer_warranty(
+        self,
+        case: NormalizedCase,
+        record: Dict[str, Any],
+        p_date: date,
+        f_date: date,
+        as_of: date,
+    ) -> Tuple[Optional[MatchedRoute], Optional[str]]:
+        country = (case.purchase_country or "").strip().upper()
+        if record.get("countries") and country not in record["countries"]:
+            return None, None
+        if not self._device_matches(case, record):
+            return None, None
+
+        program = record["program_name"]
+        years = float(record.get("warranty_years", 1))
+        warranty_end = add_years(p_date, years)
+        if f_date > warranty_end:
+            return None, None  # the fault appeared after the warranty; other routes may apply
+        if as_of > warranty_end:
+            return None, (
+                f"{program}: the fault appeared on {f_date.isoformat()}, inside the warranty, but the warranty "
+                f"ended on {warranty_end.isoformat()} and claims must be made during it. Contact Apple anyway, "
+                "and check the other options below."
+            )
+
+        exceptions = list(record.get("exclusions_and_caveats", []))
+        if case.visual_evidence and case.visual_evidence.visible_physical_damage:
+            exceptions.insert(
+                0,
+                "Visible physical damage was recorded in the evidence photo. Apple's warranty does not cover damage "
+                "caused by accident or other external causes; AppleCare coverage, if you have it, may.",
+            )
+        days_left = (warranty_end - as_of).days
+        evidence_items = [
+            f"Warranty ends {warranty_end.isoformat()} ({years:.0f} year from the {p_date.isoformat()} purchase); "
+            f"{days_left} days remain as of the claim date {as_of.isoformat()}.",
+            f"Dates: purchased {p_date.isoformat()}, fault appeared {f_date.isoformat()}, claim date {as_of.isoformat()}.",
+            f"Device named in case: {case.product_name} (bought in {country}).",
+            f"Reported fault: '{case.defect_description}'.",
+        ]
+        provenance = ProvenanceChain(
+            claim=f"Covered by the {program} if the fault is a defect: Apple will repair, replace or refund at its option.",
+            why_matched=(
+                f"The case names a device this warranty covers ({case.product_name}), bought in {country}, and the claim "
+                f"date {as_of.isoformat()} is inside the one-year Warranty Period, which ends {warranty_end.isoformat()}."
+            ),
+            evidence=evidence_items,
+            source_citation=program,
+            source_url=record["source_url"],
+            conditions=record.get("mandatory_conditions", []),
+            exceptions=exceptions,
+        )
+        return (
+            MatchedRoute(
+                route_id=record["id"],
+                route_type="manufacturer_warranty",
+                title=program,
+                provider=record["issuer_or_brand"],
+                status="POTENTIALLY_ELIGIBLE",
+                summary=f"{record.get('issuer_or_brand')} warrants the product against {record.get('coverage', '').lower()}. "
+                        f"Remedy: {record.get('remedy')}.",
+                primary_source={"title": program, "url": record["source_url"], "verified_at": record.get("verified_at", "")},
+                provenance=provenance,
+                recommended_action=(
+                    f"Contact Apple Support, or visit an Apple Store or Apple Authorized Service Provider, before "
+                    f"{warranty_end.isoformat()}. To see your coverage, open Settings > General > AppleCare & Warranty "
+                    "on the device, or sign in at mysupport.apple.com. Back up the device first and have proof of purchase ready."
+                ),
+                deadline=warranty_end.isoformat(),
+                deadline_label="Apple's warranty ends",
+                related_sources=[{
+                    "title": "Apple Support: Find information about your warranty or AppleCare plan",
+                    "url": "https://support.apple.com/102607",
+                }],
+            ),
+            None,
+        )
+
     def _evaluate_service_program(
         self,
         case: NormalizedCase,

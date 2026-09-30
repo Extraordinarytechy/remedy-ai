@@ -1,0 +1,61 @@
+{
+  "id": "apple_mac_mini_2023_no_power_2025",
+  "category": "manufacturer_service_program",
+  "issuer_or_brand": "Apple Inc.",
+  "program_name": "Mac mini Service Program for No Power Issue",
+  "source_url": "https://support.apple.com/mac-mini-2023-service-program-for-no-power-issue",
+  "source_information_as_of": "2025-06-13",
+  "verified_at": "2026-09-30",
+  "listed_on_apple_service_programs_index": true,
+  "applicable_devices": [
+    "Mac mini (2023)",
+    "Mac mini 2023",
+    "Mac mini M2",
+    "Mac mini (M2"
+  ],
+  "display_names": [
+    "Mac mini (2023, M2 chip)"
+  ],
+  "excluded_devices": [
+    "M2 Pro",
+    "Mac mini M1",
+    "Mac mini M4",
+    "Mac mini (2020)",
+    "Mac mini (2024)",
+    "Mac mini 2024"
+  ],
+  "manufacturing_window_start": "2024-06-16",
+  "manufacturing_window_end": "2024-11-23",
+  "manufacturing_window": "June 16, 2024 to November 23, 2024",
+  "coverage_window_years_from_sale": 3,
+  "symptom": "Mac mini may no longer power on",
+  "symptom_keywords": [
+    "no power",
+    "won't turn on",
+    "wont turn on",
+    "will not turn on",
+    "doesn't turn on",
+    "does not turn on",
+    "won't power on",
+    "will not power on",
+    "does not power on",
+    "no longer power",
+    "not powering on",
+    "not turning on"
+  ],
+  "requires_serial_check": true,
+  "refund_for_prior_paid_repair": false,
+  "remedy": "Service free of charge by Apple or an Apple Authorized Service Provider",
+  "mandatory_conditions": [
+    "Device must be a Mac mini (2023) with the M2 chip (no other Mac mini models are part of this program)",
+    "Device serial number must be confirmed as eligible using Apple's serial number checker on the program page",
+    "Device will be examined prior to any service to verify that it is eligible for this program",
+    "Service must be obtained within three years after the first retail sale of the unit"
+  ],
+  "exclusions_and_caveats": [
+    "Any damage which impairs the ability to complete the repair will need to be resolved first; in some cases there may be a cost associated with the additional repair",
+    "Apple may restrict or limit repair to the original country or region of purchase",
+    "This program does not extend the standard warranty coverage of the Mac mini",
+    "The three-year window runs from the first retail sale of the unit, which may be earlier than your purchase date if the device was bought used or refurbished"
+  ]
+}

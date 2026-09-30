@@ -1,0 +1,40 @@
+{
+  "id": "apple_one_year_limited_warranty_ios_us",
+  "category": "manufacturer_warranty",
+  "issuer_or_brand": "Apple Inc.",
+  "program_name": "Apple One (1) Year Limited Warranty (iPhone, iPad, iPod, Apple TV, HomePod, Apple Vision Pro; U.S.)",
+  "source_url": "https://www.apple.com/legal/warranty/products/ios-warranty-document-us.html",
+  "verified_at": "2026-09-30",
+  "countries": ["US"],
+  "warranty_years": 1,
+  "applicable_devices": [
+    "iPhone",
+    "iPad",
+    "iPod",
+    "Apple TV",
+    "HomePod",
+    "Apple Vision Pro",
+    "Vision Pro"
+  ],
+  "display_names": [
+    "Apple iPhone 18 Pro",
+    "Apple iPhone 18 Pro Max"
+  ],
+  "excluded_devices": [],
+  "coverage": "Defects in materials and workmanship when used normally in accordance with Apple's published guidelines, for one year from the date of original retail purchase by the end-user purchaser",
+  "remedy": "At Apple's option: repair, replacement with the same model (or with your consent a substantially similar product), or a refund of the purchase price",
+  "mandatory_conditions": [
+    "The claim is submitted to Apple or an Apple Authorized Service Provider during the one-year Warranty Period",
+    "The fault is a defect in materials or workmanship, with the product used normally in line with Apple's published guidelines",
+    "Apple or its agents may require proof of purchase details and may ask diagnostic questions before service",
+    "Back up the device first: the storage is erased during warranty service"
+  ],
+  "exclusions_and_caveats": [
+    "Not covered: damage caused by accident, abuse, misuse, fire, liquid contact, earthquake or other external cause",
+    "Not covered: cosmetic damage (scratches, dents, broken plastic on ports) and batteries or coatings that diminish over time, unless the failure is due to a defect in materials or workmanship",
+    "Not covered: damage from service by anyone other than Apple or an Apple Authorized Service Provider, or a product modified without Apple's written permission",
+    "Not covered: defects caused by normal wear and tear or normal aging",
+    "Apple may restrict warranty service for iPhone, iPad, Apple TV, HomePod and Apple Vision Pro to the country where the device was originally sold",
+    "This is the U.S. version of Apple's warranty. Other countries have their own version, and consumer law may give you further rights"
+  ]
+}

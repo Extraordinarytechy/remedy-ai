@@ -93,7 +93,7 @@ class ProvenanceChain(BaseModel):
 
 class MatchedRoute(BaseModel):
     route_id: str
-    route_type: Literal["manufacturer_service_program", "card_benefit", "statutory_consumer_law"]
+    route_type: Literal["manufacturer_warranty", "manufacturer_service_program", "card_benefit", "statutory_consumer_law"]
     title: str
     provider: str
     status: Literal[
