@@ -146,5 +146,5 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 ## Where it goes next (Startups lane)
 
 - **First users:** people whose warranty just ended (device forums, repair shops that see these faults daily).
-- **Corpus growth:** each new route is a JSON record plus a Source Watch entry, verified by a person before it goes live. Next: other active Apple programs, other card networks, EU 2-year guarantees.
+- **Corpus growth:** each new route is a JSON record plus a Source Watch entry, verified by a person before it goes live. The home page lists what is covered today (built from the same records the engine uses) and what is planned: new Apple programs as they appear, Samsung and Google programs, Mastercard and American Express benefits, the EU 2-year guarantee, and consumer law in more countries.
 - **Business model:** free checks; paid tracked claims (deadline reminders, follow-up letters). Repair shops and card issuers are the partner channel: both benefit when a covered repair is claimed instead of paid out of pocket.
