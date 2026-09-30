@@ -76,7 +76,7 @@ export interface SourceCheck {
 
 export interface MatchedRoute {
   route_id: string;
-  route_type: 'manufacturer_service_program' | 'card_benefit' | 'statutory_consumer_law';
+  route_type: 'manufacturer_warranty' | 'manufacturer_service_program' | 'card_benefit' | 'statutory_consumer_law';
   title: string;
   provider: string;
   status: RouteStatus;
@@ -132,6 +132,8 @@ export interface SourcesResponse {
     titles: string[];
     added_since_last_check: string[];
     removed_since_last_check: string[];
+    uncovered_service_programs?: string[];
+    uncovered_recall_or_exchange_programs?: string[];
   } | null;
 }
 

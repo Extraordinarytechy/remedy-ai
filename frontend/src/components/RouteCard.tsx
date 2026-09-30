@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { AlertTriangle, CalendarClock, Check, ClipboardList, Copy, Download, ExternalLink, RefreshCw } from 'lucide-react';
+import { AlertTriangle, CalendarClock, CalendarPlus, Check, ClipboardList, Copy, Download, ExternalLink, RefreshCw } from 'lucide-react';
 import type { MatchedRoute, NormalizedCase } from '../types';
+import { deadlineIcs } from '../dates';
 import { ROUTE_TYPE_LABEL, STATUS_LABEL, TONE_CLASSES, daysLeftText, humanDate, shortDate } from './labels';
 
 interface Props {
@@ -17,6 +18,27 @@ export function RouteCard({ route, index, c, onDownload, downloading, pdfAllowed
   const status = STATUS_LABEL[route.status];
   const check = route.source_check;
   const serialCheck = route.status === 'PENDING_SERIAL_VERIFICATION';
+
+  // Builds a calendar file in the browser: an all-day event on the deadline with reminders
+  // 14 days and 1 day before. Nothing is sent or stored.
+  const addToCalendar = () => {
+    if (!route.deadline) return;
+    const ics = deadlineIcs({
+      deadline: route.deadline,
+      title: `Deadline: ${route.deadline_label ?? 'claim'} (${c.product_name})`,
+      description:
+        `${route.title}\n${route.deadline_label}: ${humanDate(route.deadline)}.\n\nWhat to do: ${route.recommended_action}\n\n` +
+        `Official source: ${route.primary_source.url}\nPrepared with RemedyAI. Not legal advice.`,
+      url: route.primary_source.url,
+      uid: `${route.route_id}-${route.deadline}-${c.case_id}`,
+    });
+    const url = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `RemedyAI_deadline_${route.deadline}.ics`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
 
   const copyLetter = async () => {
     const letter =
@@ -71,12 +93,20 @@ export function RouteCard({ route, index, c, onDownload, downloading, pdfAllowed
       </section>
 
       {route.deadline && (
-        <section className="flex items-start gap-3">
-          <CalendarClock className="w-5 h-5 text-slate-300 shrink-0 mt-0.5" aria-hidden="true" />
+        <section className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <CalendarClock className="w-5 h-5 text-slate-300 shrink-0" aria-hidden="true" />
           <p className="text-[15px] text-slate-100">
             <span className="font-semibold">{route.deadline_label}:</span> {humanDate(route.deadline)}
             {route.days_left != null && <span className="text-slate-300"> ({daysLeftText(route.days_left)})</span>}
           </p>
+          {(route.days_left ?? 0) >= 0 && (
+            <button
+              onClick={addToCalendar}
+              className="inline-flex items-center gap-2 min-h-10 px-3 rounded-lg border border-slate-600 text-sky-200 hover:bg-slate-800 text-sm font-medium"
+            >
+              <CalendarPlus className="w-4 h-4" aria-hidden="true" /> Add to my calendar
+            </button>
+          )}
         </section>
       )}
 

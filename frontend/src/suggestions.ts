@@ -15,6 +15,7 @@ interface KnowledgeRecord {
   category?: string;
   issuer_or_brand?: string;
   applicable_devices?: string[];
+  display_names?: string[];
   listed_on_apple_service_programs_index?: boolean;
 }
 
@@ -25,17 +26,25 @@ const records = Object.values(
 const brandOf = (issuer?: string) => (issuer ?? '').replace(/\s+Inc\.?$/, '').trim();
 
 /** Products named by a manufacturer program record. Only currently listed programs get the label. */
-export const COVERED_PRODUCTS: Suggestion[] = records
+const PROGRAM_PRODUCTS: Suggestion[] = records
   .filter((r) => r.category === 'manufacturer_service_program')
   .flatMap((r) =>
-    (r.applicable_devices ?? []).map((d) => ({
+    (r.display_names ?? r.applicable_devices ?? []).map((d) => ({
       value: `${brandOf(r.issuer_or_brand)} ${d}`.trim(),
       note: r.listed_on_apple_service_programs_index === false ? 'program no longer listed' : 'has a verified program',
     })),
   );
 
+/** Newest models named by a manufacturer warranty record (e.g. iPhone 18 Pro). */
+const WARRANTY_PRODUCTS: Suggestion[] = records
+  .filter((r) => r.category === 'manufacturer_warranty')
+  .flatMap((r) => (r.display_names ?? []).map((value) => ({ value, note: 'in 1-year warranty if new (US)' })));
+
+export const COVERED_PRODUCTS: Suggestion[] = [...WARRANTY_PRODUCTS, ...PROGRAM_PRODUCTS];
+
 const COMMON_PRODUCTS = [
-  'Apple iPhone 15', 'Apple iPhone 14', 'Apple iPhone 14 Pro', 'Apple iPhone 13', 'Apple MacBook Air', 'Apple AirPods Pro',
+  'Apple iPhone 17', 'Apple iPhone 16', 'Apple iPhone 15', 'Apple iPhone 14', 'Apple iPhone 14 Pro', 'Apple iPhone 13',
+  'Apple iPad', 'Apple MacBook Air', 'Apple AirPods Pro',
   'Samsung Galaxy S24', 'Samsung Galaxy S23', 'Samsung 55-inch 4K TV', 'Samsung washing machine',
   'Google Pixel 8', 'Google Pixel 7',
   'Sony WH-1000XM5 headphones', 'Sony WH-1000XM4 headphones', 'Sony 55-inch Bravia TV', 'Sony PlayStation 5',
@@ -96,6 +105,10 @@ const FAULTS: { match: RegExp; phrases: string[] }[] = [
       'Noise cancelling stopped working',
       'Will not charge or hold a charge',
     ],
+  },
+  {
+    match: /mac mini|imac|mac studio/i,
+    phrases: ['Will not turn on (no power)', 'Turns off by itself', 'No display output', 'Fan is very loud'],
   },
   {
     match: /laptop|macbook|xps|thinkpad|computer/i,

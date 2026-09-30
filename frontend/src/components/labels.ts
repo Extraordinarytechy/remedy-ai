@@ -19,6 +19,7 @@ export const TONE_CLASSES: Record<string, string> = {
 };
 
 export const ROUTE_TYPE_LABEL = {
+  manufacturer_warranty: "The maker's own warranty",
   manufacturer_service_program: 'Free repair program from the maker',
   card_benefit: 'Benefit from the card you paid with',
   statutory_consumer_law: 'Your rights under consumer law',
@@ -35,6 +36,8 @@ export function verdictFor(route: MatchedRoute): string {
   if (route.status === 'NEEDS_CONFIRMATION') return 'Confirm where you bought it before relying on this option.';
   if (route.status === 'NEEDS_REVERIFICATION') return `The source for "${route.title}" has changed. Check it before you rely on it.`;
   switch (route.route_type) {
+    case 'manufacturer_warranty':
+      return `${route.provider.replace(' Inc.', '')}'s warranty may still cover this. Contact ${route.provider.replace(' Inc.', '')} before it ends.`;
     case 'manufacturer_service_program':
       return route.status === 'PENDING_SERIAL_VERIFICATION'
         ? `You may get a free repair from ${route.provider.replace(' Inc.', '')}. First, check your serial number.`

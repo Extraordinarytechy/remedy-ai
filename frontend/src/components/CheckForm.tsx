@@ -5,13 +5,15 @@ import type { NormalizedCase, ReceiptData, UkRegion, VisualDefectEvidence } from
 import { Combobox } from './Combobox';
 import { PAYMENTS, PRODUCTS, faultsFor, storesFor } from '../suggestions';
 import { UK_REGIONS } from './labels';
+import { DateField } from './DateField';
+import { todayIso } from '../dates';
 
 interface Props {
   onSubmit: (c: NormalizedCase) => void;
   busy: boolean;
 }
 
-const today = () => new Date().toISOString().slice(0, 10);
+const today = todayIso;
 
 const inputCls =
   'w-full rounded-lg bg-slate-950 border border-slate-600 px-3 py-2.5 text-[15px] text-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-400';
@@ -90,6 +92,8 @@ export function CheckForm({ onSubmit, busy }: Props) {
       ...f,
       uk_region: isUk && f.uk_region ? f.uk_region : null,
       original_warranty_years: Number(f.original_warranty_years) || 1,
+      // The claim date is the user's own calendar date (not the server's UTC date).
+      evaluation_date: todayIso(),
       confirmed_checks: [],
       receipt_data: receipt,
       visual_evidence: visual,
@@ -140,26 +144,23 @@ export function CheckForm({ onSubmit, busy }: Props) {
             maxLength={2000}
           />
           <div className="grid sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <label htmlFor="purchase-date" className={labelCls}>When did you buy it?</label>
-              <input id="purchase-date" required type="date" max={today()} className={inputCls} value={f.purchase_date} onChange={(e) => set('purchase_date', e.target.value)} />
-              <p className={hintCls}>The date on your receipt.</p>
-            </div>
-            <div className="space-y-1.5">
-              <label htmlFor="failure-date" className={labelCls}>When did it break?</label>
-              <input
-                id="failure-date"
-                required
-                type="date"
-                max={today()}
-                className={inputCls}
-                value={f.failure_date}
-                onChange={(e) => set('failure_date', e.target.value)}
-                aria-invalid={!!dateError}
-                aria-describedby={dateError ? 'date-error' : undefined}
-              />
-              {dateError && <p id="date-error" role="alert" className="text-sm text-rose-300">{dateError}</p>}
-            </div>
+            <DateField
+              label="When did you buy it?"
+              value={f.purchase_date}
+              onChange={(v) => set('purchase_date', v)}
+              country={f.purchase_country}
+              hint="Type it or use the calendar. The date on your receipt."
+              required
+            />
+            <DateField
+              label="When did it break?"
+              value={f.failure_date}
+              onChange={(v) => set('failure_date', v)}
+              country={f.purchase_country}
+              hint="An approximate date is fine."
+              error={dateError}
+              required
+            />
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">

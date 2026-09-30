@@ -105,4 +105,18 @@ print("reviewer case", s, "pdf_allowed:", ev["pdf_allowed"], [(c["id"], c["sever
 print("  pdf before confirming:", post_status("/api/generate-package", {"case": uk_case}))
 print("  pdf after confirming :", post_status("/api/generate-package", {"case": {**uk_case, "confirmed_checks": ["country_currency"]}}))
 print("  /api/intake removed  :", post_status("/api/intake", {}))
+
+# Newest launch and newest Apple program.
+for label, extra in (
+    ("iPhone 18 Pro (new, US)", {"product_name": "Apple iPhone 18 Pro", "purchase_date": "2026-09-18", "failure_date": "2026-09-28",
+                                 "defect_description": "Screen flickers"}),
+    ("Mac mini M2 no power", {"product_name": "Apple Mac mini M2", "purchase_date": "2025-01-10", "failure_date": "2026-09-01",
+                              "defect_description": "Will not turn on (no power)"}),
+):
+    s, ev = call("/api/evaluate", {"case_id": "e2e", "purchase_country": "US", **extra})
+    print(label, s, [(r["route_id"], r["status"], r["deadline"]) for r in ev["matched_routes"]])
+s, src = call("/api/sources")
+idx = src.get("apple_index") or {}
+print("gap alert: uncovered service programs", idx.get("uncovered_service_programs"),
+      "| recall/exchange", len(idx.get("uncovered_recall_or_exchange_programs") or []))
 print("E2E_DONE")

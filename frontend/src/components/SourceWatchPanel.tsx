@@ -61,11 +61,28 @@ export function SourceWatchPanel({ data }: { data: SourcesResponse | null }) {
       </div>
 
       {idx && idx.http_status === 200 && (
-        <p className="text-sm text-slate-300">
-          Apple's service-program list on {shortDate(idx.checked_at)} had {idx.titles.length} programs.
-          {idx.added_since_last_check.length > 0 && ` New since the previous check: ${idx.added_since_last_check.join('; ')}.`}
-          {idx.removed_since_last_check.length > 0 && ` Removed since the previous check: ${idx.removed_since_last_check.join('; ')}.`}
-        </p>
+        <div className="space-y-1 text-sm text-slate-300">
+          <p>
+            Apple's service-program list on {shortDate(idx.checked_at)} had {idx.titles.length} programs.
+            {idx.added_since_last_check.length > 0 && ` New since the previous check: ${idx.added_since_last_check.join('; ')}.`}
+            {idx.removed_since_last_check.length > 0 && ` Removed since the previous check: ${idx.removed_since_last_check.join('; ')}.`}
+          </p>
+          {idx.uncovered_service_programs && (
+            idx.uncovered_service_programs.length > 0 ? (
+              <p className="text-amber-200 font-medium">
+                Not covered by RemedyAI yet (a person must verify these first): {idx.uncovered_service_programs.join('; ')}.
+              </p>
+            ) : (
+              <p>Every repair program on Apple's list is covered by RemedyAI.</p>
+            )
+          )}
+          {idx.uncovered_recall_or_exchange_programs && idx.uncovered_recall_or_exchange_programs.length > 0 && (
+            <p className="text-slate-400">
+              Recall and exchange programs are not covered yet ({idx.uncovered_recall_or_exchange_programs.length} on the
+              list). See <a className="underline text-sky-300" href={idx.url}>Apple's list</a> for those.
+            </p>
+          )}
+        </div>
       )}
     </section>
   );
