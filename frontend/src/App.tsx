@@ -126,7 +126,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans text-[15px]">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans text-[15px] [overflow-wrap:anywhere]">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:bg-sky-600 focus:text-white focus:px-3 focus:py-2 focus:rounded">
         Skip to content
       </a>
@@ -178,11 +178,11 @@ export default function App() {
                   key={d.key}
                   onClick={() => { moveFocus.current = true; setMode({ kind: 'demo', key: d.key }); }}
                   aria-pressed={selected}
-                  className={`text-left p-4 rounded-xl border transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${selected ? 'bg-sky-950/50 border-sky-400 ring-1 ring-sky-400' : 'bg-slate-900/70 border-slate-700 hover:border-slate-500'}`}
+                  className={`min-w-0 text-left p-4 rounded-xl border transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${selected ? 'bg-sky-950/50 border-sky-400 ring-1 ring-sky-400' : 'bg-slate-900/70 border-slate-700 hover:border-slate-500'}`}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <Icon className="w-5 h-5 text-sky-300" aria-hidden="true" />
-                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-800 text-slate-100">{d.tag}</span>
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <Icon className="w-5 h-5 text-sky-300 shrink-0" aria-hidden="true" />
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-800 text-slate-100 whitespace-nowrap">{d.tag}</span>
                   </div>
                   <h3 className="font-semibold text-white">{d.title}</h3>
                   <p className="text-sm text-slate-300 mt-1">{d.blurb}</p>
@@ -194,14 +194,15 @@ export default function App() {
         </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-5 space-y-6">
+          {/* On small screens an example's answer comes before its case details; the form always comes first. */}
+          <div className={`lg:col-span-5 space-y-6 min-w-0 ${mode.kind === 'demo' ? 'order-2 lg:order-1' : ''}`}>
             {mode.kind === 'own' && (
               <CheckForm busy={loading} onSubmit={(c) => { moveFocus.current = true; setMode({ kind: 'own', case: c }); evaluate(c); }} />
             )}
             {activeCase && <EvidencePanel c={activeCase} />}
           </div>
 
-          <div className="lg:col-span-7 space-y-6" aria-live="polite" aria-busy={loading}>
+          <div className={`lg:col-span-7 space-y-6 min-w-0 ${mode.kind === 'demo' ? 'order-1 lg:order-2' : ''}`} aria-live="polite" aria-busy={loading}>
             {error ? (
               <div role="alert" className="bg-slate-900/80 border border-amber-400/50 rounded-2xl p-6 space-y-2">
                 <p className="flex items-center gap-2 text-amber-200 font-semibold">
