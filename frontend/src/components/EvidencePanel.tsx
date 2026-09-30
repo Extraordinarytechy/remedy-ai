@@ -1,6 +1,6 @@
 import { Camera, FileText } from 'lucide-react';
 import type { NormalizedCase } from '../types';
-import { formatMoney } from './labels';
+import { UK_REGIONS, formatMoney, humanDate } from './labels';
 
 const SOURCE_BADGE: Record<string, { text: string; cls: string }> = {
   sample: { text: 'Sample data', cls: 'bg-slate-700/70 text-slate-200' },
@@ -11,14 +11,14 @@ const SOURCE_BADGE: Record<string, { text: string; cls: string }> = {
 
 function Badge({ source }: { source: string }) {
   const b = SOURCE_BADGE[source] ?? SOURCE_BADGE.sample;
-  return <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${b.cls}`}>{b.text}</span>;
+  return <span className={`text-xs px-2 py-0.5 rounded font-medium ${b.cls}`}>{b.text}</span>;
 }
 
-function Fact({ label, value, mono = false }: { label: string; value?: string | number | null; mono?: boolean }) {
+function Fact({ label, value }: { label: string; value?: string | number | null }) {
   return (
     <div>
       <dt className="text-slate-400">{label}</dt>
-      <dd className={`text-slate-100 ${mono ? 'font-mono' : 'font-medium'}`}>{value || 'Not given'}</dd>
+      <dd className="text-slate-100 font-medium break-words">{value || 'Not given'}</dd>
     </div>
   );
 }
@@ -31,18 +31,21 @@ export function EvidencePanel({ c }: { c: NormalizedCase }) {
         What we were told
       </h2>
 
-      <dl className="grid grid-cols-2 gap-3 text-xs">
+      <dl className="grid grid-cols-2 gap-3 text-sm">
         <Fact label="Product" value={c.product_name} />
-        <Fact label="Bought from" value={`${c.retailer || 'Not given'} (${c.purchase_country})`} />
-        <Fact label="Purchase date" value={c.purchase_date} mono />
-        <Fact label="Failure date" value={c.failure_date} mono />
+        <Fact
+          label="Bought from"
+          value={`${c.retailer || 'Not given'} (${c.purchase_country}${c.uk_region ? `, ${UK_REGIONS.find((r) => r.value === c.uk_region)?.label}` : ''})`}
+        />
+        <Fact label="Bought on" value={humanDate(c.purchase_date)} />
+        <Fact label="Broke on" value={humanDate(c.failure_date)} />
         <Fact label="Paid with" value={c.payment_method} />
         <Fact label="Original warranty" value={`${c.original_warranty_years} year(s)`} />
       </dl>
 
       <div>
         <p className="text-slate-400 text-xs mb-1">What went wrong</p>
-        <blockquote className="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs text-slate-200 leading-relaxed">
+        <blockquote className="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-sm text-slate-200 leading-relaxed">
           {c.defect_description}
         </blockquote>
       </div>
@@ -55,14 +58,14 @@ export function EvidencePanel({ c }: { c: NormalizedCase }) {
             </span>
             <Badge source={c.receipt_data.source} />
           </div>
-          <dl className="text-xs grid grid-cols-2 gap-2">
+          <dl className="text-sm grid grid-cols-2 gap-2">
             <Fact label="Store" value={c.receipt_data.store_name} />
-            <Fact label="Date" value={c.receipt_data.purchase_date} mono />
+            <Fact label="Date" value={humanDate(c.receipt_data.purchase_date)} />
             <Fact label="Item" value={c.receipt_data.item_description} />
             <Fact label="Total" value={formatMoney(c.receipt_data.total_amount, c.receipt_data.currency)} />
           </dl>
           {c.receipt_data.source === 'textract' && c.receipt_data.confidence_score != null && (
-            <p className="text-[11px] text-slate-400">
+            <p className="text-sm text-slate-400">
               Textract's own confidence on these fields: {(c.receipt_data.confidence_score * 100).toFixed(0)}%
             </p>
           )}
@@ -77,15 +80,15 @@ export function EvidencePanel({ c }: { c: NormalizedCase }) {
             </span>
             <Badge source={c.visual_evidence.source} />
           </div>
-          <p className="text-xs text-slate-300">
+          <p className="text-sm text-slate-300">
             Visible damage: <b className="text-slate-100">{c.visual_evidence.physical_damage_severity.replace('_', ' ')}</b>
           </p>
-          <ul className="list-disc pl-4 space-y-1 text-[11px] text-slate-300">
+          <ul className="list-disc pl-4 space-y-1 text-sm text-slate-300">
             {c.visual_evidence.visual_observations.map((obs, i) => (
               <li key={i}>{obs}</li>
             ))}
           </ul>
-          <p className="text-[10px] text-slate-500">Describes what is visible only. It does not diagnose internal faults.</p>
+          <p className="text-sm text-slate-400">Describes what is visible only. It does not diagnose internal faults.</p>
         </div>
       )}
     </section>

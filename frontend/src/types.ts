@@ -4,6 +4,7 @@ export interface ReceiptData {
   item_description?: string | null;
   total_amount?: number | null;
   currency?: string | null;
+  currency_evidence?: string | null;
   payment_type?: string | null;
   confidence_score?: number | null;
   source: 'textract' | 'sample' | 'unavailable';
@@ -26,23 +27,43 @@ export interface NormalizedCase {
   purchase_date: string;
   failure_date: string;
   purchase_country: string;
+  uk_region?: UkRegion | null;
   retailer?: string | null;
   payment_method?: string | null;
   original_warranty_years: number;
   defect_description: string;
   evaluation_date?: string | null;
   already_paid_for_repair?: boolean;
+  confirmed_checks?: string[];
   receipt_data?: ReceiptData | null;
   visual_evidence?: VisualDefectEvidence | null;
 }
+
+export type UkRegion = 'england_wales' | 'northern_ireland' | 'scotland';
 
 export type RouteStatus =
   | 'POTENTIALLY_ELIGIBLE'
   | 'ELIGIBLE_PENDING_INSPECTION'
   | 'PENDING_SERIAL_VERIFICATION'
   | 'NEEDS_REVERIFICATION'
+  | 'NEEDS_CONFIRMATION'
   | 'OUTSIDE_WINDOW'
   | 'INSUFFICIENT_EVIDENCE';
+
+export interface CaseCheck {
+  id: string;
+  severity: 'hard' | 'soft';
+  message: string;
+  confirm_label?: string | null;
+  confirmed: boolean;
+}
+
+export interface CaseTimeline {
+  purchase_date: string;
+  failure_date: string;
+  claim_date: string;
+  months_before_failure: number;
+}
 
 export interface SourceCheck {
   checked_at?: string;
@@ -71,6 +92,10 @@ export interface MatchedRoute {
     exceptions: string[];
   };
   recommended_action: string;
+  deadline?: string | null;
+  deadline_label?: string | null;
+  days_left?: number | null;
+  related_sources?: { title: string; url: string }[];
   source_check?: SourceCheck | null;
 }
 
@@ -83,6 +108,9 @@ export interface RemedyEvaluation {
   unmatched_reason?: string | null;
   notes: string[];
   next_steps: string[];
+  timeline?: CaseTimeline | null;
+  checks: CaseCheck[];
+  pdf_allowed: boolean;
   disclaimer: string;
 }
 
