@@ -16,6 +16,12 @@ Parameters:
     Type: Number
     Default: 100  # worst case ~$1/day: Textract AnalyzeExpense is $0.01/page
     Description: Maximum Textract + Bedrock calls per UTC day from the public upload endpoint.
+  PerClientDailyLimit:
+    Type: Number
+    Default: 10
+    Description: >-
+      Maximum photo reads per visitor per UTC day, so one visitor cannot use up the daily cap.
+      Visitors are keyed by an HMAC of their IP with a random per-day key; raw IPs are not stored.
   AlertEmail:
     Type: String
     Description: Email that receives the AWS Budgets alert.
@@ -35,6 +41,7 @@ Globals:
         TABLE_NAME: !Ref StateTable
         BEDROCK_MODEL_ID: !Ref BedrockModelId
         DAILY_AI_CALL_LIMIT: !Ref DailyAiCallLimit
+        PER_CLIENT_DAILY_LIMIT: !Ref PerClientDailyLimit
         POWERTOOLS_SERVICE_NAME: remedyai
 
 Resources:
@@ -102,9 +109,10 @@ Resources:
               Resource:
                 - !Sub arn:aws:bedrock:*:${AWS::AccountId}:inference-profile/${BedrockModelId}
                 - arn:aws:bedrock:*::foundation-model/amazon.nova-2-lite-v1:0
-            - Sid: StateReadAndDailyCounter
+            - Sid: StateReadAndDailyCounters
               Effect: Allow
-              Action: [dynamodb:GetItem, dynamodb:UpdateItem]
+              # PutItem only creates the per-day HMAC key (conditional, first writer wins).
+              Action: [dynamodb:GetItem, dynamodb:UpdateItem, dynamodb:PutItem]
               Resource: !GetAtt StateTable.Arn
       Events:
         Proxy:
@@ -217,6 +225,21 @@ Resources:
             ContentSecurityPolicy: "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
             Override: true
 
+  # Forwards only what the API needs, plus CloudFront-Viewer-Address (set by CloudFront, so a client
+  # cannot spoof it) for the per-visitor cap. The Host header is not forwarded (API Gateway needs its own).
+  ApiOriginRequestPolicy:
+    Type: AWS::CloudFront::OriginRequestPolicy
+    Properties:
+      OriginRequestPolicyConfig:
+        Name: !Sub ${AWS::StackName}-api-origin
+        HeadersConfig:
+          HeaderBehavior: whitelist
+          Headers: [Content-Type, Accept, CloudFront-Viewer-Address]
+        CookiesConfig:
+          CookieBehavior: none
+        QueryStringsConfig:
+          QueryStringBehavior: all
+
   Distribution:
     Type: AWS::CloudFront::Distribution
     Properties:
@@ -249,13 +272,14 @@ Resources:
             ViewerProtocolPolicy: redirect-to-https
             AllowedMethods: [GET, HEAD, OPTIONS, PUT, PATCH, POST, DELETE]
             CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad  # Managed-CachingDisabled
-            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac  # Managed-AllViewerExceptHostHeader
+            OriginRequestPolicyId: !Ref ApiOriginRequestPolicy
             ResponseHeadersPolicyId: !Ref SecurityHeaders
           - PathPattern: /health
             TargetOriginId: api
             ViewerProtocolPolicy: redirect-to-https
             CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
-            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+            OriginRequestPolicyId: !Ref ApiOriginRequestPolicy
+            ResponseHeadersPolicyId: !Ref SecurityHeaders
 
   # ---------------------------------------------------------------------------
   # Cost guard

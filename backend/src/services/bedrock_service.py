@@ -107,7 +107,7 @@ class BedrockVisionService:
             )
 
         except Exception as e:
-            print(f"Bedrock Converse API call failed: {e}")
+            print(f"Bedrock Converse call failed: {type(e).__name__}")
             return self._unavailable("Automated image analysis failed for this upload.")
 
     @staticmethod

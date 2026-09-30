@@ -1,11 +1,12 @@
-from fastapi import FastAPI, HTTPException, Response
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import Optional
 import base64
-from datetime import datetime, timezone
+import re
+from typing import Any, Optional
 
-from src.models.schemas import NormalizedCase, RemedyEvaluation
+from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
+
+from src.models.schemas import NormalizedCase, RemedyEvaluation, SHORT_TEXT
 from src.engine.eligibility import EligibilityEngine
 from src.services.textract_service import TextractService
 from src.services.bedrock_service import BedrockVisionService
@@ -14,11 +15,12 @@ from src.services import source_watch, usage_guard
 from src.fixtures import DEMO_FIXTURES
 
 MAX_IMAGE_BYTES = 4 * 1024 * 1024  # after base64 decoding; the frontend downsizes photos first
+MAX_IMAGE_B64_CHARS = 6 * 1024 * 1024
 
 app = FastAPI(
     title="RemedyAI API",
     description="Evidence-Grounded Consumer Claim Preparation Engine",
-    version="1.1.0",
+    version="1.2.0",
 )
 
 # Public, unauthenticated API: no cookies or credentials are used.
@@ -36,33 +38,25 @@ bedrock_service = BedrockVisionService()
 pdf_service = ClaimPdfService()
 
 
-class IntakeRequest(BaseModel):
-    case_id: Optional[str] = None
-    product_name: str
-    product_brand: Optional[str] = None
-    product_model: Optional[str] = None
-    purchase_date: str
-    failure_date: str
-    purchase_country: str = "US"
-    retailer: Optional[str] = None
-    payment_method: Optional[str] = None
-    original_warranty_years: float = 1.0
-    defect_description: str
-    evaluation_date: Optional[str] = None
-    already_paid_for_repair: bool = False
-    receipt_base64: Optional[str] = None
-    defect_image_base64: Optional[str] = None
-
-
 class ExtractRequest(BaseModel):
-    receipt_base64: Optional[str] = None
-    defect_image_base64: Optional[str] = None
-    product_hint: Optional[str] = None
+    receipt_base64: Optional[str] = Field(default=None, max_length=MAX_IMAGE_B64_CHARS)
+    defect_image_base64: Optional[str] = Field(default=None, max_length=MAX_IMAGE_B64_CHARS)
+    product_hint: Optional[str] = Field(default=None, max_length=SHORT_TEXT)
 
 
 class GeneratePackageRequest(BaseModel):
     case: NormalizedCase
-    evaluation: RemedyEvaluation
+    # Ignored. Older clients sent their copy of the evaluation; the server always re-evaluates,
+    # so a PDF can only state what the engine itself determined.
+    evaluation: Optional[Any] = None
+
+
+def client_ip(request: Request) -> Optional[str]:
+    """Viewer IP as set by CloudFront (cannot be spoofed by the client); falls back to the socket peer."""
+    addr = request.headers.get("cloudfront-viewer-address")
+    if addr:
+        return addr.rsplit(":", 1)[0].strip("[]")
+    return request.client.host if request.client else None
 
 
 @app.get("/health")
@@ -70,7 +64,7 @@ def health_check():
     return {
         "status": "healthy",
         "service": "RemedyAI",
-        "version": "1.1.0",
+        "version": app.version,
         "policy": "Closed-World Evidence Policy",
         "knowledge_records": sorted(engine.records.keys()),
     }
@@ -111,61 +105,19 @@ def _decode_image(b64: str, label: str) -> bytes:
     return data
 
 
-@app.post("/api/intake", response_model=NormalizedCase)
-def process_intake(request: IntakeRequest):
-    """
-    Intake pipeline: parses receipt and defect imagery via Amazon Textract and Amazon Bedrock
-    to assemble a NormalizedCase. When no image is supplied, no visual evidence is recorded.
-    """
-    case_id = request.case_id or f"case_{int(datetime.now(timezone.utc).timestamp())}"
-
-    receipt_bytes = _decode_image(request.receipt_base64, "Receipt image") if request.receipt_base64 else None
-    defect_bytes = _decode_image(request.defect_image_base64, "Defect photo") if request.defect_image_base64 else None
-
-    # Public, unauthenticated endpoint: paid AI calls are capped per day (fails closed).
-    try:
-        usage_guard.consume(int(receipt_bytes is not None) + int(defect_bytes is not None))
-    except usage_guard.LimitReached as e:
-        raise HTTPException(status_code=429, detail=str(e))
-
-    receipt_data = textract_service.analyze_receipt_bytes(receipt_bytes) if receipt_bytes else None
-    visual_evidence = (
-        bedrock_service.analyze_defect_image(defect_bytes, product_hint=request.product_name)
-        if defect_bytes
-        else None
-    )
-
-    return NormalizedCase(
-        case_id=case_id,
-        product_name=request.product_name,
-        product_brand=request.product_brand,
-        product_model=request.product_model,
-        purchase_date=request.purchase_date,
-        failure_date=request.failure_date,
-        purchase_country=request.purchase_country,
-        retailer=request.retailer,
-        payment_method=request.payment_method,
-        original_warranty_years=request.original_warranty_years,
-        defect_description=request.defect_description,
-        evaluation_date=request.evaluation_date,
-        already_paid_for_repair=request.already_paid_for_repair,
-        receipt_data=receipt_data,
-        visual_evidence=visual_evidence,
-    )
-
-
 @app.post("/api/extract")
-def extract_evidence(req: ExtractRequest):
+def extract_evidence(req: ExtractRequest, request: Request):
     """
     Reads a receipt photo with Amazon Textract (AnalyzeExpense) and a defect photo with
-    Amazon Bedrock. The user reviews and corrects the result before anything is evaluated.
+    Amazon Bedrock. Nothing is stored. The user reviews and corrects the result before
+    anything is evaluated.
     """
     receipt_bytes = _decode_image(req.receipt_base64, "Receipt image") if req.receipt_base64 else None
     defect_bytes = _decode_image(req.defect_image_base64, "Defect photo") if req.defect_image_base64 else None
     if not receipt_bytes and not defect_bytes:
         raise HTTPException(status_code=400, detail="Attach a receipt photo, a defect photo, or both.")
     try:
-        usage_guard.consume(int(receipt_bytes is not None) + int(defect_bytes is not None))
+        usage_guard.consume(int(receipt_bytes is not None) + int(defect_bytes is not None), client_ip(request))
     except usage_guard.LimitReached as e:
         raise HTTPException(status_code=429, detail=str(e))
     return {
@@ -185,17 +137,29 @@ def evaluate_coverage(case: NormalizedCase):
     return engine.evaluate(case, source_status=source_watch.load_status())
 
 
+def _safe_filename(case_id: str) -> str:
+    return (re.sub(r"[^A-Za-z0-9_-]", "", case_id)[:64] or "case")
+
+
 @app.post("/api/generate-package")
 def generate_claim_package(req: GeneratePackageRequest):
-    """Generates an evidence-grounded Claim Package PDF using ReportLab."""
-    try:
-        pdf_bytes = pdf_service.generate_pdf(req.case, req.evaluation)
-        return Response(
-            content=pdf_bytes,
-            media_type="application/pdf",
-            headers={
-                "Content-Disposition": f"attachment; filename=RemedyAI_Claim_{req.case.case_id}.pdf"
-            },
+    """
+    Builds the claim PDF from the engine's own evaluation of the case. Any evaluation sent by the
+    client is ignored. Refused while a hard consistency check is unconfirmed.
+    """
+    evaluation = engine.evaluate(req.case, source_status=source_watch.load_status())
+    if not evaluation.pdf_allowed:
+        raise HTTPException(
+            status_code=409,
+            detail="Please confirm the highlighted details before the claim PDF is prepared.",
         )
+    try:
+        pdf_bytes = pdf_service.generate_pdf(req.case, evaluation)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to generate PDF: {e}")
+        print(f"PDF generation failed: {type(e).__name__}")
+        raise HTTPException(status_code=500, detail="The claim PDF could not be generated. Please try again.")
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="RemedyAI_Claim_{_safe_filename(req.case.case_id)}.pdf"'},
+    )
