@@ -41,11 +41,14 @@ WATCH_FN=$(out SourceWatchFunctionName)
 
 echo "== frontend -> s3://$BUCKET"
 [ -f frontend/dist/index.html ] || { echo "Build the frontend first (npm run build in frontend/)"; exit 1; }
+# Hashed assets are immutable; index.html and the un-hashed theme script must stay fresh.
 aws s3 sync frontend/dist "s3://$BUCKET" --delete --region "$REGION" \
-  --cache-control "public,max-age=31536000,immutable" --exclude index.html
+  --cache-control "public,max-age=31536000,immutable" --exclude index.html --exclude theme-init.js
 aws s3 cp frontend/dist/index.html "s3://$BUCKET/index.html" --region "$REGION" \
   --cache-control "no-cache" --content-type "text/html; charset=utf-8"
-aws cloudfront create-invalidation --distribution-id "$DIST" --paths "/index.html" "/" --query "Invalidation.Id" --output text
+aws s3 cp frontend/dist/theme-init.js "s3://$BUCKET/theme-init.js" --region "$REGION" \
+  --cache-control "public,max-age=300" --content-type "text/javascript; charset=utf-8"
+aws cloudfront create-invalidation --distribution-id "$DIST" --paths "/index.html" "/" "/theme-init.js" --query "Invalidation.Id" --output text
 
 echo "== first Source Watch run"
 aws lambda invoke --function-name "$WATCH_FN" --region "$REGION" /tmp/sourcewatch.json --query "StatusCode" --output text
