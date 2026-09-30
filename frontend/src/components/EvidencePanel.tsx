@@ -14,9 +14,9 @@ function Badge({ source }: { source: string }) {
   return <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${b.cls}`}>{b.text}</span>;
 }
 
-function Fact({ label, value }: { label: string; value?: string | number | null }) {
+function Fact({ label, value, wide }: { label: string; value?: string | number | null; wide?: boolean }) {
   return (
-    <div className="min-w-0">
+    <div className={wide ? 'col-span-2 min-w-0' : 'min-w-0'}>
       <dt className="text-xs font-medium uppercase tracking-wide text-faint">{label}</dt>
       <dd className="mt-0.5 break-words font-medium text-ink">{value || 'Not given'}</dd>
     </div>
@@ -30,12 +30,12 @@ export function EvidencePanel({ c }: { c: NormalizedCase }) {
     <section aria-labelledby="evidence-heading" className="card space-y-5 p-6">
       <h3 id="evidence-heading" className="text-base font-semibold">The case</h3>
       <dl className="grid grid-cols-2 gap-x-4 gap-y-4 text-sm">
-        <div className="col-span-2"><Fact label="Product" value={c.product_name} /></div>
+        <Fact wide label="Product" value={c.product_name} />
         <Fact label="Bought" value={humanDate(c.purchase_date)} />
         <Fact label="Broke" value={humanDate(c.failure_date)} />
         <Fact label="Store" value={`${c.retailer || 'Not given'} (${c.purchase_country}${region ? `, ${region}` : ''})`} />
         <Fact label="Paid with" value={c.payment_method} />
-        <div className="col-span-2"><Fact label="What went wrong" value={c.defect_description} /></div>
+        <Fact wide label="What went wrong" value={c.defect_description} />
       </dl>
 
       {c.receipt_data && (
