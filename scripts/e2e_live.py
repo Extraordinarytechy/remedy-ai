@@ -72,10 +72,19 @@ for key, fx in fixtures.items():
     s, ev = call("/api/evaluate", fx)
     print(" ", key, s, ev["has_coverage"], [(r["route_id"], r["status"], bool(r.get("source_check"))) for r in ev["matched_routes"]], ev.get("evaluation_date"))
 
-s, ex = call("/api/extract", {"receipt_base64": receipt_png(), "defect_image_base64": defect_png(), "product_hint": "iPhone 14 Plus"})
-print("extract", s)
-print("  receipt:", json.dumps(ex["receipt_data"], indent=None)[:600])
-print("  visual :", json.dumps(ex["visual_evidence"], indent=None)[:600])
+try:
+    s, ex = call("/api/extract", {"receipt_base64": receipt_png(), "defect_image_base64": defect_png(), "product_hint": "iPhone 14 Plus"})
+except urllib.error.HTTPError as e:
+    if e.code != 429:
+        raise
+    # The per-visitor daily photo cap, reached by repeated runs from one IP. Nothing is faked:
+    # the checks below that need a real Textract result are skipped.
+    s, ex = 429, None
+    print("extract 429 (daily photo limit reached):", json.loads(e.read()).get("detail"))
+if ex:
+    print("extract", s)
+    print("  receipt:", json.dumps(ex["receipt_data"], indent=None)[:600])
+    print("  visual :", json.dumps(ex["visual_evidence"], indent=None)[:600])
 
 
 def post_status(path, payload):
@@ -88,22 +97,25 @@ def post_status(path, payload):
 
 
 # The reviewer's case: the US receipt just read by Textract, entered as a UK purchase.
-uk_case = {
-    "case_id": "e2e_us_receipt_as_uk",
-    "product_name": "Apple iPhone 14 Plus 128GB",
-    "purchase_date": "2023-11-24",
-    "failure_date": "2025-01-30",
-    "purchase_country": "GB",
-    "uk_region": "england_wales",
-    "retailer": "Best Buy",
-    "defect_description": "Screen flickers.",
-    "receipt_data": ex["receipt_data"],
-}
-s, ev = call("/api/evaluate", uk_case)
-print("reviewer case", s, "pdf_allowed:", ev["pdf_allowed"], [(c["id"], c["severity"]) for c in ev["checks"]],
-      [(r["route_id"], r["status"], r["deadline"]) for r in ev["matched_routes"]], ev["timeline"])
-print("  pdf before confirming:", post_status("/api/generate-package", {"case": uk_case}))
-print("  pdf after confirming :", post_status("/api/generate-package", {"case": {**uk_case, "confirmed_checks": ["country_currency"]}}))
+if ex:
+    uk_case = {
+        "case_id": "e2e_us_receipt_as_uk",
+        "product_name": "Apple iPhone 14 Plus 128GB",
+        "purchase_date": "2023-11-24",
+        "failure_date": "2025-01-30",
+        "purchase_country": "GB",
+        "uk_region": "england_wales",
+        "retailer": "Best Buy",
+        "defect_description": "Screen flickers.",
+        "receipt_data": ex["receipt_data"],
+    }
+    s, ev = call("/api/evaluate", uk_case)
+    print("reviewer case", s, "pdf_allowed:", ev["pdf_allowed"], [(c["id"], c["severity"]) for c in ev["checks"]],
+          [(r["route_id"], r["status"], r["deadline"]) for r in ev["matched_routes"]], ev["timeline"])
+    print("  pdf before confirming:", post_status("/api/generate-package", {"case": uk_case}))
+    print("  pdf after confirming :", post_status("/api/generate-package", {"case": {**uk_case, "confirmed_checks": ["country_currency"]}}))
+else:
+    print("reviewer case skipped: it needs a real Textract reading of the receipt")
 print("  /api/intake removed  :", post_status("/api/intake", {}))
 
 # Newest launch and newest Apple program.
