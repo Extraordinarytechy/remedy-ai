@@ -1,85 +1,136 @@
-# RemedyAI: find the free repair or refund you may still be owed after your warranty ends
+# RemedyAI
 
-**Live:** https://d1fnfajqesgvsl.cloudfront.net (no sign-up) · **Repo:** https://github.com/Extraordinarytechy/remedy-ai
+**Your warranty ended. You may still get a free repair.**
 
-RemedyAI checks a broken product against the published source for each repair or refund route it knows (manufacturer service programs, payment-card warranty benefits, consumer law), shows why it matched and what could stop it, and prepares a claim PDF. It only reports a route when a verified source record matches; otherwise it returns `NO VERIFIED COVERAGE FOUND`. Every source is re-checked daily by **Source Watch**.
+[![CI](https://github.com/Extraordinarytechy/remedy-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/Extraordinarytechy/remedy-ai/actions/workflows/ci.yml)
+[![Live](https://img.shields.io/badge/live-d1fnfajqesgvsl.cloudfront.net-0f6f63)](https://d1fnfajqesgvsl.cloudfront.net)
+[![Built on AWS](https://img.shields.io/badge/built%20on-AWS%20Lambda%20·%20Textract%20·%20Bedrock-232f3e)](#architecture)
 
-Built for the **AWS Zero to Shipped** hackathon. Tags: `#daily-life-enhancement` `#startups`. Full writeup: [`docs/SUBMISSION.md`](docs/SUBMISSION.md).
+RemedyAI checks a broken product against official sources (the maker's warranty and free repair
+programs, card warranty benefits and consumer law), tells you what to do next, and prepares the
+claim. It only answers from a source a person has verified, re-checks every source daily, and says
+so when nothing covers you.
 
-## How a determination is made
-- A route needs a source record in `backend/knowledge/`. No record, no route.
-- Program and limitation windows are measured against the **claim date** (`evaluation_date`, default today). A closed window becomes a note, never a match.
-- Invalid dates (failure before purchase, or in the future) are rejected.
-- Source Watch status is applied on every evaluation: a route whose source page is unreachable, or whose Apple program has left Apple's index, is downgraded to `NEEDS_REVERIFICATION`.
-- AI only reads: Amazon Textract reads receipts, Amazon Bedrock describes photos. Neither decides coverage. When no image is analysed, no observations are invented. Demo data is labelled as sample data.
-- Every result carries a **timeline**: purchase, failure and claim dates, plus each option's deadline.
-- **Receipt checks** (`backend/src/engine/case_checks.py`) compare a Textract-read receipt with what the user typed. A currency printed on the receipt that doesn't fit the chosen country (e.g. `$` for a UK purchase) is a hard check: the consumer-law option is held and the claim PDF refused until the user confirms. A different receipt date or store is a soft check: shown and printed, never blocking. Country is never inferred from currency.
-- **UK regions**: England and Wales and Northern Ireland use 6 years, Scotland 5.
-- **Key wording**: a record can list `watch_phrases`, the exact sentences it relies on. Source Watch then tracks only those lines (ignoring unrelated page edits) and downgrades the route if they disappear. Used for Visa's long benefits page.
-- **Gap alert**: Source Watch compares Apple's service-program list with the corpus and reports any repair program RemedyAI has no record for (recall and exchange programs are listed separately).
-- **Deadlines to calendar**: each option's deadline can be saved as an `.ics` calendar event (reminders 14 days and 1 day before), built in the browser. Dates can be typed in common formats or picked from a calendar.
+**Try it:** https://d1fnfajqesgvsl.cloudfront.net · no sign-up · nothing stored
 
-## Security and privacy
-- The claim PDF is built from the server's own evaluation; an evaluation sent by the browser is ignored. All text in the PDF is escaped.
-- Nothing a user enters is stored. Photos are re-encoded in the browser (removing EXIF/GPS) and only sent when the user presses "Read photos", after a prompt to cover personal details.
-- Paid AI calls are capped per UTC day overall and per visitor. Visitors are counted by an HMAC of the IP with a random per-day key (2-day TTL); raw IPs are never stored.
-- Free-text fields have length limits; the API is throttled; S3 buckets are private behind CloudFront OAC; HTTPS, HSTS and a strict CSP are enforced.
+![RemedyAI home page](docs/images/home.png)
 
-## Source corpus
+## What it covers today
 
-| Record | Source | Human check | Notes |
-| :--- | :--- | :--- | :--- |
-| Apple One (1) Year Limited Warranty (iPhone, iPad, iPod, Apple TV, HomePod, Vision Pro; U.S.) | [Apple](https://www.apple.com/legal/warranty/products/ios-warranty-document-us.html) | 2026-09-30 | Defects in materials and workmanship for 1 year from original retail purchase; claim during the Warranty Period. Covers new launches such as iPhone 18 Pro. Accidental damage not covered. |
-| Mac mini Service Program for No Power Issue | [Apple](https://support.apple.com/mac-mini-2023-service-program-for-no-power-issue) | 2026-09-30 | On Apple's index. Mac mini (2023, M2) made Jun 16 to Nov 23, 2024. 3 years from first retail sale. Serial check required. |
-| iPhone 14 Plus Service Program for Rear Camera Issue | [Apple](https://support.apple.com/iphone-14-plus-service-program-for-rear-camera-issue) | 2026-09-29 | On Apple's index. Units made Apr 10, 2023 to Apr 28, 2024. 3 years from first retail sale. Serial check required. Refund possible if already paid. |
-| iPhone 12 / 12 Pro Service Program for No Sound Issues | [Apple](https://support.apple.com/en-in/iphone-12-and-iphone-12-pro-service-program-for-no-sound-issues) | 2026-09-29 | Page live, **not on Apple's index**. Nearly all units past the window. |
-| Visa Infinite Extended Warranty Protection | [Visa](https://www.visa.com/en-us/personal/cards/credit/visa-infinite) | 2026-09-30 | +1 year on eligible warranties of 3 years or less. Issuer's Guide to Benefits governs limits and deadlines. |
-| UK consumer rights on faulty goods | [GOV.UK](https://www.gov.uk/accepting-returns-and-giving-refunds) | 2026-09-29 | Up to 6 years to claim (5 in Scotland). After 6 months the retailer can ask you to prove the fault existed at purchase. Related: [Consumer Rights Act 2015 s.19](https://www.legislation.gov.uk/ukpga/2015/15/section/19), [Limitation (NI) Order 1989](https://www.legislation.gov.uk/nisi/1989/1339/contents). |
+| Option | Who | Source |
+| --- | --- | --- |
+| Apple One (1) Year Limited Warranty: iPhone (incl. iPhone 18 Pro), iPad, iPod, Apple TV, HomePod, Vision Pro | Apple, U.S. | [Apple](https://www.apple.com/legal/warranty/products/ios-warranty-document-us.html) |
+| Mac mini (2023, M2) Service Program for No Power Issue | Apple | [Apple](https://support.apple.com/mac-mini-2023-service-program-for-no-power-issue) |
+| iPhone 14 Plus Service Program for Rear Camera Issue | Apple | [Apple](https://support.apple.com/iphone-14-plus-service-program-for-rear-camera-issue) |
+| iPhone 12 / 12 Pro no-sound program (ended; kept to show delisting) | Apple | [Apple](https://support.apple.com/en-in/iphone-12-and-iphone-12-pro-service-program-for-no-sound-issues) |
+| Visa Infinite Extended Warranty Protection: +1 year on warranties of 3 years or less | Any brand, U.S. | [Visa](https://www.visa.com/en-us/personal/cards/credit/visa-infinite) |
+| UK consumer rights on faulty goods: up to 6 years to claim (5 in Scotland) | Any brand, UK | [GOV.UK](https://www.gov.uk/accepting-returns-and-giving-refunds) |
+
+Each option is one JSON record in [`backend/knowledge/`](backend/knowledge), and the site's coverage
+list is built from those same records.
+
+## How it works
+
+![A result: the answer, timeline and next step](docs/images/result.png)
+
+1. **The user describes the case**: product, dates, store, payment and the fault. Receipt and fault
+   photos are optional; Amazon Textract and Amazon Bedrock *read* them, and the user reviews
+   what was read.
+2. **A deterministic engine** ([`eligibility.py`](backend/src/engine/eligibility.py)) matches the
+   case against the records. Windows are measured against the claim date; a closed window becomes
+   a note, never a match. AI never decides coverage.
+3. **Receipt checks** ([`case_checks.py`](backend/src/engine/case_checks.py)) compare the receipt
+   with what was typed. A currency that doesn't fit the chosen country holds the consumer-law option
+   and the claim PDF until the user confirms; a different date or store is a warning.
+4. **The answer** leads with the next step, then the timeline and deadline (with a calendar file),
+   what's needed, what could stop it, and the sources. A claim PDF and a draft letter are generated
+   from the server's own evaluation.
+
+**Source Watch** ([`source_watch.py`](backend/src/services/source_watch.py)) runs daily. It re-reads
+every source (or just the exact sentence a record relies on), stores a snapshot when it changes, and
+downgrades an option to "check it first" if its page disappears, its wording changes, or an Apple
+program leaves Apple's list. It also reports any Apple repair program that has no record yet.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-    U["Browser"] --> CF["CloudFront<br/>security headers"]
+    U["Browser"] --> CF["CloudFront<br/>security headers, CSP"]
     CF -->|"/"| S3["S3 site bucket<br/>(private, OAC)"]
-    CF -->|"/api/*"| API["API Gateway HTTP API<br/>10 rps, burst 20"]
-    API --> L["Lambda: FastAPI<br/>Python 3.13 arm64"]
+    CF -->|"/api/*"| API["API Gateway HTTP API<br/>throttled"]
+    API --> L["Lambda: FastAPI<br/>Python 3.13, arm64"]
     L --> TX["Amazon Textract<br/>AnalyzeExpense"]
     L --> BR["Amazon Bedrock<br/>Nova 2 Lite (vision)"]
-    L --> DDB[("DynamoDB<br/>Source Watch status,<br/>daily AI-call cap")]
+    L --> DDB[("DynamoDB<br/>source status,<br/>daily caps")]
     SCH["EventBridge Scheduler<br/>daily 06:00 UTC"] --> SW["Lambda: Source Watch"]
     SW -->|"fetch + hash"| SRC["Apple / Visa / GOV.UK pages"]
     SW --> DDB
     SW --> SNAP[("S3 snapshots<br/>(versioned)")]
-    BUD["AWS Budgets alert"]
 ```
 
-Everything is one AWS SAM template (`template.yaml`).
+Everything is one AWS SAM template ([`template.yaml`](template.yaml)). Idle cost is close to zero;
+the only paid calls are optional photo reads, capped per day overall and per visitor.
+
+## Security and privacy
+
+Nothing a user enters is stored, there are no accounts or cookies, and the AWS account is opted out
+of AI services using content for service improvement. The claim PDF is built only from the server's
+own evaluation, with all text escaped. Details: [`SECURITY.md`](SECURITY.md).
+
+## Built with a coding agent
+
+RemedyAI was built and deployed by **Kiro** working in a terminal connected to the AWS account.
+[`docs/evidence/`](docs/evidence) holds the proof: a CloudTrail export of every API call made with
+the agent's IAM user, the deploy logs and the latest end-to-end run against the live site. The full
+project story is in [`docs/SUBMISSION.md`](docs/SUBMISSION.md) (built for the AWS Zero to Shipped
+hackathon, `#daily-life-enhancement` `#startups`).
 
 ## Run locally
+
 ```bash
 cd backend
 pip install -r requirements-dev.txt
-python -m pytest tests -q                    # 89 tests
-python -m uvicorn src.app:app --port 8080    # use another port if 8080 is taken; update frontend/vite.config.ts
+python -m pytest tests -q                    # 90 tests
+python -m uvicorn src.app:app --port 8082    # the Vite dev server proxies /api here
 ```
+
 ```bash
-cd frontend && npm install && npm run dev    # http://localhost:3000, proxies /api to 127.0.0.1:8080
+cd frontend
+npm install
+npm run dev                                  # http://localhost:3000
 ```
-Install `node_modules` from the same OS you run Vite on (Windows and WSL need separate installs).
 
 ## Deploy
-From WSL/Linux with the AWS CLI and SAM CLI configured:
+
+From Linux or WSL with the AWS CLI and SAM CLI configured:
+
 ```bash
-./scripts/build_lambda.sh                       # arm64 wheels for Python 3.13
+./scripts/build_lambda.sh                          # arm64 wheels for Python 3.13
 (cd frontend && npm run build)
-ALERT_EMAIL=you@example.com ./scripts/deploy.sh # validate, deploy, upload site, run Source Watch, smoke test
-python3 scripts/e2e_live.py https://<distribution>.cloudfront.net   # end-to-end incl. Textract + Bedrock
-python3 scripts/export_cloudtrail.py --user <iam-user> --since YYYY-MM-DD
+ALERT_EMAIL=you@example.com ./scripts/deploy.sh    # validate, deploy, upload the site, run Source Watch, smoke test
+python3 scripts/e2e_live.py https://<distribution>.cloudfront.net
 ```
-Each deploy writes a log to `docs/evidence/`.
 
-## Disclaimer
-RemedyAI prepares claims. It is not legal advice and does not guarantee coverage. The manufacturer, card issuer or retailer makes the final decision.
+Each deploy writes a log to `docs/evidence/`; run `python3 scripts/redact_evidence.py` before committing it.
 
-RemedyAI is not affiliated with or endorsed by Apple, Visa, Sony, Samsung, Best Buy, Currys or any retailer named; names are used only to identify products and programs. Contains public sector information licensed under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+## Repository layout
+
+```
+backend/
+  knowledge/         one JSON record per verified source
+  src/engine/        eligibility engine and receipt checks
+  src/services/      Textract, Bedrock, claim PDF, Source Watch, usage caps
+  tests/             pytest suite
+frontend/            React + Vite + Tailwind site
+scripts/             build, deploy, end-to-end and evidence scripts
+docs/                writeup, screenshots and evidence
+template.yaml        AWS SAM template for the whole stack
+```
+
+## Notices
+
+RemedyAI prepares claims; it is not legal advice and does not guarantee coverage. It is not affiliated
+with or endorsed by Apple, Visa, Sony, Samsung, Best Buy, Currys or any retailer named. Contains public
+sector information licensed under the
+[Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+Copyright © 2026. All rights reserved; see [`LICENSE`](LICENSE).
