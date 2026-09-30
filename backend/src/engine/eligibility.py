@@ -235,7 +235,7 @@ class EligibilityEngine:
             return
         route.source_check = {
             k: st.get(k)
-            for k in ("checked_at", "http_status", "reachable", "last_changed_at", "human_verified_at", "listed_on_apple_index")
+            for k in ("checked_at", "http_status", "reachable", "last_changed_at", "human_verified_at", "listed_on_apple_index", "key_text_present")
             if k in st
         }
         checked = (st.get("checked_at") or "")[:10]
@@ -244,6 +244,11 @@ class EligibilityEngine:
             warnings.append(
                 f"Source Watch could not load the source page on {checked} (HTTP {st.get('http_status')}). "
                 "Re-verify the source before relying on this route."
+            )
+        if st.get("key_text_present") is False:
+            warnings.append(
+                f"Source Watch could not find the wording this option relies on in the source page on {checked}. "
+                "The terms may have changed; re-verify before relying on this route."
             )
         if st.get("listed_on_apple_index") is False:
             warnings.append(

@@ -119,3 +119,39 @@ def test_gap_alert_lists_programs_without_a_record(monkeypatch):
     assert idx["uncovered_recall_or_exchange_programs"] == ["15-inch MacBook Pro Battery Recall Program"]
     # The Mac mini program now has a record, so it is not reported as a gap.
     assert "Mac mini Service Program for No Power Issue" not in idx["uncovered_service_programs"]
+
+
+VISA_SENTENCE = (
+    "When you use your covered Visa card for your eligible purchases Extended Warranty Protection will extend the term "
+    "of your eligible manufacturer\u2019s U.S. warranty by 1 additional year on eligible warranties of 3 years or less."
+)
+
+
+def _visa_run(monkeypatch, body, previous):
+    engine = EligibilityEngine()
+    records = {"visa_infinite_extended_warranty_us": engine.records["visa_infinite_extended_warranty_us"]}
+    monkeypatch.setattr(source_watch, "fetch", lambda url, timeout=15: {"http_status": 200, "html": body})
+    return run_check(records, previous)["visa_infinite_extended_warranty_us"]
+
+
+def test_watch_phrases_ignore_unrelated_page_changes(monkeypatch):
+    first = _visa_run(monkeypatch, f"<p>Promo A</p><p>{VISA_SENTENCE}</p>", previous={})
+    assert first["key_text_present"] is True
+    second = _visa_run(
+        monkeypatch, f"<p>Promo B, different today</p><p>{VISA_SENTENCE}</p>",
+        previous={"visa_infinite_extended_warranty_us": {"content_hash": first["content_hash"]}},
+    )
+    assert second["changed_this_run"] is False
+
+
+def test_missing_key_wording_downgrades_route(monkeypatch):
+    st = _visa_run(monkeypatch, "<p>Extended Warranty Protection now adds 6 months.</p>", previous={})
+    assert st["key_text_present"] is False
+    st.pop("_text", None)
+    case = NormalizedCase(
+        case_id="t", product_name="Sony headphones", purchase_date="2025-03-14", failure_date="2026-09-05",
+        evaluation_date=AS_OF, payment_method="Visa Infinite", defect_description="Hinge cracked",
+    )
+    route = EligibilityEngine().evaluate(case, source_status={"visa_infinite_extended_warranty_us": st}).matched_routes[0]
+    assert route.status == "NEEDS_REVERIFICATION"
+    assert "could not find the wording" in route.provenance.exceptions[0]

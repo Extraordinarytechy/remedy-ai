@@ -66,6 +66,12 @@ def apple_index_titles(text: str) -> List[str]:
     return titles
 
 
+def _norm_text(t: str) -> str:
+    """Lower-case, straight quotes, single spaces: so typography changes don't count as changes."""
+    t = t.lower().replace("\u2019", "'").replace("\u2018", "'").replace("\u201c", '"').replace("\u201d", '"')
+    return re.sub(r"\s+", " ", t).strip()
+
+
 def _normalise_title(t: str) -> str:
     return re.sub(r"[^a-z0-9]+", " ", t.lower().replace("programme", "program")).strip()
 
@@ -96,7 +102,16 @@ def run_check(records: Dict[str, Dict[str, Any]], previous: Dict[str, Dict[str, 
     for rid, rec in records.items():
         page = fetch(rec["source_url"])
         text = visible_text(page["html"]) if page["http_status"] == 200 else ""
-        digest = content_hash(text) if text else ""
+        # Long pages (e.g. Visa's benefits page) change for unrelated reasons. When a record names
+        # the sentences it relies on, watch those lines only and report whether they are still there.
+        phrases = [_norm_text(p) for p in rec.get("watch_phrases", [])]
+        key_present = None
+        watched = text
+        if phrases and text:
+            lines = [ln for ln in text.splitlines() if any(p in _norm_text(ln) for p in phrases)]
+            key_present = all(any(p in _norm_text(ln) for ln in lines) for p in phrases)
+            watched = "\n".join(lines) if lines else text
+        digest = content_hash(watched) if watched else ""
         prev = previous.get(rid, {})
         changed = bool(digest and prev.get("content_hash") and digest != prev.get("content_hash"))
         status: Dict[str, Any] = {
@@ -110,6 +125,8 @@ def run_check(records: Dict[str, Dict[str, Any]], previous: Dict[str, Dict[str, 
             "changed_this_run": changed,
             "human_verified_at": rec.get("verified_at", ""),
         }
+        if phrases:
+            status["key_text_present"] = key_present if text else None
         if rec.get("category") == "manufacturer_service_program" and "apple" in rec.get("issuer_or_brand", "").lower():
             status["listed_on_apple_index"] = (_normalise_title(rec["program_name"]) in listed) if titles else None
         out[rid] = status
