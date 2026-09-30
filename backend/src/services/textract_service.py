@@ -30,7 +30,7 @@ class TextractService:
             )
             return self._parse_expense_response(response)
         except Exception as e:
-            print(f"Error calling Textract AnalyzeExpense: {e}")
+            print(f"Textract AnalyzeExpense failed: {type(e).__name__}")
             return ReceiptData(
                 source="unavailable",
                 raw_fields={"error": type(e).__name__},
@@ -82,6 +82,21 @@ class TextractService:
         if item_names:
             # First line item first: the UI pre-fills the product name from it.
             extracted.item_description = "; ".join(item_names)
+
+        # Currency as printed on the receipt (symbol or code), from the money fields only.
+        # This is evidence for the country cross-check; it is never inferred.
+        from src.engine.case_checks import detect_currency_marker
+
+        for key in ("TOTAL", "AMOUNT_PAID", "SUBTOTAL", "TAX"):
+            marker = detect_currency_marker(raw_fields.get(key))
+            if marker:
+                extracted.currency_evidence = marker
+                extracted.currency = {
+                    "£": "GBP", "GBP": "GBP", "€": "EUR", "EUR": "EUR", "₹": "INR", "INR": "INR", "RS": "INR",
+                    "USD": "USD", "US$": "USD", "CAD": "CAD", "C$": "CAD", "CA$": "CAD",
+                    "AUD": "AUD", "A$": "AUD", "AU$": "AUD",
+                }.get(marker)
+                break
 
         # Normalise the receipt date to ISO so it can pre-fill the purchase date.
         if extracted.purchase_date:

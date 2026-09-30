@@ -31,3 +31,12 @@ def test_parse_expense_uses_item_name_once_and_iso_date():
     assert r.total_amount == 885.58
     assert r.item_description == "Apple iPhone 14 Plus 128GB; Screen protector 19.99"
     assert r.confidence_score == round((98 + 96 + 94) / 3 / 100, 3)
+    assert r.currency_evidence == "$"  # as printed; "$" alone does not name a country
+    assert r.currency is None
+
+
+def test_parse_expense_reads_pound_sign():
+    svc = TextractService.__new__(TextractService)
+    r = svc._parse_expense_response({"ExpenseDocuments": [{"SummaryFields": [field("TOTAL", "£479.00")]}]})
+    assert r.currency_evidence == "£"
+    assert r.currency == "GBP"

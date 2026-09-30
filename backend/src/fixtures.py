@@ -80,6 +80,7 @@ DEMO_FIXTURES = {
         "purchase_date": "2023-07-20",
         "failure_date": "2026-08-22",
         "purchase_country": "GB",
+        "uk_region": "england_wales",
         "retailer": "Currys",
         "payment_method": "Mastercard Debit",
         "original_warranty_years": 1.0,

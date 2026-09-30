@@ -208,7 +208,9 @@ def test_uk_consumer_rights(engine):
     assert res.has_coverage is True
     route = res.matched_routes[0]
     assert route.route_id == "uk_cra_2015_goods"
-    assert any("fault existed at purchase" in exc for exc in route.provenance.exceptions)
+    assert any("did not conform to the contract when delivered" in exc for exc in route.provenance.exceptions)
+    assert "price reduction or final right to reject" in route.provenance.claim
+    assert route.deadline == "2029-07-20"
 
 
 def test_uk_limitation_period_expired(engine):
@@ -219,7 +221,7 @@ def test_uk_limitation_period_expired(engine):
     )
     res = engine.evaluate(case)
     assert res.has_coverage is False
-    assert any("limitation period" in n for n in res.notes)
+    assert any("period to make a claim" in n and "ended on 2025-05-01" in n for n in res.notes)
 
 
 def test_uk_not_matched_by_retailer_name(engine):

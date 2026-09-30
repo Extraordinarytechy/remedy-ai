@@ -7,15 +7,35 @@
   "verified_at": "2026-09-29",
   "jurisdiction": "UK (the page states 6 years to make a claim, 5 years in Scotland)",
   "claim_limitation_years": 6,
+  "limitation_years_by_region": {
+    "england_wales": 6,
+    "northern_ireland": 6,
+    "scotland": 5
+  },
+  "region_labels": {
+    "england_wales": "England and Wales",
+    "northern_ireland": "Northern Ireland",
+    "scotland": "Scotland"
+  },
+  "related_sources": [
+    {
+      "title": "Consumer Rights Act 2015, section 19 (consumer's rights to enforce terms about goods)",
+      "url": "https://www.legislation.gov.uk/ukpga/2015/15/section/19"
+    },
+    {
+      "title": "Limitation (Northern Ireland) Order 1989",
+      "url": "https://www.legislation.gov.uk/nisi/1989/1339/contents"
+    }
+  ],
   "core_standard": "A retailer must repair or replace an item that was faulty when bought; the customer has the same right to free repairs or a replacement whether or not a warranty or guarantee exists or has run out",
   "mandatory_conditions": [
     "The claim is made against the retailer that sold the item",
     "Proof of purchase from that retailer (receipt, bank statement or packaging)",
-    "The item was faulty when it was bought",
+    "The item was faulty when it was bought (in the Act's terms: the goods did not conform to the contract when delivered)",
     "The claim is made by the person who bought the item"
   ],
   "exclusions_and_caveats": [
-    "This is the period to make a claim, not a 6-year warranty",
+    "This is the period to make a claim, not a 6-year warranty. It does not mean the item must last 6 years",
     "After 6 months, the retailer can ask the customer to prove the item was faulty when it was bought",
     "In Scotland the period is 5 years, not 6",
     "A refund may not be owed if the customer knew about the fault when buying or damaged the item by trying to repair it (repair, replacement or a partial refund may still apply)"

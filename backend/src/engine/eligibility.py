@@ -6,11 +6,13 @@ from dateutil import parser as date_parser
 from dateutil.relativedelta import relativedelta
 
 from src.models.schemas import (
+    CaseTimeline,
     NormalizedCase,
     MatchedRoute,
     ProvenanceChain,
     RemedyEvaluation,
 )
+from src.engine.case_checks import run_checks
 
 # Base path to knowledge corpus
 KNOWLEDGE_DIR = Path(__file__).resolve().parent.parent.parent / "knowledge"
@@ -112,7 +114,7 @@ class EligibilityEngine:
         # 2. Payment-card extended warranty
         visa_record = self.records.get("visa_infinite_extended_warranty_us")
         if visa_record:
-            route = self._evaluate_visa_extended_warranty(case, visa_record, years_elapsed)
+            route = self._evaluate_visa_extended_warranty(case, visa_record, years_elapsed, p_date, f_date)
             if route:
                 matched_routes.append(route)
 
@@ -129,6 +131,27 @@ class EligibilityEngine:
 
         for route in matched_routes:
             self._apply_source_status(route, (source_status or {}).get(route.route_id))
+            if route.deadline:
+                route.days_left = (parse_date(route.deadline) - as_of).days
+
+        timeline = CaseTimeline(
+            purchase_date=p_date.isoformat(),
+            failure_date=f_date.isoformat(),
+            claim_date=as_of.isoformat(),
+            months_before_failure=round(months_elapsed, 1),
+        )
+
+        # Receipt vs form consistency. An unconfirmed hard check puts every option that depends on
+        # where the item was bought on hold and blocks the claim PDF.
+        checks = run_checks(case)
+        pending_hard = [c for c in checks if c.severity == "hard" and not c.confirmed]
+        for route in matched_routes:
+            if route.route_type == "statutory_consumer_law" and any(c.id == "country_currency" for c in pending_hard):
+                route.status = "NEEDS_CONFIRMATION"
+                route.provenance.exceptions.insert(
+                    0, next(c.message for c in pending_hard if c.id == "country_currency")
+                )
+        pdf_allowed = not pending_hard
 
         # Closed-world determination
         if matched_routes:
@@ -140,6 +163,9 @@ class EligibilityEngine:
                 matched_routes=matched_routes,
                 notes=notes,
                 next_steps=list(DISCLAIMER_NEXT_STEPS_MATCHED),
+                timeline=timeline,
+                checks=checks,
+                pdf_allowed=pdf_allowed,
             )
 
         next_steps = [
@@ -167,6 +193,9 @@ class EligibilityEngine:
             ),
             notes=notes,
             next_steps=next_steps,
+            timeline=timeline,
+            checks=checks,
+            pdf_allowed=pdf_allowed,
         )
 
     # ------------------------------------------------------------------
@@ -277,8 +306,9 @@ class EligibilityEngine:
 
         days_left = (coverage_end - as_of).days
         evidence_items = [
-            f"Purchase date: {case.purchase_date}. Program window ({window_years:.0f} years from retail sale) "
-            f"ends {coverage_end.isoformat()}; {days_left} days remain as of {as_of.isoformat()}.",
+            f"Program window ({window_years:.0f} years from retail sale) ends {coverage_end.isoformat()}; "
+            f"{days_left} days remain as of the claim date {as_of.isoformat()}.",
+            f"Dates: purchased {p_date.isoformat()}, failed {case.failure_date}, claim date {as_of.isoformat()}.",
             f"Device model named in case: {case.product_name}.",
             f"Reported symptom: '{case.defect_description}' matches the program symptom: {record.get('symptom')}.",
         ]
@@ -315,7 +345,7 @@ class EligibilityEngine:
             why_matched=(
                 f"The case names an eligible device ({case.product_name}), the reported defect matches the program "
                 f"symptom, and the claim date {as_of.isoformat()} is inside the {window_years:.0f}-year window from "
-                f"the {case.purchase_date} purchase (failure occurred {years_elapsed:.2f} years after purchase)."
+                f"the {p_date.isoformat()} purchase, which ends {coverage_end.isoformat()}."
             ),
             evidence=evidence_items,
             source_citation=program,
@@ -344,12 +374,14 @@ class EligibilityEngine:
                 },
                 provenance=provenance,
                 recommended_action=action,
+                deadline=coverage_end.isoformat(),
+                deadline_label="Free repair program ends",
             ),
             None,
         )
 
     def _evaluate_visa_extended_warranty(
-        self, case: NormalizedCase, record: Dict[str, Any], years_elapsed: float
+        self, case: NormalizedCase, record: Dict[str, Any], years_elapsed: float, p_date: date, f_date: date
     ) -> Optional[MatchedRoute]:
         payment_lower = (case.payment_method or "").lower()
         if "visa infinite" not in payment_lower:
@@ -368,10 +400,13 @@ class EligibilityEngine:
         if years_elapsed > total_coverage_years:
             return None  # outside the extended window
 
+        warranty_end = add_years(p_date, orig_warranty)
+        extended_end = add_years(p_date, total_coverage_years)
         evidence_items = [
+            f"Dates: purchased {p_date.isoformat()}, original warranty ended about {warranty_end.isoformat()}, "
+            f"failed {f_date.isoformat()}, extended protection runs to about {extended_end.isoformat()}.",
             f"Payment proof: Purchased via {case.payment_method}.",
             f"Original warranty: {orig_warranty:.1f} year(s) (eligible for extension; threshold is <= {max_eligible} years).",
-            f"Failure timeline: Occurred {years_elapsed:.2f} years after purchase, within the +{extension:.1f} year extension window.",
             f"Defect description: '{case.defect_description}'.",
         ]
 
@@ -410,6 +445,8 @@ class EligibilityEngine:
                 "card statement showing the charge, and warranty document ready. Check your Guide to Benefits "
                 "for the claim reporting deadline."
             ),
+            deadline=extended_end.isoformat(),
+            deadline_label="Extended protection ends (approx., from purchase date)",
         )
 
     def _evaluate_uk_consumer_rights(
@@ -428,18 +465,32 @@ class EligibilityEngine:
         if not case.defect_description.strip():
             return None, None
 
-        limitation_years = float(record.get("claim_limitation_years", 6))
+        by_region = record.get("limitation_years_by_region", {})
+        labels = record.get("region_labels", {})
+        region = case.uk_region
+        if region:
+            limitation_years = float(by_region.get(region, record.get("claim_limitation_years", 6)))
+            place = labels.get(region, region)
+        else:
+            # No region given: use the 6-year period that GOV.UK states for the UK outside Scotland,
+            # and say so. Scotland's 5 years is kept as a caveat below.
+            limitation_years = float(record.get("claim_limitation_years", 6))
+            place = "the UK outside Scotland (region not given)"
         limitation_end = add_years(p_date, limitation_years)
         if as_of > limitation_end:
             return None, (
-                f"{record['program_name']}: the {limitation_years:.0f}-year limitation period from purchase "
+                f"{record['program_name']}: the {limitation_years:.0f}-year period to make a claim in {place} "
                 f"ended on {limitation_end.isoformat()} (evaluated as of {as_of.isoformat()})."
             )
 
+        store = case.retailer or "the store that sold it"
         evidence_items = [
-            f"Jurisdiction & Retailer: Purchased in {case.purchase_country} from {case.retailer or 'Retailer'}.",
-            f"Failure occurred {years_elapsed:.2f} years ({months_elapsed:.1f} months) after purchase.",
-            f"Limitation period (England/Wales) ends {limitation_end.isoformat()}; claim date {as_of.isoformat()} is inside it.",
+            f"Deadline to claim: {limitation_end.isoformat()} ({limitation_years:.0f} years from delivery in {place}; "
+            f"the purchase date {p_date.isoformat()} is used as the delivery date). The claim date "
+            f"{as_of.isoformat()} is inside it. This is a period to make a claim, not a {limitation_years:.0f}-year warranty.",
+            f"Dates: purchased {p_date.isoformat()}, fault appeared {case.failure_date} "
+            f"({months_elapsed:.1f} months after purchase), claim date {as_of.isoformat()}.",
+            f"Where bought: {case.purchase_country}, from {store} (as entered).",
             f"Documented fault: '{case.defect_description}'.",
         ]
 
@@ -447,15 +498,29 @@ class EligibilityEngine:
         if months_elapsed > 6.0:
             exceptions.insert(
                 0,
-                f"Because the defect appeared after 6 months ({months_elapsed:.1f} months elapsed), the consumer "
-                "may need to show the fault existed at purchase. The retailer may ask for an independent report.",
+                f"Fault timing: because the fault appeared more than six months after delivery ({months_elapsed:.1f} "
+                "months), you may need to provide evidence that the goods did not conform to the contract when "
+                "delivered. GOV.UK: the retailer can ask you to prove the item was faulty when you bought it.",
             )
+        if region == "scotland":
+            exceptions.insert(
+                0,
+                "Scotland: the 5-year period is prescription under Scots law, which can start from a different date. "
+                "RemedyAI measures it from the purchase date; check the exact date if you are close to it.",
+            )
+        elif not region:
+            exceptions.insert(0, "Region not given. If the item was bought in Scotland, the period is 5 years, not 6.")
 
         provenance = ProvenanceChain(
-            claim="Potentially eligible to seek repair, replacement, or partial refund under UK Consumer Rights Act 2015.",
+            claim=(
+                "Potential statutory remedy: depending on the circumstances, you may have rights to repair or "
+                "replacement. Where the statutory conditions for those remedies have been met and the "
+                "repair/replacement route has failed or is unavailable, a price reduction or final right to "
+                "reject may apply."
+            ),
             why_matched=(
-                f"Goods were purchased in the UK from a retailer ({case.retailer or 'UK Retailer'}), and the claim date is "
-                f"within the {limitation_years:.0f}-year limitation period in England/Wales for goods not of satisfactory quality."
+                f"You entered a UK purchase ({place}) from {store}, and the claim date {as_of.isoformat()} is "
+                f"inside the {limitation_years:.0f}-year period to make a claim, which ends {limitation_end.isoformat()}."
             ),
             evidence=evidence_items,
             source_citation=record["program_name"],
@@ -472,8 +537,9 @@ class EligibilityEngine:
                 provider=record["issuer_or_brand"],
                 status="POTENTIALLY_ELIGIBLE",
                 summary=(
-                    "Under the UK Consumer Rights Act 2015, goods must be of satisfactory quality, fit for purpose, and as described. "
-                    "Consumers may have statutory recourse against the selling retailer for up to 6 years in England and Wales."
+                    "Under the UK Consumer Rights Act 2015, goods must be of satisfactory quality, fit for purpose and as "
+                    "described. The retailer must repair or replace an item that was faulty when bought, whether or not a "
+                    "warranty has run out. GOV.UK gives up to 6 years to make a claim (5 years in Scotland)."
                 ),
                 primary_source={
                     "title": record["program_name"],
@@ -482,9 +548,13 @@ class EligibilityEngine:
                 },
                 provenance=provenance,
                 recommended_action=(
-                    f"Send a written Consumer Rights Act 2015 claim to the selling retailer ({case.retailer or 'the selling retailer'}). "
-                    "Attach proof of purchase and defect evidence. After 6 months, the retailer can ask you to show the item was faulty when you bought it."
+                    f"Write to the store that sold it ({store}) asking for a repair or replacement under the Consumer "
+                    "Rights Act 2015. Attach proof of purchase and evidence of the fault. After 6 months, the store can "
+                    "ask you to show the item was faulty when you bought it."
                 ),
+                deadline=limitation_end.isoformat(),
+                deadline_label=f"Deadline to make a claim ({place})",
+                related_sources=list(record.get("related_sources", [])),
             ),
             None,
         )
