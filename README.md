@@ -12,6 +12,15 @@ Built for the **AWS Zero to Shipped** hackathon. Tags: `#daily-life-enhancement`
 - Invalid dates (failure before purchase, or in the future) are rejected.
 - Source Watch status is applied on every evaluation: a route whose source page is unreachable, or whose Apple program has left Apple's index, is downgraded to `NEEDS_REVERIFICATION`.
 - AI only reads: Amazon Textract reads receipts, Amazon Bedrock describes photos. Neither decides coverage. When no image is analysed, no observations are invented. Demo data is labelled as sample data.
+- Every result carries a **timeline**: purchase, failure and claim dates, plus each option's deadline.
+- **Receipt checks** (`backend/src/engine/case_checks.py`) compare a Textract-read receipt with what the user typed. A currency printed on the receipt that doesn't fit the chosen country (e.g. `$` for a UK purchase) is a hard check: the consumer-law option is held and the claim PDF refused until the user confirms. A different receipt date or store is a soft check: shown and printed, never blocking. Country is never inferred from currency.
+- **UK regions**: England and Wales and Northern Ireland use 6 years, Scotland 5.
+
+## Security and privacy
+- The claim PDF is built from the server's own evaluation; an evaluation sent by the browser is ignored. All text in the PDF is escaped.
+- Nothing a user enters is stored. Photos are re-encoded in the browser (removing EXIF/GPS) and only sent when the user presses "Read photos", after a prompt to cover personal details.
+- Paid AI calls are capped per UTC day overall and per visitor. Visitors are counted by an HMAC of the IP with a random per-day key (2-day TTL); raw IPs are never stored.
+- Free-text fields have length limits; the API is throttled; S3 buckets are private behind CloudFront OAC; HTTPS, HSTS and a strict CSP are enforced.
 
 ## Source corpus
 
@@ -19,8 +28,8 @@ Built for the **AWS Zero to Shipped** hackathon. Tags: `#daily-life-enhancement`
 | :--- | :--- | :--- | :--- |
 | iPhone 14 Plus Service Program for Rear Camera Issue | [Apple](https://support.apple.com/iphone-14-plus-service-program-for-rear-camera-issue) | 2026-09-29 | On Apple's index. Units made Apr 10, 2023 to Apr 28, 2024. 3 years from first retail sale. Serial check required. Refund possible if already paid. |
 | iPhone 12 / 12 Pro Service Program for No Sound Issues | [Apple](https://support.apple.com/en-in/iphone-12-and-iphone-12-pro-service-program-for-no-sound-issues) | 2026-09-29 | Page live, **not on Apple's index**. Nearly all units past the window. |
-| Visa Infinite Extended Warranty Protection | [Visa](https://www.visa.com/en-us/personal/cards/credit/visa-infinite) | 2026-09-29 | +1 year on eligible warranties of 3 years or less. Issuer's Guide to Benefits governs limits and deadlines. |
-| UK consumer rights on faulty goods | [GOV.UK](https://www.gov.uk/accepting-returns-and-giving-refunds) | 2026-09-29 | Up to 6 years to claim (5 in Scotland). After 6 months the retailer can ask you to prove the fault existed at purchase. |
+| Visa Infinite Extended Warranty Protection | [Visa](https://www.visa.com/en-us/personal/cards/credit/visa-infinite) | 2026-09-30 | +1 year on eligible warranties of 3 years or less. Issuer's Guide to Benefits governs limits and deadlines. |
+| UK consumer rights on faulty goods | [GOV.UK](https://www.gov.uk/accepting-returns-and-giving-refunds) | 2026-09-29 | Up to 6 years to claim (5 in Scotland). After 6 months the retailer can ask you to prove the fault existed at purchase. Related: [Consumer Rights Act 2015 s.19](https://www.legislation.gov.uk/ukpga/2015/15/section/19), [Limitation (NI) Order 1989](https://www.legislation.gov.uk/nisi/1989/1339/contents). |
 
 ## Architecture
 
@@ -46,7 +55,7 @@ Everything is one AWS SAM template (`template.yaml`).
 ```bash
 cd backend
 pip install -r requirements-dev.txt
-python -m pytest tests -q                    # 42 tests
+python -m pytest tests -q                    # 74 tests
 python -m uvicorn src.app:app --port 8080    # use another port if 8080 is taken; update frontend/vite.config.ts
 ```
 ```bash
@@ -67,3 +76,5 @@ Each deploy writes a log to `docs/evidence/`.
 
 ## Disclaimer
 RemedyAI prepares claims. It is not legal advice and does not guarantee coverage. The manufacturer, card issuer or retailer makes the final decision.
+
+RemedyAI is not affiliated with or endorsed by Apple, Visa, Sony, Samsung, Best Buy, Currys or any retailer named; names are used only to identify products and programs. Contains public sector information licensed under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).

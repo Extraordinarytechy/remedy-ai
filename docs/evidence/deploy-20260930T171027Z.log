@@ -1,0 +1,130 @@
+== caller identity (the credentials the coding agent deploys with)
+{
+    "UserId": "AIDATTSKF4BWMSUYKT4XA",
+    "Account": "2481****5724",
+    "Arn": "arn:aws:iam::2481****5724:user/aksilhoutte"
+}
+== lambda package
+_pydantic_core.cpython-313-aarch64-linux-gnu.so: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, BuildID[sha1]=2c8edb78c49087d21d9162ed83f3d9177f673680, stripped
+== validate
+/mnt/h/Antigravity/remedy-ai/template.yaml is a valid SAM Template
+== deploy stack remedy-ai
+
+	Managed S3 bucket: aws-sam-cli-managed-default-samclisourcebucket-ruo8zrzfsc8g
+	Auto resolution of buckets can be turned off by setting resolve_s3=False
+	To use a specific S3 bucket, set --s3-bucket=<bucket_name>
+	Above settings can be stored in samconfig.toml
+
+	Uploading to 95b26ffe32d3de747b3af72022c4fc51  1048576 / 11445030  (9.16%)
+	Uploading to 95b26ffe32d3de747b3af72022c4fc51  2097152 / 11445030  (18.32%)
+	Uploading to 95b26ffe32d3de747b3af72022c4fc51  3145728 / 11445030  (27.49%)
+	Uploading to 95b26ffe32d3de747b3af72022c4fc51  4194304 / 11445030  (36.65%)
+	Uploading to 95b26ffe32d3de747b3af72022c4fc51  5242880 / 11445030  (45.81%)
+	Uploading to 95b26ffe32d3de747b3af72022c4fc51  6291456 / 11445030  (54.97%)
+	Uploading to 95b26ffe32d3de747b3af72022c4fc51  7250726 / 11445030  (63.35%)
+	Uploading to 95b26ffe32d3de747b3af72022c4fc51  8299302 / 11445030  (72.51%)
+	Uploading to 95b26ffe32d3de747b3af72022c4fc51  9347878 / 11445030  (81.68%)
+	Uploading to 95b26ffe32d3de747b3af72022c4fc51  10396454 / 11445030  (90.84%)
+	Uploading to 95b26ffe32d3de747b3af72022c4fc51  11445030 / 11445030  (100.00%)
+
+	File with same data already exists at 95b26ffe32d3de747b3af72022c4fc51, skipping upload
+
+	Deploying with following values
+	===============================
+	Stack name                   : remedy-ai
+	Region                       : us-east-1
+	Confirm changeset            : False
+	Disable rollback             : False
+	Deployment s3 bucket         : aws-sam-cli-managed-default-samclisourcebucket-ruo8zrzfsc8g
+	Capabilities                 : ["CAPABILITY_IAM"]
+	Parameter overrides          : {"AlertEmail": "<redacted-email>"}
+	Signing Profiles             : {}
+
+Initiating deployment
+=====================
+
+
+	Uploading to 1cdfaa13184c71e6fc2748d87ef7396e.template  11512 / 11512  (100.00%)
+
+
+Waiting for changeset to be created..
+
+CloudFormation stack changeset
+-------------------------------------------------------------------------------------------------
+Operation                LogicalResourceId        ResourceType             Replacement            
+-------------------------------------------------------------------------------------------------
+* Modify                 ApiFunction              AWS::Lambda::Function    False                  
+* Modify                 HttpApi                  AWS::ApiGatewayV2::Api   False                  
+* Modify                 SourceWatchFunctionDai   AWS::IAM::Role           False                  
+                         lyRole                                                                   
+* Modify                 SourceWatchFunctionDai   AWS::Scheduler::Schedu   False                  
+                         ly                       le                                              
+* Modify                 SourceWatchFunction      AWS::Lambda::Function    False                  
+-------------------------------------------------------------------------------------------------
+
+
+Changeset created successfully. arn:aws:cloudformation:us-east-1:2481****5724:changeSet/samcli-deploy1790788278/5b64f7b5-aba5-4a7e-814c-9fe8a59c6357
+
+
+2026-09-30 22:41:34 - Waiting for stack create/update to complete
+
+CloudFormation events from stack operations (refresh every 5.0 seconds)
+-------------------------------------------------------------------------------------------------
+ResourceStatus           ResourceType             LogicalResourceId        ResourceStatusReason   
+-------------------------------------------------------------------------------------------------
+UPDATE_IN_PROGRESS       AWS::CloudFormation::S   remedy-ai                User Initiated         
+                         tack                                                                     
+UPDATE_IN_PROGRESS       AWS::Lambda::Function    ApiFunction              -                      
+UPDATE_IN_PROGRESS       AWS::Lambda::Function    SourceWatchFunction      -                      
+UPDATE_COMPLETE          AWS::Lambda::Function    SourceWatchFunction      -                      
+UPDATE_COMPLETE          AWS::Lambda::Function    ApiFunction              -                      
+UPDATE_COMPLETE_CLEANU   AWS::CloudFormation::S   remedy-ai                -                      
+P_IN_PROGRESS            tack                                                                     
+UPDATE_COMPLETE          AWS::CloudFormation::S   remedy-ai                -                      
+                         tack                                                                     
+-------------------------------------------------------------------------------------------------
+
+CloudFormation outputs from deployed stack
+-------------------------------------------------------------------------------------------------
+Outputs                                                                                         
+-------------------------------------------------------------------------------------------------
+Key                 ApiUrl                                                                      
+Description         -                                                                           
+Value               https://1b8faqxx82.execute-api.us-east-1.amazonaws.com                      
+
+Key                 SiteBucketName                                                              
+Description         -                                                                           
+Value               remedy-ai-sitebucket-fd3mw8e3lrts                                           
+
+Key                 DistributionId                                                              
+Description         -                                                                           
+Value               E1T89KVW5A90CD                                                              
+
+Key                 SiteUrl                                                                     
+Description         Public URL (site and API on one origin)                                     
+Value               https://d1fnfajqesgvsl.cloudfront.net                                       
+
+Key                 SnapshotBucketName                                                          
+Description         -                                                                           
+Value               remedy-ai-snapshotbucket-sfjbb3pyjv17                                       
+
+Key                 SourceWatchFunctionName                                                     
+Description         -                                                                           
+Value               remedy-ai-SourceWatchFunction-X5h8YoYfHd6H                                  
+-------------------------------------------------------------------------------------------------
+
+
+Successfully created/updated stack - remedy-ai in us-east-1
+
+== frontend -> s3://remedy-ai-sitebucket-fd3mw8e3lrts
+Completed 3.7 KiB/3.7 KiB (3.8 KiB/s) with 1 file(s) remaining
+upload: frontend/dist/index.html to s3://remedy-ai-sitebucket-fd3mw8e3lrts/index.html
+IBMN6JKJN6P891HKG492PJM5KH
+== first Source Watch run
+200
+{"apple_index": {"http_status": 200}, "visa_infinite_extended_warranty_us": {"http_status": 200, "changed_this_run": false}, "uk_cra_2015_goods": {"http_status": 200, "changed_this_run": false}, "apple_iphone12_no_sound_2021": {"http_status": 200, "changed_this_run": false, "listed_on_apple_index": false}, "apple_iphone14plus_rear_camera_2024": {"http_status": 200, "changed_this_run": false, "listed_on_apple_index": true}}
+== smoke test https://d1fnfajqesgvsl.cloudfront.net
+site 200
+{"status":"healthy","service":"RemedyAI","version":"1.2.0","policy":"Closed-World Evidence Policy","knowledge_records":["apple_iphone12_no_sound_2021","apple_iphone14plus_rear_camera_2024","uk_cra_2015_goods","visa_infinite_extended_warranty_us"]}
+sources 200
+DEPLOYED https://d1fnfajqesgvsl.cloudfront.net

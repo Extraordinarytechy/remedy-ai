@@ -1,25 +1,25 @@
 # CloudTrail: calls made with `aksilhoutte` since 2026-09-29
 
-Exported 2026-09-29T18:58:30+00:00 from CloudTrail event history (`aws cloudtrail lookup-events`). All times are UTC (CloudTrail `eventTime`). Account IDs and IPs redacted.
+Exported 2026-09-30T17:16:59+00:00 from CloudTrail event history (`aws cloudtrail lookup-events`). All times are UTC (CloudTrail `eventTime`). Account IDs and IPs redacted.
 
-- Total events: **748**, of which **56** changed something (ReadOnly=false).
+- Total events: **1311**, of which **73** changed something (ReadOnly=false).
 
 | Client (from userAgent) | Mutating calls |
 | --- | ---: |
-| CloudFormation (stack deployed by the agent) | 39 |
-| SDK (boto3) | 7 |
+| CloudFormation (stack deployed by the agent) | 48 |
+| AWS SDK for Python (SAM CLI internals, run by the agent) | 12 |
+| AWS CLI (run by the agent) | 6 |
 | other: spendlimit_member.budgets.amazonaws.com | 4 |
-| AWS CLI (run by the agent) | 3 |
 | other: dynamodb.amazonaws.com | 2 |
 | other: apigateway.amazonaws.com | 1 |
 
 | Service | Mutating calls |
 | --- | ---: |
-| iam.amazonaws.com | 11 |
+| lambda.amazonaws.com | 13 |
+| cloudformation.amazonaws.com | 12 |
+| iam.amazonaws.com | 12 |
+| cloudfront.amazonaws.com | 11 |
 | s3.amazonaws.com | 8 |
-| cloudformation.amazonaws.com | 7 |
-| lambda.amazonaws.com | 7 |
-| cloudfront.amazonaws.com | 6 |
 | notifications-contacts.amazonaws.com | 4 |
 | logs.amazonaws.com | 4 |
 | dynamodb.amazonaws.com | 3 |
@@ -35,8 +35,8 @@ First and last mutating calls:
 - `2026-09-29T18:36:25Z` CreateResponseHeadersPolicy (cloudfront.amazonaws.com) request af414b68-11fc-450d-831b-3862120ed6e7
 - `2026-09-29T18:36:25Z` CreateOriginAccessControl (cloudfront.amazonaws.com) request daf7d2bd-9938-4514-be55-7f2588e1855d
 - `2026-09-29T18:36:25Z` CreateEmailContact (notifications-contacts.amazonaws.com) request 84207501-32e0-4792-abcd-f024415d9151
-- `2026-09-29T18:53:01Z` CreateInvalidation (cloudfront.amazonaws.com) request 6a372a6f-4bda-44b1-ae7f-890697e5edf0
-- `2026-09-29T18:54:53Z` CreateChangeSet (cloudformation.amazonaws.com) request 3dc874a2-3649-4cd0-94e6-9d4ba071667f
-- `2026-09-29T18:55:12Z` ExecuteChangeSet (cloudformation.amazonaws.com) request 3565f597-57bc-473b-aa1d-82f173a90651
-- `2026-09-29T18:55:18Z` UpdateFunctionCode20150331v2 (lambda.amazonaws.com) request 2d546777-237b-4d21-b3d5-e78a144df405
-- `2026-09-29T18:55:18Z` UpdateFunctionCode20150331v2 (lambda.amazonaws.com) request 4130c865-d0dc-4c9f-9a5e-ab7d62ff819a
+- `2026-09-30T17:04:49Z` UpdateFunctionCode20150331v2 (lambda.amazonaws.com) request ca6ce252-b1a7-4f7e-93be-6c3fb582d719
+- `2026-09-30T17:05:00Z` UpdateFunctionConfiguration20150331v2 (lambda.amazonaws.com) request 943d4eae-cd73-4d71-a41d-56894517c012
+- `2026-09-30T17:05:07Z` UpdateFunctionCode20150331v2 (lambda.amazonaws.com) request f0186f29-c9a2-4bbb-bf2a-4d371b2bfcd8
+- `2026-09-30T17:05:17Z` UpdateDistribution (cloudfront.amazonaws.com) request ead690ef-1605-41ee-a06f-740fe9f06867
+- `2026-09-30T17:06:52Z` CreateInvalidation (cloudfront.amazonaws.com) request 4112ac51-0d54-4ea0-a8d5-e292ac8cf1a2

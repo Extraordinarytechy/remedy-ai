@@ -17,7 +17,10 @@ You describe what broke (optionally with a receipt photo and a photo of the faul
 - **why it matched**, with the dates it measured (the claim date, not just the failure date)
 - **what you will need**, copied from the source
 - **what could stop it**, also from the source (for Apple: a cracked back must be fixed first and may cost money)
+- a **timeline**: purchase, failure and claim dates, and the deadline for each option
 - a **claim PDF** and a draft letter
+
+If a receipt photo was read, RemedyAI also **checks it against what you typed**. A receipt priced in dollars for a claim entered as a UK purchase holds the UK option and the claim PDF until you confirm where you bought it; a different date or store on the receipt is shown as a warning.
 
 If no source covers the case, it says so: `NO VERIFIED COVERAGE FOUND`, plus the sources it checked that did not apply and why.
 
@@ -40,6 +43,8 @@ A static warranty database goes stale quietly. We found this out the hard way (s
 - The API reads that status on every evaluation. A route whose source page is unreachable, or whose Apple program has left the index, is **downgraded to "Source changed: re-verify first"** instead of being shown as a match. If a page's text changes after a person last checked it, the route carries a warning with both dates.
 
 The Source Watch table is on the home page, so anyone can see when each source was last checked by a person and by the machine.
+
+It has already done its job once. On 2026-09-30 it recorded that the text of Visa's Visa Infinite page had changed since the last human check. A person re-read the page: the Extended Warranty wording (one extra year on eligible warranties of 3 years or less) was unchanged, so the record's human-check date was updated. Until then, the Visa option carried a warning saying the page had changed.
 
 ## How it's built
 
@@ -82,6 +87,13 @@ The Source Watch table is on the home page, so anyone can see when each source w
 - If Bedrock is unavailable, RemedyAI records "not analyzed" instead of inventing observations.
 - Demo cases are marked **Sample data**. Nothing on screen claims to be a Textract or Bedrock result unless it is.
 
+### Privacy
+
+- RemedyAI stores nothing a user enters: no accounts, cookies, analytics or saved cases.
+- Photos are optional. Before anything is uploaded the form asks the user to cover their name, address, card number and faces, and the upload button stays disabled until they tick a box. Photos are re-encoded in the browser, which removes GPS metadata, and are only sent when the user presses "Read photos".
+- The site has a plain-language privacy section covering what is used, who processes it (AWS, US East), what is kept (nothing; error logs hold only error types for 14 days) and how the per-visitor limit works.
+- Typing is always an option, and the form suggests products, stores, payment methods and fault descriptions as you type. The suggestions are bundled with the site, so nothing is sent while typing.
+
 ## How the coding agent built and shipped it
 
 The coding agent was **Kiro**, working in a terminal authenticated as a dedicated IAM user. It:
@@ -95,7 +107,7 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 **Proof of the connection** is AWS's own record, not a screenshot of a chat:
 
 - `aws sts get-caller-identity` from the agent's session, at the top of every deploy log in `docs/evidence/`.
-- A **CloudTrail** export of every API call made with the agent's IAM user (`docs/evidence/cloudtrail-*.md`). On the first deploy day (2026-09-29, UTC) that was **748 events, 56 of them mutating, across 12 AWS services**, starting with the stack's `CreateChangeSet` at 18:36:09Z. Every entry keeps AWS's own request ID, so any line can be checked against the account's event history.
+- A **CloudTrail** export of every API call made with the agent's IAM user (`docs/evidence/cloudtrail-*.md`). From the first deploy through the export at 2026-09-30 17:16 UTC that was **1,311 events, 73 of them mutating, across 12 AWS services**, starting with the stack's `CreateChangeSet` at 2026-09-29 18:36:09Z. Every entry keeps AWS's own request ID, so any line can be checked against the account's event history.
 - The live site's own `/api/sources` shows Source Watch runs with timestamps, triggered first by the agent's deploy script and then by the daily schedule.
 
 ## What went wrong (and what it changed)
@@ -105,6 +117,9 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 3. **The fallback invented evidence.** With no photo, an early version generated plausible visual observations ("front glass intact") from the product name. That contradicted the whole point of the product, so it was removed, and sample data is now labelled.
 4. **The Bedrock model had reached end-of-life before the hackathon started.** The original template pinned Claude 3.5 Sonnet v1, which reached end-of-life on Bedrock on 2026-07-30. Every photo analysis would have silently failed. The model is now a stack parameter, checked with a live call.
 5. **Three Visa figures had no source.** Claim limits and a "60–90 day" reporting window were in the knowledge record but not on Visa's page. They were removed.
+6. **A reviewer entered a US receipt as a UK claim, and RemedyAI accepted it.** The dates were right, but the result didn't show the failure date, so the reviewer couldn't check them, and nothing compared the receipt with the country chosen. Every result now shows a timeline (purchase, failure, claim date, deadline). A currency on the receipt that doesn't fit the chosen country is now a hard check: the consumer-law option is held and no claim PDF is produced until the user confirms. A different receipt date or store is shown as a warning.
+7. **Scotland got the wrong deadline.** Every UK case used 6 years. The form now asks which part of the UK: England and Wales and Northern Ireland use 6 years, Scotland 5.
+8. **A security review found two real flaws in the claim PDF.** Text typed into the form was read as PDF markup, so an image tag could make the server load a file into the PDF and a link tag could plant a link in a RemedyAI-branded document. And the PDF endpoint trusted the result the browser sent, so a PDF could claim coverage the engine never found. All PDF text is now escaped, and the server re-evaluates the case itself before building any PDF. Both have regression tests.
 
 ## What it doesn't know
 
@@ -120,7 +135,7 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 
 - **Idle cost is close to zero.** Lambda, HTTP API, DynamoDB on-demand, S3, CloudFront and one daily scheduled run are all billed per use.
 - **The paid part is the optional photo reading.** Textract `AnalyzeExpense` is $0.01 per page ([pricing](https://aws.amazon.com/textract/pricing/)). One Bedrock call on Nova 2 Lite used a few hundred tokens in our tests.
-- **The ceiling is enforced, not hoped for.** At most 100 photo reads per UTC day (about $1/day in the worst case), counted in DynamoDB with a conditional write that refuses the call if the counter cannot be read. API Gateway throttles at 10 requests/second. An AWS Budgets alert fires at 50% of $10/month.
+- **The ceiling is enforced, not hoped for.** At most 100 photo reads per UTC day (about $1/day in the worst case), and at most 10 per visitor so one person can't use up the day. Both are counted in DynamoDB with conditional writes that refuse the call if a counter cannot be read. Visitors are counted by an HMAC of their IP with a random key that changes daily and expires after 2 days; raw IPs are never stored. API Gateway throttles at 10 requests/second. An AWS Budgets alert fires at 50% of $10/month.
 - Checking a case without photos calls no paid AI service at all.
 
 ## Where it goes next (Startups lane)
