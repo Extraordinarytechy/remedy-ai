@@ -43,7 +43,7 @@ def test_detect_currency_marker(text, marker):
     assert detect_currency_marker(text) == marker
 
 
-def test_reviewer_case_us_receipt_entered_as_uk_needs_confirmation(engine):
+def test_us_receipt_entered_as_uk_needs_confirmation(engine):
     """A US Best Buy receipt ($) entered as a UK purchase: the UK option is held and the PDF blocked."""
     res = engine.evaluate(uk_case(receipt_data=textract_receipt()))
     route = res.matched_routes[0]
@@ -110,7 +110,7 @@ def test_missing_region_says_so(engine):
     assert any("Region not given" in x for x in route.provenance.exceptions)
 
 
-def test_timeline_shows_exact_dates_for_reviewer_case(engine):
+def test_timeline_shows_exact_dates(engine):
     res = engine.evaluate(uk_case(retailer="Currys"))
     tl = res.timeline
     assert (tl.purchase_date, tl.failure_date, tl.claim_date) == ("2023-11-24", "2025-01-30", AS_OF)

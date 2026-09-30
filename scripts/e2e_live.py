@@ -96,7 +96,7 @@ def post_status(path, payload):
         return e.code, e.headers.get("content-type")
 
 
-# The reviewer's case: the US receipt just read by Textract, entered as a UK purchase.
+# The US receipt just read by Textract, entered as a UK purchase.
 if ex:
     uk_case = {
         "case_id": "e2e_us_receipt_as_uk",
@@ -110,12 +110,12 @@ if ex:
         "receipt_data": ex["receipt_data"],
     }
     s, ev = call("/api/evaluate", uk_case)
-    print("reviewer case", s, "pdf_allowed:", ev["pdf_allowed"], [(c["id"], c["severity"]) for c in ev["checks"]],
+    print("US receipt entered as UK", s, "pdf_allowed:", ev["pdf_allowed"], [(c["id"], c["severity"]) for c in ev["checks"]],
           [(r["route_id"], r["status"], r["deadline"]) for r in ev["matched_routes"]], ev["timeline"])
     print("  pdf before confirming:", post_status("/api/generate-package", {"case": uk_case}))
     print("  pdf after confirming :", post_status("/api/generate-package", {"case": {**uk_case, "confirmed_checks": ["country_currency"]}}))
 else:
-    print("reviewer case skipped: it needs a real Textract reading of the receipt")
+    print("US receipt entered as UK: skipped, it needs a real Textract reading of the receipt")
 print("  /api/intake removed  :", post_status("/api/intake", {}))
 
 # Newest launch and newest Apple program.

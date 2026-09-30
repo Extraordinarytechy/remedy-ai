@@ -1,6 +1,6 @@
 # RemedyAI: find the free repair or refund you may still be owed after your warranty ends
 
-**Live:** https://d1fnfajqesgvsl.cloudfront.net (no sign-up) · **Code:** https://github.com/Extraordinarytechy/remedy-ai · **Category:** `#daily-life-enhancement` · **Lane:** `#startups`
+**Live:** https://d1fnfajqesgvsl.cloudfront.net (no sign-up) · **Code:** https://github.com/Extraordinarytechy/remedy-ai
 
 ## The problem, in one real example
 
@@ -103,7 +103,7 @@ It has already done its job, and taught us something. On 2026-09-30 it recorded 
 
 The coding agent was **Kiro**, working in a terminal authenticated as a dedicated IAM user. It:
 
-1. Audited the first version against the hackathon rules and found it would fail the ship gate (not deployed, broken packaging, a retired Bedrock model).
+1. Checked the first version end to end and found it could not ship: it was not deployed, the Lambda package was broken, and it used a retired Bedrock model.
 2. Researched each source live and rewrote the knowledge records to state only what each page says.
 3. Built Source Watch, the upload flow, the spend guard and the single-origin SAM stack.
 4. Chose the Bedrock model by listing what was active in the account and making a real Converse call, rather than picking from a list.
@@ -120,12 +120,12 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 1. **The first demo was built on a program Apple had quietly dropped.** The original headline case was the iPhone 12 no-sound program. Its page is still online, but it is no longer on Apple's service-program index, and nearly every affected phone is past its 3-year window. That is the reason Source Watch exists.
 2. **Windows were measured against the wrong date.** The engine compared the failure date to the purchase date. A phone that failed inside the window in 2023 still showed as covered in 2026. Windows are now measured against the claim date, and a closed window becomes a note, never a match.
 3. **The fallback invented evidence.** With no photo, an early version generated plausible visual observations ("front glass intact") from the product name. That contradicted the whole point of the product, so it was removed, and sample data is now labelled.
-4. **The Bedrock model had reached end-of-life before the hackathon started.** The original template pinned Claude 3.5 Sonnet v1, which reached end-of-life on Bedrock on 2026-07-30. Every photo analysis would have silently failed. The model is now a stack parameter, checked with a live call.
+4. **The Bedrock model had already reached end-of-life.** The original template pinned Claude 3.5 Sonnet v1, which reached end-of-life on Bedrock on 2026-07-30. Every photo analysis would have silently failed. The model is now a stack parameter, checked with a live call.
 5. **Three Visa figures had no source.** Claim limits and a "60–90 day" reporting window were in the knowledge record but not on Visa's page. They were removed.
-6. **A reviewer entered a US receipt as a UK claim, and RemedyAI accepted it.** The dates were right, but the result didn't show the failure date, so the reviewer couldn't check them, and nothing compared the receipt with the country chosen. Every result now shows a timeline (purchase, failure, claim date, deadline). A currency on the receipt that doesn't fit the chosen country is now a hard check: the consumer-law option is held and no claim PDF is produced until the user confirms. A different receipt date or store is shown as a warning.
+6. **A tester entered a US receipt as a UK claim, and RemedyAI accepted it.** The dates were right, but the result didn't show the failure date, so the tester couldn't check them, and nothing compared the receipt with the country chosen. Every result now shows a timeline (purchase, failure, claim date, deadline). A currency on the receipt that doesn't fit the chosen country is now a hard check: the consumer-law option is held and no claim PDF is produced until the user confirms. A different receipt date or store is shown as a warning.
 7. **Scotland got the wrong deadline.** Every UK case used 6 years. The form now asks which part of the UK: England and Wales and Northern Ireland use 6 years, Scotland 5.
 8. **A security review found two real flaws in the claim PDF.** Text typed into the form was read as PDF markup, so an image tag could make the server load a file into the PDF and a link tag could plant a link in a RemedyAI-branded document. And the PDF endpoint trusted the result the browser sent, so a PDF could claim coverage the engine never found. All PDF text is now escaped, and the server re-evaluates the case itself before building any PDF. Both have regression tests.
-9. **The final audit found a way around CloudFront.** The API Gateway URL was still public, and the API trusted the `CloudFront-Viewer-Address` header to count visitors. Anyone calling that URL directly could set the header themselves and get a fresh per-visitor allowance each time (the daily total still held). CloudFront now adds a random secret header, and the API refuses any request without it. It also only trusts the visitor address when that header is present.
+9. **A pre-launch security check found a way around CloudFront.** The API Gateway URL was still public, and the API trusted the `CloudFront-Viewer-Address` header to count visitors. Anyone calling that URL directly could set the header themselves and get a fresh per-visitor allowance each time (the daily total still held). CloudFront now adds a random secret header, and the API refuses any request without it. It also only trusts the visitor address when that header is present.
 
 ## What it doesn't know
 
@@ -144,7 +144,7 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 - **The ceiling is enforced, not hoped for.** At most 100 photo reads per UTC day (about $1/day in the worst case), and at most 10 per visitor so one person can't use up the day. Both are counted in DynamoDB with conditional writes that refuse the call if a counter cannot be read. Visitors are counted by an HMAC of their IP with a random key that changes daily and expires after 2 days; raw IPs are never stored. API Gateway throttles at 10 requests/second. An AWS Budgets alert fires at 50% of $10/month.
 - Checking a case without photos calls no paid AI service at all.
 
-## Where it goes next (Startups lane)
+## Where it goes next
 
 - **First users:** people whose warranty just ended (device forums, repair shops that see these faults daily).
 - **Corpus growth:** each new route is a JSON record plus a Source Watch entry, verified by a person before it goes live. The home page lists what is covered today (built from the same records the engine uses) and what is planned: new Apple programs as they appear, Samsung and Google programs, Mastercard and American Express benefits, the EU 2-year guarantee, and consumer law in more countries.

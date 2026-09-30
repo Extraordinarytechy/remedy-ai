@@ -82,8 +82,7 @@ own evaluation, with all text escaped. Details: [`SECURITY.md`](SECURITY.md).
 RemedyAI was built and deployed by **Kiro** working in a terminal connected to the AWS account.
 [`docs/evidence/`](docs/evidence) holds the proof: a CloudTrail export of every API call made with
 the agent's IAM user, the deploy logs and the latest end-to-end run against the live site. The full
-project story is in [`docs/SUBMISSION.md`](docs/SUBMISSION.md) (built for the AWS Zero to Shipped
-hackathon, `#daily-life-enhancement` `#startups`).
+project writeup is in [`docs/WRITEUP.md`](docs/WRITEUP.md).
 
 ## Run locally
 

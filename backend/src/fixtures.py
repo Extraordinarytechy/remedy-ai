@@ -2,8 +2,8 @@
 One-click demo fixtures.
 
 These are illustrative sample cases. The receipt and visual-evidence blocks are
-hand-written sample data (not live Textract / Bedrock output) so judges can run the
-engine with zero setup. Real uploads go through POST /api/intake.
+hand-written sample data (not live Textract / Bedrock output) so anyone can try the
+engine with zero setup. Real photos are read through POST /api/extract.
 """
 
 DEMO_FIXTURES = {
