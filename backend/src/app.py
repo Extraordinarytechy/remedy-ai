@@ -1,9 +1,11 @@
 import base64
+import hmac
+import os
 import re
 from typing import Any, Optional
 
 from fastapi import FastAPI, HTTPException, Request, Response
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from src.models.schemas import NormalizedCase, RemedyEvaluation, SHORT_TEXT
@@ -23,14 +25,8 @@ app = FastAPI(
     version="1.2.0",
 )
 
-# Public, unauthenticated API: no cookies or credentials are used.
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["GET", "POST", "OPTIONS"],
-    allow_headers=["Content-Type"],
-)
+# No CORS: the site and the API share one origin (CloudFront in AWS, the Vite proxy locally),
+# so other websites' pages can't read API responses.
 
 engine = EligibilityEngine()
 textract_service = TextractService()
@@ -51,10 +47,35 @@ class GeneratePackageRequest(BaseModel):
     evaluation: Optional[Any] = None
 
 
+def _origin_secret() -> str:
+    return os.getenv("ORIGIN_VERIFY_SECRET", "")
+
+
+def _from_cloudfront(request: Request) -> bool:
+    secret = _origin_secret()
+    return bool(secret) and hmac.compare_digest(request.headers.get("x-origin-verify", ""), secret)
+
+
+@app.middleware("http")
+async def require_cloudfront(request: Request, call_next):
+    """
+    In AWS the API is only served through CloudFront, which adds a secret header. Requests sent
+    straight to the API Gateway URL are refused, so they can't skip CloudFront's security headers
+    or forge the viewer address used by the per-visitor limit. Disabled when no secret is set
+    (local development and tests).
+    """
+    if _origin_secret() and not _from_cloudfront(request):
+        return JSONResponse(status_code=403, content={"detail": "Forbidden"})
+    return await call_next(request)
+
+
 def client_ip(request: Request) -> Optional[str]:
-    """Viewer IP as set by CloudFront (cannot be spoofed by the client); falls back to the socket peer."""
+    """
+    The visitor's IP. CloudFront-Viewer-Address is trusted only on requests proven to come from
+    CloudFront (which sets it and cannot be told otherwise by the client); otherwise the socket peer.
+    """
     addr = request.headers.get("cloudfront-viewer-address")
-    if addr:
+    if addr and _from_cloudfront(request):
         return addr.rsplit(":", 1)[0].strip("[]")
     return request.client.host if request.client else None
 

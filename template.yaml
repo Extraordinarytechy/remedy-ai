@@ -24,7 +24,15 @@ Parameters:
       Visitors are keyed by an HMAC of their IP with a random per-day key; raw IPs are not stored.
   AlertEmail:
     Type: String
+    NoEcho: true
     Description: Email that receives the AWS Budgets alert.
+  OriginVerifySecret:
+    Type: String
+    NoEcho: true
+    MinLength: 32
+    Description: >-
+      Random value CloudFront adds to every API request (X-Origin-Verify). The API refuses
+      requests without it, so the API Gateway URL can't be used to bypass CloudFront.
   MonthlyBudgetUsd:
     Type: Number
     Default: 10
@@ -96,7 +104,10 @@ Resources:
     Properties:
       CodeUri: .build/lambda/  # produced by scripts/build_lambda.sh (arm64 wheels)
       Handler: src.lambda_handler.handler
-      Description: RemedyAI API (evaluate, intake, claim PDF, sources)
+      Description: RemedyAI API (evaluate, photo reading, claim PDF, sources)
+      Environment:
+        Variables:
+          ORIGIN_VERIFY_SECRET: !Ref OriginVerifySecret
       Policies:
         - Statement:
             - Sid: ReceiptExtraction
@@ -257,6 +268,9 @@ Resources:
               OriginAccessIdentity: ''
           - Id: api
             DomainName: !Sub ${HttpApi}.execute-api.${AWS::Region}.amazonaws.com
+            OriginCustomHeaders:
+              - HeaderName: X-Origin-Verify
+                HeaderValue: !Ref OriginVerifySecret
             CustomOriginConfig:
               OriginProtocolPolicy: https-only
               OriginSSLProtocols: [TLSv1.2]

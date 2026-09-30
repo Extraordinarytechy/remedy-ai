@@ -10,7 +10,21 @@ REGION=${AWS_REGION:-us-east-1}
 : "${ALERT_EMAIL:?Set ALERT_EMAIL for the AWS Budgets alert}"
 mkdir -p docs/evidence
 LOG="docs/evidence/deploy-$(date -u +%Y%m%dT%H%M%SZ).log"
-exec > >(tee "$LOG") 2>&1
+# The secret CloudFront sends to the API. Reused across deploys: the Lambda updates minutes before
+# CloudFront does, so a new value refuses site traffic until CloudFront catches up. Rotate
+# deliberately with ROTATE_ORIGIN_SECRET=1. The first deploy generates one.
+ORIGIN_VERIFY_SECRET=""
+if [ "${ROTATE_ORIGIN_SECRET:-0}" != 1 ]; then
+  API_FN=$(aws cloudformation describe-stack-resource --stack-name "$STACK" --region "$REGION" \
+    --logical-resource-id ApiFunction --query StackResourceDetail.PhysicalResourceId --output text 2>/dev/null || true)
+  if [ -n "$API_FN" ]; then
+    ORIGIN_VERIFY_SECRET=$(aws lambda get-function-configuration --function-name "$API_FN" --region "$REGION" \
+      --query "Environment.Variables.ORIGIN_VERIFY_SECRET" --output text 2>/dev/null || true)
+  fi
+fi
+[[ "$ORIGIN_VERIFY_SECRET" =~ ^[0-9a-f]{64}$ ]] || ORIGIN_VERIFY_SECRET=$(openssl rand -hex 32)
+# SAM prints parameter overrides; mask the secret and the alert email before they reach the log.
+exec > >(sed -u -e "s/$ORIGIN_VERIFY_SECRET/<redacted-secret>/g" -e "s/$ALERT_EMAIL/<redacted-email>/g" | tee "$LOG") 2>&1
 
 echo "== caller identity (the credentials the coding agent deploys with)"
 aws sts get-caller-identity --output json | sed -E 's/\b([0-9]{4})[0-9]{4}([0-9]{4})\b/\1****\2/g'
@@ -31,7 +45,7 @@ sam deploy \
   --resolve-s3 \
   --no-confirm-changeset \
   --no-fail-on-empty-changeset \
-  --parameter-overrides "AlertEmail=$ALERT_EMAIL"
+  --parameter-overrides "AlertEmail=$ALERT_EMAIL" "OriginVerifySecret=$ORIGIN_VERIFY_SECRET"
 
 out() { aws cloudformation describe-stacks --stack-name "$STACK" --region "$REGION" --query "Stacks[0].Outputs[?OutputKey=='$1'].OutputValue" --output text; }
 SITE_URL=$(out SiteUrl)

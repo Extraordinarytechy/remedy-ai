@@ -149,3 +149,34 @@ def test_generate_package_pdf():
     response = client.post("/api/generate-package", json={"case": fixture})  # evaluation is optional
     assert response.status_code == 200
     assert response.content.startswith(b"%PDF")
+
+
+# ---------------------------------------------------------------------------
+# Only CloudFront may call the API in AWS
+# ---------------------------------------------------------------------------
+def test_direct_calls_refused_when_origin_secret_set(monkeypatch):
+    monkeypatch.setenv("ORIGIN_VERIFY_SECRET", "s3cret-value")
+    assert client.get("/health").status_code == 403
+    assert client.get("/health", headers={"X-Origin-Verify": "wrong"}).status_code == 403
+    assert client.get("/health", headers={"X-Origin-Verify": "s3cret-value"}).status_code == 200
+
+
+def test_viewer_address_trusted_only_from_cloudfront(monkeypatch):
+    from starlette.requests import Request
+    from src.app import client_ip
+
+    def make(headers):
+        scope = {"type": "http", "headers": [(k.lower().encode(), v.encode()) for k, v in headers.items()], "client": ("198.51.100.7", 1234)}
+        return Request(scope)
+
+    monkeypatch.setenv("ORIGIN_VERIFY_SECRET", "s3cret-value")
+    spoofed = make({"CloudFront-Viewer-Address": "203.0.113.9:443"})
+    assert client_ip(spoofed) == "198.51.100.7"
+    genuine = make({"CloudFront-Viewer-Address": "203.0.113.9:443", "X-Origin-Verify": "s3cret-value"})
+    assert client_ip(genuine) == "203.0.113.9"
+
+
+def test_no_cross_origin_access():
+    response = client.get("/api/sources", headers={"Origin": "https://evil.example"})
+    assert response.status_code == 200
+    assert "access-control-allow-origin" not in response.headers
