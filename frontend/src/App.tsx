@@ -8,6 +8,7 @@ import { EvidencePanel } from './components/EvidencePanel';
 import { RouteCard } from './components/RouteCard';
 import { SourceWatchPanel } from './components/SourceWatchPanel';
 import { CheckForm } from './components/CheckForm';
+import { CoveragePanel } from './components/CoveragePanel';
 import { daysLeftText, humanDate, verdictFor } from './components/labels';
 
 const REPO_URL = 'https://github.com/Extraordinarytechy/remedy-ai';
@@ -139,6 +140,7 @@ export default function App() {
             <p className="text-lg font-bold tracking-tight text-white">RemedyAI</p>
           </div>
           <nav className="flex items-center gap-4 text-sm" aria-label="Site">
+            <a href="#coverage" className="text-slate-200 hover:text-white underline underline-offset-2">What's covered</a>
             <a href="#sw-heading" className="text-slate-200 hover:text-white underline underline-offset-2">Sources</a>
             <a href="#privacy" className="text-slate-200 hover:text-white underline underline-offset-2">Privacy</a>
             <a href={REPO_URL} className="text-slate-200 hover:text-white underline underline-offset-2">Source code</a>
@@ -156,6 +158,11 @@ export default function App() {
             than both. Tell RemedyAI what broke. It checks official sources, tells you what to do next, and prepares a claim.
             If nothing covers you, it says so.
           </p>
+          <p className="text-base text-slate-100">
+            <b>Works today for:</b> Apple devices (warranty and repair programs), any brand paid with a U.S. Visa Infinite
+            card, and any brand bought from a UK store.{' '}
+            <a href="#coverage" className="underline text-sky-300 whitespace-nowrap">See exactly what's covered</a>
+          </p>
           <div className="flex flex-wrap items-center gap-4 pt-1">
             <button
               onClick={startOwn}
@@ -166,6 +173,8 @@ export default function App() {
             <span className="text-sm text-slate-300">Free. No sign-up. About 2 minutes.</span>
           </div>
         </section>
+
+        <CoveragePanel />
 
         <section aria-labelledby="demo-heading" className="space-y-3">
           <h2 id="demo-heading" className="text-base font-semibold text-slate-100">Or try an example</h2>

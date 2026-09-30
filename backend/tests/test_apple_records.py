@@ -103,3 +103,10 @@ def test_non_apple_product_keeps_generic_warranty_note(engine):
     res = engine.evaluate(case(product_name="Samsung Galaxy S26", purchase_date="2026-06-01", failure_date="2026-09-01"))
     assert res.has_coverage is False
     assert any("original manufacturer warranty" in n for n in res.notes)
+
+
+def test_every_record_has_a_public_coverage_summary(engine):
+    """The site's "What RemedyAI covers today" list is built from these; a record without one would be hidden."""
+    for rid, rec in engine.records.items():
+        assert rec.get("coverage_summary"), rid
+        assert len(rec["coverage_summary"]) <= 160, rid

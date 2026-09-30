@@ -3,6 +3,8 @@
   "category": "manufacturer_warranty",
   "issuer_or_brand": "Apple Inc.",
   "program_name": "Apple One (1) Year Limited Warranty (iPhone, iPad, iPod, Apple TV, HomePod, Apple Vision Pro; U.S.)",
+  "coverage_summary": "iPhone (including iPhone 18 Pro), iPad, iPod, Apple TV, HomePod and Apple Vision Pro bought in the U.S., for faults in the first year",
+  "coverage_region": "United States",
   "source_url": "https://www.apple.com/legal/warranty/products/ios-warranty-document-us.html",
   "verified_at": "2026-09-30",
   "countries": ["US"],

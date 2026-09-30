@@ -126,7 +126,7 @@ export function CheckForm({ onSubmit, busy }: Props) {
           <legend className="sr-only">Step 1: what broke</legend>
           <Combobox
             label="What is the product?"
-            hint="Brand and model, for example Apple iPhone 14 Plus. Pick a suggestion or type your own."
+            hint="Brand and model, for example Apple iPhone 14 Plus. Any brand can be checked; Apple devices also get Apple's warranty and repair programs."
             value={f.product_name}
             onChange={(v) => set('product_name', v)}
             suggestions={PRODUCTS}
