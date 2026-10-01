@@ -1,10 +1,16 @@
 from __future__ import annotations
-from typing import List, Optional, Dict, Any, Literal
+from typing import Annotated, List, Optional, Dict, Any, Literal
 from pydantic import BaseModel, Field
 
 # Upper bounds on free text. They keep prompts, PDFs and payloads small on a public API.
 SHORT_TEXT = 200
 LONG_TEXT = 2000
+OBSERVATION_TEXT = 300
+
+# Bounded strings for nested lists and maps, which `max_length` on the container doesn't cover.
+FieldName = Annotated[str, Field(max_length=64)]
+FieldValue = Annotated[str, Field(max_length=500)]
+Observation = Annotated[str, Field(max_length=OBSERVATION_TEXT)]
 
 UkRegion = Literal["england_wales", "northern_ireland", "scotland"]
 
@@ -23,7 +29,7 @@ class ReceiptData(BaseModel):
     # Amazon Textract's own mean field confidence (0-1). None for sample or manual data.
     confidence_score: Optional[float] = Field(default=None, ge=0.0, le=1.0)
     source: Literal["textract", "sample", "unavailable"] = "sample"
-    raw_fields: Dict[str, Any] = Field(default_factory=dict, max_length=60)
+    raw_fields: Dict[FieldName, FieldValue] = Field(default_factory=dict, max_length=60)
 
 
 class VisualDefectEvidence(BaseModel):
@@ -31,7 +37,7 @@ class VisualDefectEvidence(BaseModel):
     visible_physical_damage: bool = False
     physical_damage_severity: Literal["none", "cosmetic", "screen_cracked", "severe"] = "none"
     symptom_category: Optional[str] = Field(default=None, max_length=80)
-    visual_observations: List[str] = Field(default_factory=list, max_length=20)
+    visual_observations: List[Observation] = Field(default_factory=list, max_length=20)
     # Where these observations came from: "bedrock", "sample" (demo fixture) or "unavailable".
     source: Literal["bedrock", "sample", "unavailable"] = "sample"
     disclaimer: str = (
@@ -55,7 +61,8 @@ class NormalizedCase(BaseModel):
     original_warranty_years: float = Field(default=1.0, ge=0, le=10)
     defect_description: str = Field(min_length=1, max_length=LONG_TEXT)
     # Date the claim would be made (YYYY-MM-DD). Defaults to today (UTC) when omitted.
-    # Service-program and limitation windows are measured against this date.
+    # Service-program and limitation windows are measured against this date. The public API only
+    # accepts the visitor's own calendar date (server date ±1 day, for time zones); see app.py.
     evaluation_date: Optional[str] = Field(default=None, max_length=40)
     already_paid_for_repair: bool = False
     # Check ids the user has explicitly confirmed (e.g. "country_currency").

@@ -12,7 +12,8 @@ DEMO_FIXTURES = {
         "product_name": "Apple iPhone 14 Plus (128GB Midnight)",
         "product_brand": "Apple",
         "product_model": "iPhone 14 Plus",
-        "purchase_date": "2023-11-24",
+        # Inside Apple's manufacturing window; the 3-year program window runs to 2027-03-15.
+        "purchase_date": "2024-03-15",
         "failure_date": "2026-08-30",
         "purchase_country": "US",
         "retailer": "Best Buy",
@@ -22,7 +23,7 @@ DEMO_FIXTURES = {
         "already_paid_for_repair": False,
         "receipt_data": {
             "store_name": "Best Buy #1024",
-            "purchase_date": "2023-11-24",
+            "purchase_date": "2024-03-15",
             "item_description": "Apple iPhone 14 Plus 128GB Midnight",
             "total_amount": 799.99,
             "currency": "USD",

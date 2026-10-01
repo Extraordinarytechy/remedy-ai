@@ -66,3 +66,15 @@ def test_fails_closed_when_table_unavailable(monkeypatch):
     monkeypatch.setattr(usage_guard, "_table", broken)
     with pytest.raises(usage_guard.LimitReached):
         usage_guard.consume(1, "203.0.113.7")
+
+
+def test_claim_pdfs_have_their_own_counters(table, monkeypatch):
+    monkeypatch.setenv("PER_CLIENT_DAILY_PDF_LIMIT", "1")
+    usage_guard.consume(2, "203.0.113.7")  # photo reads use up this visitor's photo allowance
+    usage_guard.consume(1, "203.0.113.7", kind="pdf")  # but not their PDF allowance
+    with pytest.raises(usage_guard.LimitReached, match="claim PDFs"):
+        usage_guard.consume(1, "203.0.113.7", kind="pdf")
+    assert any(k.startswith("pdfclient#") for k in table.items)
+    assert any(k.startswith("pdfusage#") for k in table.items)
+    # Every key written belongs to a prefix the API's IAM policy allows.
+    assert all(k.split("#")[0] in {"salt", "usage", "client", "pdfusage", "pdfclient"} for k in table.items)

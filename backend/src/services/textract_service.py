@@ -114,6 +114,7 @@ class TextractService:
             if f.get("Type", {}).get("Text") in ("VENDOR_NAME", "INVOICE_RECEIPT_DATE", "TOTAL")
         ]
         used = [c for c in used if isinstance(c, (int, float))]
-        extracted.raw_fields = raw_fields
+        # Same bounds the API enforces on raw fields sent back by a client.
+        extracted.raw_fields = {str(k)[:64]: str(v)[:500] for k, v in list(raw_fields.items())[:60]}
         extracted.confidence_score = round(sum(used) / len(used) / 100, 3) if used else 0.0
         return extracted

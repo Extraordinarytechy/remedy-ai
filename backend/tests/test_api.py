@@ -1,9 +1,24 @@
+import base64
+from datetime import date
+
 import pytest
 from fastapi.testclient import TestClient
 from src.app import app, DEMO_FIXTURES
 
 client = TestClient(app)
 AS_OF = "2026-09-29"
+PNG_BYTES = bytes.fromhex(
+    "89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c489"
+    "0000000d49444154789c6360000002000154a24f5d0000000049454e44ae426082"
+)
+
+
+@pytest.fixture(autouse=True)
+def server_clock(monkeypatch):
+    """The API sets the claim date from its own clock; pin it so results don't depend on today."""
+    import src.app as app_module
+
+    monkeypatch.setattr(app_module, "today_utc", lambda: date.fromisoformat(AS_OF))
 
 
 def fixture_as_of(key):
@@ -180,3 +195,114 @@ def test_no_cross_origin_access():
     response = client.get("/api/sources", headers={"Origin": "https://evil.example"})
     assert response.status_code == 200
     assert "access-control-allow-origin" not in response.headers
+
+
+# ---------------------------------------------------------------------------
+# Claim date is set by the server
+# ---------------------------------------------------------------------------
+def test_back_dated_claim_date_is_ignored():
+    # The iPhone 12 program closed long before AS_OF; asking "as of 2023" must not reopen it.
+    case = {
+        "case_id": "t", "product_name": "Apple iPhone 12", "purchase_date": "2021-02-10",
+        "failure_date": "2023-08-15", "evaluation_date": "2023-08-20", "purchase_country": "US",
+        "defect_description": "No sound from the receiver during calls",
+    }
+    data = client.post("/api/evaluate", json=case).json()
+    assert data["evaluation_date"] == AS_OF
+    assert data["has_coverage"] is False
+    assert client.post("/api/generate-package", json={"case": case}).status_code == 200  # a "nothing found" PDF
+
+
+def test_visitor_calendar_date_one_day_either_side_is_kept():
+    for sent in ("2026-09-28", "2026-09-30"):
+        data = client.post("/api/evaluate", json={**fixture_as_of("case3_uk_samsung_tv"), "evaluation_date": sent}).json()
+        assert data["evaluation_date"] == sent
+    data = client.post("/api/evaluate", json={**fixture_as_of("case3_uk_samsung_tv"), "evaluation_date": None}).json()
+    assert data["evaluation_date"] == AS_OF
+
+
+def test_ambiguous_dates_are_rejected():
+    data = client.post("/api/evaluate", json={**fixture_as_of("case3_uk_samsung_tv"), "purchase_date": "03/04/2024"}).json()
+    assert data["has_coverage"] is False
+    assert data["unmatched_reason"].startswith("INVALID INPUT")
+
+
+# ---------------------------------------------------------------------------
+# Upload and input bounds
+# ---------------------------------------------------------------------------
+def test_receipt_that_is_not_an_image_is_refused_before_any_call(monkeypatch):
+    import src.app as app_module
+
+    called = []
+    monkeypatch.setattr(app_module.usage_guard, "consume", lambda *a, **k: called.append("consume"))
+    monkeypatch.setattr(app_module.textract_service, "analyze_receipt_bytes", lambda b: called.append("textract"))
+    pdf_as_receipt = base64.b64encode(b"%PDF-1.7 not an image").decode()
+    response = client.post("/api/extract", json={"receipt_base64": pdf_as_receipt})
+    assert response.status_code == 400
+    assert "JPEG, PNG or WebP" in response.json()["detail"]
+    assert called == []
+
+
+def test_png_receipt_is_accepted(monkeypatch):
+    import src.app as app_module
+    from src.models.schemas import ReceiptData
+
+    monkeypatch.setattr(app_module.textract_service, "analyze_receipt_bytes", lambda b: ReceiptData(source="unavailable"))
+    response = client.post("/api/extract", json={"receipt_base64": base64.b64encode(PNG_BYTES).decode()})
+    assert response.status_code == 200
+
+
+def test_long_photo_observations_are_rejected():
+    case = fixture_as_of("case1_apple_iphone14plus")
+    case["visual_evidence"] = {**case["visual_evidence"], "visual_observations": ["x" * 301]}
+    assert client.post("/api/evaluate", json=case).status_code == 422
+    assert client.post("/api/generate-package", json={"case": case}).status_code == 422
+
+
+def test_long_receipt_fields_are_rejected():
+    case = fixture_as_of("case1_apple_iphone14plus")
+    case["receipt_data"] = {**case["receipt_data"], "raw_fields": {"TOTAL": "9" * 501}}
+    assert client.post("/api/evaluate", json=case).status_code == 422
+
+
+def test_claim_pdf_is_counted(monkeypatch):
+    import src.app as app_module
+
+    seen = []
+    monkeypatch.setattr(app_module.usage_guard, "consume", lambda units, ip, kind="photo": seen.append(kind))
+    assert client.post("/api/generate-package", json={"case": fixture_as_of("case3_uk_samsung_tv")}).status_code == 200
+    assert seen == ["pdf"]
+
+
+def test_claim_pdf_limit_returns_429(monkeypatch):
+    import src.app as app_module
+
+    def refuse(*a, **k):
+        raise app_module.usage_guard.LimitReached("You have reached today's limit of 30 claim PDFs.")
+
+    monkeypatch.setattr(app_module.usage_guard, "consume", refuse)
+    response = client.post("/api/generate-package", json={"case": fixture_as_of("case3_uk_samsung_tv")})
+    assert response.status_code == 429
+
+
+def test_cloudfront_request_without_viewer_address_has_no_visitor(monkeypatch):
+    from starlette.requests import Request
+    from src.app import client_ip
+
+    monkeypatch.setenv("ORIGIN_VERIFY_SECRET", "s3cret-value")
+    scope = {"type": "http", "headers": [(b"x-origin-verify", b"s3cret-value")], "client": ("198.51.100.7", 1234)}
+    assert client_ip(Request(scope)) is None  # not the CloudFront edge address
+
+
+# ---------------------------------------------------------------------------
+# Options that must be checked first
+# ---------------------------------------------------------------------------
+def test_source_status_unavailable_blocks_the_claim_letter(monkeypatch):
+    import src.app as app_module
+
+    monkeypatch.setattr(app_module.source_watch, "load_status", lambda force=False: {})
+    monkeypatch.setattr(app_module.source_watch, "status_unavailable", lambda: True)
+    data = client.post("/api/evaluate", json=fixture_as_of("case3_uk_samsung_tv")).json()
+    assert [r["status"] for r in data["matched_routes"]] == ["NEEDS_REVERIFICATION"]
+    assert data["pdf_allowed"] is False
+    assert client.post("/api/generate-package", json={"case": fixture_as_of("case3_uk_samsung_tv")}).status_code == 409

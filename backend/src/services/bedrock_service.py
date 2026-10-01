@@ -2,7 +2,7 @@ import os
 import json
 import boto3
 from typing import Optional
-from src.models.schemas import VisualDefectEvidence
+from src.models.schemas import OBSERVATION_TEXT, VisualDefectEvidence
 
 # The model must be ACTIVE in the deployment region. Set BEDROCK_MODEL_ID at deploy time
 # (see template.yaml) and confirm it with `aws bedrock list-foundation-models`.
@@ -97,12 +97,17 @@ class BedrockVisionService:
             severity = parsed.get("physical_damage_severity", "none")
             if severity not in ("none", "cosmetic", "screen_cracked", "severe"):
                 severity = "severe" if parsed.get("visible_physical_damage") else "none"
+            observations = parsed.get("visual_observations") or []
+            if not isinstance(observations, list):
+                observations = [observations]
+            category = parsed.get("symptom_category")
             return VisualDefectEvidence(
-                anomaly_detected=parsed.get("anomaly_detected", False),
-                visible_physical_damage=parsed.get("visible_physical_damage", False),
+                anomaly_detected=bool(parsed.get("anomaly_detected", False)),
+                visible_physical_damage=bool(parsed.get("visible_physical_damage", False)),
                 physical_damage_severity=severity,
-                symptom_category=parsed.get("symptom_category"),
-                visual_observations=parsed.get("visual_observations", []),
+                symptom_category=str(category)[:80] if category else None,
+                # Keep the model's output within the same bounds the API enforces on input.
+                visual_observations=[str(o)[:OBSERVATION_TEXT] for o in observations if str(o).strip()][:20],
                 source="bedrock",
             )
 

@@ -1,7 +1,8 @@
 """
-Daily spend guard for the paid AI calls (Textract + Bedrock) behind a public, unauthenticated API.
+Daily spend guard for a public, unauthenticated API: the paid AI calls (Textract + Bedrock) and
+claim PDF builds are counted separately.
 
-Two counters per UTC day, each incremented atomically with a conditional update:
+Two counters per kind and UTC day, each incremented atomically with a conditional update:
 - a global counter (DAILY_AI_CALL_LIMIT), so total spend has a hard ceiling;
 - a per-visitor counter (PER_CLIENT_DAILY_LIMIT), so one visitor cannot use up the day for everyone.
 
@@ -65,11 +66,30 @@ def _increment(table, pk: str, units: int, limit: int) -> None:
     )
 
 
-def consume(units: int = 1, client_ip: Optional[str] = None) -> None:
+# What each counted action is called, its key prefixes and its limits (env var, default).
+KINDS = {
+    "photo": {
+        "client_prefix": "client", "global_prefix": "usage", "noun": "photo reads",
+        "global_env": ("DAILY_AI_CALL_LIMIT", "100"), "client_env": ("PER_CLIENT_DAILY_LIMIT", "10"),
+        "fallback": "You can still type the details in yourself, or try again tomorrow (UTC).",
+        "unavailable": "Photo reading is unavailable right now. You can still type the details in yourself.",
+    },
+    # Claim PDFs use no paid AI service, but each one is a Lambda run, so they are capped too.
+    "pdf": {
+        "client_prefix": "pdfclient", "global_prefix": "pdfusage", "noun": "claim PDFs",
+        "global_env": ("DAILY_PDF_LIMIT", "2000"), "client_env": ("PER_CLIENT_DAILY_PDF_LIMIT", "30"),
+        "fallback": "Please try again tomorrow (UTC).",
+        "unavailable": "The claim PDF is unavailable right now. Please try again later.",
+    },
+}
+
+
+def consume(units: int = 1, client_ip: Optional[str] = None, kind: str = "photo") -> None:
     if not os.getenv("TABLE_NAME") or units <= 0:
         return
-    limit = int(os.getenv("DAILY_AI_CALL_LIMIT", "100"))
-    per_client = int(os.getenv("PER_CLIENT_DAILY_LIMIT", "10"))
+    k = KINDS[kind]
+    limit = int(os.getenv(*k["global_env"]))
+    per_client = int(os.getenv(*k["client_env"]))
     day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     try:
         from botocore.exceptions import ClientError
@@ -78,22 +98,17 @@ def consume(units: int = 1, client_ip: Optional[str] = None) -> None:
         stage = "client"
         try:
             if client_ip:
-                _increment(table, f"client#{day}#{client_hash(_daily_key(table, day), client_ip)}", units, per_client)
+                visitor = client_hash(_daily_key(table, day), client_ip)
+                _increment(table, f"{k['client_prefix']}#{day}#{visitor}", units, per_client)
             stage = "global"
-            _increment(table, f"usage#{day}", units, limit)
+            _increment(table, f"{k['global_prefix']}#{day}", units, limit)
         except ClientError as e:
             if e.response.get("Error", {}).get("Code") == "ConditionalCheckFailedException":
                 if stage == "client":
-                    raise LimitReached(
-                        f"You have reached today's limit of {per_client} photo reads. "
-                        "You can still type the details in yourself, or try again tomorrow (UTC)."
-                    )
-                raise LimitReached(
-                    f"Today's limit of {limit} photo reads for the whole site has been reached. "
-                    "You can still type the details in yourself, or try again tomorrow (UTC)."
-                )
-            raise LimitReached("Photo reading is unavailable right now. You can still type the details in yourself.")
+                    raise LimitReached(f"You have reached today's limit of {per_client} {k['noun']}. {k['fallback']}")
+                raise LimitReached(f"Today's limit of {limit} {k['noun']} for the whole site has been reached. {k['fallback']}")
+            raise LimitReached(k["unavailable"])
     except LimitReached:
         raise
     except Exception:
-        raise LimitReached("Photo reading is unavailable right now. You can still type the details in yourself.")
+        raise LimitReached(k["unavailable"])

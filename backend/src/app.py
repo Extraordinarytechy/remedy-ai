@@ -2,6 +2,7 @@ import base64
 import hmac
 import os
 import re
+from datetime import date, datetime, timezone
 from typing import Any, Optional
 
 from fastapi import FastAPI, HTTPException, Request, Response
@@ -72,12 +73,47 @@ async def require_cloudfront(request: Request, call_next):
 def client_ip(request: Request) -> Optional[str]:
     """
     The visitor's IP. CloudFront-Viewer-Address is trusted only on requests proven to come from
-    CloudFront (which sets it and cannot be told otherwise by the client); otherwise the socket peer.
+    CloudFront (which sets it and cannot be told otherwise by the client). In AWS, a request without
+    it returns None: the socket peer there is a CloudFront edge server shared by many visitors.
+    Locally (no origin secret) the socket peer is used.
     """
-    addr = request.headers.get("cloudfront-viewer-address")
-    if addr and _from_cloudfront(request):
-        return addr.rsplit(":", 1)[0].strip("[]")
+    if _from_cloudfront(request):
+        addr = request.headers.get("cloudfront-viewer-address")
+        return addr.rsplit(":", 1)[0].strip("[]") if addr else None
     return request.client.host if request.client else None
+
+
+def _visitor(request: Request, unavailable_message: str) -> Optional[str]:
+    """The visitor IP for a counted action, refusing when it is unknown in AWS."""
+    ip = client_ip(request)
+    if not ip and _origin_secret():
+        print("Viewer address missing on a CloudFront request")
+        raise HTTPException(status_code=429, detail=unavailable_message)
+    return ip
+
+
+def today_utc() -> date:
+    return datetime.now(timezone.utc).date()
+
+
+def with_claim_date(case: NormalizedCase) -> NormalizedCase:
+    """
+    Windows are measured against the claim date, so the API doesn't let a caller choose it. The
+    browser sends the visitor's own calendar date, which may be a day either side of the server's
+    UTC date; anything else (or nothing) becomes the server's date.
+    """
+    today = today_utc()
+    try:
+        sent = date.fromisoformat(case.evaluation_date) if case.evaluation_date else None
+    except ValueError:
+        sent = None
+    claim_date = sent if sent and abs((sent - today).days) <= 1 else today
+    return case.model_copy(update={"evaluation_date": claim_date.isoformat()})
+
+
+def evaluate(case: NormalizedCase) -> RemedyEvaluation:
+    status = source_watch.load_status()
+    return engine.evaluate(case, source_status=status, source_status_unavailable=source_watch.status_unavailable())
 
 
 @app.get("/health")
@@ -114,6 +150,15 @@ def get_sources():
     return {"sources": sources, "apple_index": status.get("apple_index")}
 
 
+def is_supported_image(data: bytes) -> bool:
+    """JPEG, PNG or WebP, judged by the file's own first bytes, not by what the caller says."""
+    return (
+        data[:3] == b"\xff\xd8\xff"
+        or data[:8] == b"\x89PNG\r\n\x1a\n"
+        or (data[:4] == b"RIFF" and data[8:12] == b"WEBP")
+    )
+
+
 def _decode_image(b64: str, label: str) -> bytes:
     if "," in b64[:100]:  # tolerate data URLs
         b64 = b64.split(",", 1)[1]
@@ -123,6 +168,9 @@ def _decode_image(b64: str, label: str) -> bytes:
         raise HTTPException(status_code=400, detail=f"{label} is not valid base64.")
     if len(data) > MAX_IMAGE_BYTES:
         raise HTTPException(status_code=413, detail=f"{label} is larger than 4 MB.")
+    # Checked before any usage is counted or any AWS service is called.
+    if not is_supported_image(data):
+        raise HTTPException(status_code=400, detail=f"{label} must be a JPEG, PNG or WebP image.")
     return data
 
 
@@ -137,8 +185,9 @@ def extract_evidence(req: ExtractRequest, request: Request):
     defect_bytes = _decode_image(req.defect_image_base64, "Defect photo") if req.defect_image_base64 else None
     if not receipt_bytes and not defect_bytes:
         raise HTTPException(status_code=400, detail="Attach a receipt photo, a defect photo, or both.")
+    ip = _visitor(request, usage_guard.KINDS["photo"]["unavailable"])
     try:
-        usage_guard.consume(int(receipt_bytes is not None) + int(defect_bytes is not None), client_ip(request))
+        usage_guard.consume(int(receipt_bytes is not None) + int(defect_bytes is not None), ip)
     except usage_guard.LimitReached as e:
         raise HTTPException(status_code=429, detail=str(e))
     return {
@@ -155,7 +204,7 @@ def evaluate_coverage(case: NormalizedCase):
     Evaluates submitted case evidence against the verified primary source corpus.
     Closed-world: returns NO VERIFIED COVERAGE FOUND if no source record matches.
     """
-    return engine.evaluate(case, source_status=source_watch.load_status())
+    return evaluate(with_claim_date(case))
 
 
 def _safe_filename(case_id: str) -> str:
@@ -163,19 +212,26 @@ def _safe_filename(case_id: str) -> str:
 
 
 @app.post("/api/generate-package")
-def generate_claim_package(req: GeneratePackageRequest):
+def generate_claim_package(req: GeneratePackageRequest, request: Request):
     """
     Builds the claim PDF from the engine's own evaluation of the case. Any evaluation sent by the
-    client is ignored. Refused while a hard consistency check is unconfirmed.
+    client is ignored. Refused while a hard consistency check is unconfirmed, or when every option
+    found must be checked first. Counted against a daily per-visitor and site-wide limit.
     """
-    evaluation = engine.evaluate(req.case, source_status=source_watch.load_status())
+    case = with_claim_date(req.case)
+    evaluation = evaluate(case)
     if not evaluation.pdf_allowed:
         raise HTTPException(
             status_code=409,
-            detail="Please confirm the highlighted details before the claim PDF is prepared.",
+            detail="Please confirm the highlighted details, or check the source of each option, before the claim PDF is prepared.",
         )
+    ip = _visitor(request, usage_guard.KINDS["pdf"]["unavailable"])
     try:
-        pdf_bytes = pdf_service.generate_pdf(req.case, evaluation)
+        usage_guard.consume(1, ip, kind="pdf")
+    except usage_guard.LimitReached as e:
+        raise HTTPException(status_code=429, detail=str(e))
+    try:
+        pdf_bytes = pdf_service.generate_pdf(case, evaluation)
     except Exception as e:
         print(f"PDF generation failed: {type(e).__name__}")
         raise HTTPException(status_code=500, detail="The claim PDF could not be generated. Please try again.")
