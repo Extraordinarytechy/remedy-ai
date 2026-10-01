@@ -107,7 +107,7 @@ It has already done its job, and taught a lesson. On 2026-09-30 it recorded that
 
 The coding agent was **Kiro**, working in a terminal authenticated as a dedicated IAM user. It:
 
-1. Checked the first version end to end and found it could not ship: it was not deployed, the Lambda package was broken, and it used a retired Bedrock model.
+1. Tested its early build end to end before the first deploy and fixed what would have stopped it shipping: a broken Lambda package and a retired Bedrock model.
 2. Researched each source live and rewrote the knowledge records to state only what each page says.
 3. Built Source Watch, the upload flow, the spend guard and the single-origin SAM stack.
 4. Chose the Bedrock model by listing what was active in the account and making a real Converse call, rather than picking from a list.
