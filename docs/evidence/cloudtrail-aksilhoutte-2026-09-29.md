@@ -1,9 +1,9 @@
 # CloudTrail: calls made with `aksilhoutte` since 2026-09-29
 
-Exported 2026-10-01T20:04:35+00:00 from CloudTrail event history (`aws cloudtrail lookup-events`). All times are UTC (CloudTrail `eventTime`). Account IDs and IPs redacted.
+Exported 2026-10-01T20:14:44+00:00 from CloudTrail event history (`aws cloudtrail lookup-events`). All times are UTC (CloudTrail `eventTime`). Account IDs and IPs redacted.
 
-- Total events: **4714**, of which **168** changed something (ReadOnly=false).
-- Calls whose user agent carries the `app/kiro-ide` tag (set by the agent's deploy script with `AWS_SDK_UA_APP_ID`; a client-set value, recorded by AWS as sent): **70**, first at `2026-10-01T18:05:29Z`, e.g. request a804943a-5c79-469b-90d5-3f8daa68d496.
+- Total events: **4809**, of which **168** changed something (ReadOnly=false).
+- Calls whose user agent carries the `app/kiro-ide` tag (set by the agent's deploy script with `AWS_SDK_UA_APP_ID`; a client-set value, recorded by AWS as sent): **165**, first at `2026-10-01T18:05:29Z`, e.g. request a804943a-5c79-469b-90d5-3f8daa68d496.
 
 | Client (from userAgent) | Mutating calls |
 | --- | ---: |

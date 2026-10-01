@@ -116,7 +116,7 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 **Proof of the connection** is AWS's own record, not a screenshot of a chat:
 
 - `aws sts get-caller-identity` from the agent's session, at the top of every deploy log in `docs/evidence/`.
-- A **CloudTrail** export of every API call made with the agent's IAM user (`docs/evidence/cloudtrail-*.md`). From the agent's first call (2026-09-29 18:10 UTC) through the export at 2026-10-01 20:04 UTC that was **4,714 events, 168 of them mutating, across 15 AWS services**; the first change was the stack's `CreateChangeSet` at 2026-09-29 18:36:09Z. Since the 2026-10-01 18:05 UTC deploy, calls also carry the client-set `app/kiro-ide` user-agent tag (70 in that export). Every entry keeps AWS's own request ID, so any line can be checked against the account's event history.
+- A **CloudTrail** export of every API call made with the agent's IAM user (`docs/evidence/cloudtrail-*.md`). From the agent's first call (2026-09-29 18:10 UTC) through the export at 2026-10-01 20:14 UTC that was **4,809 events, 168 of them mutating, across 15 AWS services**; the first change was the stack's `CreateChangeSet` at 2026-09-29 18:36:09Z. Since the 2026-10-01 18:05 UTC deploy, calls also carry the client-set `app/kiro-ide` user-agent tag (165 in that export). Every entry keeps AWS's own request ID, so any line can be checked against the account's event history.
 - The live site's own `/api/sources` shows Source Watch runs with timestamps, triggered first by the agent's deploy script and then by the daily schedule.
 
 ## What went wrong (and what it changed)

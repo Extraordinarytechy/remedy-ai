@@ -42857,5 +42857,860 @@
   "resources": [
    "remedy-ai-SourceWatchErrorAlarm-QP2UV69MceaD"
   ]
+ },
+ {
+  "time": "2026-10-01T19:58:22Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "9e3ddc03-ad55-411c-b118-daa0612c082d",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:58:29Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "e9dfca35-6d07-457b-9881-1be970b61f54",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:58:34Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "d80de7e2-fd58-4564-8feb-c9c3ac650f50",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:58:38Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "761f88df-c056-4861-a45d-6b318736060b",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:58:42Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "e9c6da93-6230-4b1a-964d-4c9089fd63ef",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:58:49Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "65fe7ce1-4f30-43b7-91b2-6e8a6bc1d56f",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:58:53Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "58c952f0-7563-41f9-8e89-d510a744df50",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:58:56Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "d977f413-e271-4bc5-95c6-560356e04247",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:00Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "3e02a3ef-0a6d-44b5-bf97-839ec2f153a0",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:03Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "48b9a2ac-b45d-455d-a799-b0aa189e45d4",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:06Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "9754fce2-c16e-4b1a-91d3-37a33a6ee08e",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:10Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "987dd567-87c6-4e2e-b289-85d3b1c4f3f9",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:13Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "9e14da22-3f5b-43bf-956f-d54d0dd8a3d0",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:17Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "f706c854-ca11-4136-8071-249df7bcdac2",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:23Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "f8ecfdb0-f2ad-449a-8c5a-94c5167576b6",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:28Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "b81c720c-8868-4bdf-876b-a94c1122a895",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:31Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "1b2e2806-f15d-4232-a063-412fc15c6320",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:34Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "61349fca-5af9-4458-a833-502966c3e437",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:38Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "02a94c0d-0563-4e8a-b2da-b8d1344f7641",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:41Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "cb1dc63b-35c2-412a-a8b3-9e93016a0be6",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:44Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "4efaa549-0ef7-491b-a3be-ef4a6d3a8bbf",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:48Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "9bee75b1-3b9c-4738-b422-30a3e2c638db",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:51Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "28782bd8-2d1d-4cce-9880-6a50a67ae112",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:54Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "b22e902c-0422-4b3a-82b5-783bc31f8d4c",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T19:59:58Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "a1af145c-72ea-4571-a836-a4e2480428f6",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:02Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "1e2a8847-4846-4e3d-92ad-4304faafe3c1",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:06Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "98e3f076-cf75-4bdd-9fa5-874db3248f21",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:09Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "deb48d04-4b8c-488c-a4ed-b143a7373f6c",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:13Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "10cbdd22-c291-4817-bf62-94fd66dfb2c7",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:16Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "48ce0758-99b2-408b-b626-fd4dc2f0cdd8",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:20Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "7379b675-ecdf-4f05-b82a-009b0d98d756",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:23Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "9fe21232-968a-4251-8cab-c96a9afc9f93",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:28Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "a2ce086d-8bcf-4341-a877-847b2d4acc63",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:32Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "5fec21db-784a-4752-b933-efb48ecde606",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:35Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "d818431b-cee7-447d-b4d8-127d863ff03c",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:39Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "00884134-9b25-4f1b-86c3-101167502a48",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:42Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "6146a5b4-732d-4f15-899c-599ec34caa02",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:46Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "08943a91-144b-4e66-95a1-cf5142e50fb5",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:49Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "b58e0391-bd86-43b1-928d-e5c334e21078",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:52Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "6bd74e76-83d4-46dd-90dc-336f8bca40ab",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:00:56Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "970588f2-33a3-4a10-b44a-dfda331ba1ea",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:00Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "bfd842e6-f7ea-4255-9e56-97332e4fa8e5",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:03Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "9d34396c-f5b0-4e67-b305-20be5c41e488",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:06Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "afe36b9f-f7f6-4439-97b6-5ceda9226120",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:10Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "eec5b6ba-fa40-4e41-9a92-64a002856a2e",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:13Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "6253c757-53c6-42dd-b182-413bff488d03",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:19Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "604aec9b-40fd-43cc-8b9a-26287b76a37b",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:23Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "5e4cc33e-feca-4cd6-999b-822c11c856e7",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:28Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "a19ab733-b11b-4693-92ee-21e08e039edb",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:32Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "e9b2274f-c898-4c36-9528-c71be2d38c8b",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:36Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "7bb36e7f-d47a-4a86-947c-06a108347fd8",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:41Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "c7f79943-3bb0-4c10-b3d1-7943b60d6c8f",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:45Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "96a70f50-7ab9-4ce3-b44c-8b91af684c2b",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:48Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "919da6a0-e4cf-4a53-ab6b-42e7c6848d81",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:52Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "57c8d38e-d3bc-4931-85c5-bed2611c510b",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:01:55Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "94eb350d-ac9b-4e35-8281-159fff7b487a",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:02:03Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "9d0a986e-753d-4e06-9583-32e43057626e",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:02:08Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "656624b7-3149-48af-9346-f0b3584a0dc8",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:02:12Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "0eed1b90-95bc-4080-b924-8267045ec8ba",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:02:15Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "2ceb6182-74c8-4b10-836d-b15f31a5a987",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:02:21Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "c20306bb-262e-4c8c-8b3c-ff04804b74cf",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:02:30Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "92af020b-e1b5-4545-9fa5-d739c1b4555b",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:02:34Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "98f9a809-bed9-4e9f-b82a-256f9170f089",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:02:39Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "7633a909-4785-49ee-8b4c-aa7130b25bfc",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:02:42Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "ebce6a6c-3126-4c51-a80b-285614d9c2e9",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:02:45Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "7f6c4713-03a7-4d23-98f5-eb4c055345db",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:02:49Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "8de86edd-68f2-4f1d-89b6-43e8cfb1d096",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:02:53Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "1f17b2ce-fd74-4c6f-a03a-8f2a5b8c6e2b",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:02:56Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "a91feb05-3d36-4c13-b50a-4b1ffd62e366",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:04Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "310419a4-11aa-40d1-b5ec-71940cd493a3",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:08Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "3304a786-7161-4084-992f-f67b47705684",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:11Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "1a2717d4-9314-468e-bd6c-187cd006998d",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:15Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "d48000cb-d617-4c3a-a464-f2677a29c4a5",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:20Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "17d4eb7c-3d83-410b-82a5-9e15b6c63518",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:23Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "891f1176-3b87-4241-b50a-6768e6b3ddf7",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:28Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "b9f1c8ba-8169-438a-b746-6d728e96dbf4",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:31Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "d2342237-cfb6-4449-8007-ebbb8ed2d076",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:35Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "2e3bf144-67eb-4f8f-84ed-7a8785bb6416",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:38Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "9c8ae4eb-4ae1-4f8d-8b35-e16ce64c1143",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:42Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "6ccaa91f-409e-4be0-a7e8-24aa8effb7c2",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:45Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "a4783413-998f-4f08-befd-d73e2e953edc",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:49Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "5bfe1d8b-0811-4224-b43c-d96ba201f38d",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:52Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "09e0249f-e694-4005-aa0f-4a0fb303e0bb",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:55Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "d88d0623-02cf-4059-937f-13bb28e358f6",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:03:59Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "981ef3ad-c30f-41a2-bf3b-537e30d6f7c3",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:04:02Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "e0a98e0c-10a4-414f-8ef8-c2940488887f",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:04:06Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "3304e076-2666-4de5-9803-1a7c3bb5368e",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:04:10Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "fe9258a9-ca72-4859-80d1-f886f50a5c46",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:04:13Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "8b36257c-3f6d-4ad4-97fa-5146404f9c85",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:04:16Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "a76113f1-243e-44c5-940c-925d5a7caacf",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:04:20Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "58c9c0c2-1603-4453-8d00-5f749826bb58",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:04:23Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "b44d4dec-c6f1-4974-8424-3575af6960c5",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:04:27Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "25c9b79d-157f-41ee-a7d7-02f9047484af",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:04:31Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "97c42b4d-0b92-49ec-8fc8-d968db1ca9fc",
+  "resources": []
+ },
+ {
+  "time": "2026-10-01T20:04:34Z",
+  "event": "LookupEvents",
+  "source": "cloudtrail.amazonaws.com",
+  "read_only": "true",
+  "user_agent": "aws-cli/2.24.15 app/kiro-ide",
+  "request_id": "8b31e775-6cd0-4040-890a-6e2e9c476ba2",
+  "resources": []
  }
 ]
