@@ -29,7 +29,7 @@ Six routes today, from four kinds of source:
 | Route | Source | Status in RemedyAI |
 | --- | --- | --- |
 | Apple One (1) Year Limited Warranty (U.S.; iPhone, iPad and other iOS devices) | Apple | Covers new launches such as iPhone 18 Pro (on sale September 18, 2026): defects for one year from purchase, claimed during the year. Accidental damage is not covered |
-| Mac mini (2023, M2) no-power program | Apple | Active, on Apple's index since June 2025; serial check required. Found missing on 2026-09-30, verified by a person and added |
+| Mac mini (2023, M2) no-power program | Apple | Active, on Apple's index since June 2025; serial check required. Found missing on 2026-09-30, verified against Apple's page and added |
 | iPhone 14 Plus rear camera program | Apple | Active; requires Apple's serial check, so RemedyAI never says "eligible", only "possible: check your serial number" |
 | iPhone 12 / 12 Pro no-sound program | Apple | Page still online, **not on Apple's index**; nearly every unit is past its window |
 | Visa Infinite extended warranty (+1 year on warranties of 3 years or less) | Visa | Issuer's Guide to Benefits governs; RemedyAI shows only what Visa's page states |
@@ -42,13 +42,13 @@ A static warranty database goes stale quietly. We found this out the hard way (s
 - **EventBridge Scheduler** runs a Lambda at 06:00 UTC.
 - It fetches every source page plus Apple's [service-program index](https://support.apple.com/service-programs), hashes the visible text, and **stores a dated snapshot in S3 whenever a page changes**.
 - It records, per source: HTTP status, whether an Apple program is still listed on the index, when the text last changed, and which programs appeared or disappeared from the index since the previous run.
-- The API reads that status on every evaluation. A route whose source page is unreachable, or whose Apple program has left the index, is **downgraded to "Source changed: re-verify first"** instead of being shown as a match. If a page's text changes after a person last checked it, the route carries a warning with both dates.
+- The API reads that status on every evaluation. A route whose source page is unreachable, or whose Apple program has left the index, is **downgraded to "Source changed: re-verify first"** instead of being shown as a match. If a page's text changes after it was last verified, the route carries a warning with both dates.
 
-The Source Watch table is on the home page, so anyone can see when each source was last checked by a person and by the machine.
+The Source Watch table is on the home page, so anyone can see when each source was last verified and when it was last checked automatically.
 
-It also compares Apple's list with the corpus and publishes a **gap alert**: any repair program Apple lists that RemedyAI has no record for. That check exists because the Mac mini (2023) no-power program had been on Apple's list since June 2025 without a RemedyAI record; a person verified its page and added it on 2026-09-30.
+It also compares Apple's list with the corpus and publishes a **gap alert**: any repair program Apple lists that RemedyAI has no record for. That check exists because the Mac mini (2023) no-power program had been on Apple's list since June 2025 without a RemedyAI record; its page was verified and the record added on 2026-09-30.
 
-It has already done its job, and taught us something. On 2026-09-30 it recorded that the text of Visa's Visa Infinite page had changed since the last human check. A person re-read the page: the Extended Warranty wording (one extra year on eligible warranties of 3 years or less) was unchanged, so the record's human-check date was updated. The page then changed again the same day, for reasons unrelated to that benefit. Watching a whole marketing page is noisy, so a record can now name the exact sentence it relies on: Source Watch tracks only that sentence and downgrades the option to "check it first" if the sentence disappears.
+It has already done its job, and taught us something. On 2026-09-30 it recorded that the text of Visa's Visa Infinite page had changed since it was last verified. The page was re-read: the Extended Warranty wording (one extra year on eligible warranties of 3 years or less) was unchanged, so the record's verification date was updated. The page then changed again the same day, for reasons unrelated to that benefit. Watching a whole marketing page is noisy, so a record can now name the exact sentence it relies on: Source Watch tracks only that sentence and downgrades the option to "check it first" if the sentence disappears.
 
 ## How it's built
 
@@ -112,7 +112,7 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 **Proof of the connection** is AWS's own record, not a screenshot of a chat:
 
 - `aws sts get-caller-identity` from the agent's session, at the top of every deploy log in `docs/evidence/`.
-- A **CloudTrail** export of every API call made with the agent's IAM user (`docs/evidence/cloudtrail-*.md`). From the first deploy through the export at 2026-09-30 17:16 UTC that was **1,311 events, 73 of them mutating, across 12 AWS services**, starting with the stack's `CreateChangeSet` at 2026-09-29 18:36:09Z. Every entry keeps AWS's own request ID, so any line can be checked against the account's event history.
+- A **CloudTrail** export of every API call made with the agent's IAM user (`docs/evidence/cloudtrail-*.md`). From the first deploy through the export at 2026-10-01 14:05 UTC that was **2,951 events, 132 of them mutating, across 15 AWS services**, starting with the stack's `CreateChangeSet` at 2026-09-29 18:36:09Z. Every entry keeps AWS's own request ID, so any line can be checked against the account's event history.
 - The live site's own `/api/sources` shows Source Watch runs with timestamps, triggered first by the agent's deploy script and then by the daily schedule.
 
 ## What went wrong (and what it changed)
@@ -135,8 +135,8 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 | Whether your iPhone 14 Plus serial is in Apple's affected range | Only Apple's serial checker knows. RemedyAI sends you there |
 | Your device's first retail sale date | If it was bought used or refurbished, the 3-year window may have started before your purchase |
 | Your card issuer's exact terms | Visa's page defers to the issuer's Guide to Benefits |
-| Every program that exists | Six verified routes today. Adding one means verifying its source by hand first. Source Watch flags Apple programs that have no record yet |
-| Whether a changed page changed the terms | Source Watch detects that text changed, not what the change means. A person re-verifies |
+| Every program that exists | Six verified routes today. Adding one means verifying its official page first. Source Watch flags Apple programs that have no record yet |
+| Whether a changed page changed the terms | Source Watch detects that text changed, not what the change means. The page is then re-verified |
 
 ## Cost
 
@@ -148,5 +148,5 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 ## Where it goes next
 
 - **First users:** people whose warranty just ended (device forums, repair shops that see these faults daily).
-- **Corpus growth:** each new route is a JSON record plus a Source Watch entry, verified by a person before it goes live. The home page lists what is covered today (built from the same records the engine uses) and what is planned: new Apple programs as they appear, Samsung and Google programs, Mastercard and American Express benefits, the EU 2-year guarantee, and consumer law in more countries.
+- **Corpus growth:** every route is verified against its official page before it goes live, then watched by Source Watch. A new manufacturer warranty or repair program (any brand) is only a JSON record, because those evaluators are driven by the record's data. A new kind of route, such as another card network or another country's consumer law, also needs its own small evaluator today, as Visa Infinite and UK law do. The home page lists what is covered today (built from the same records the engine uses) and what is planned: new Apple programs as they appear, Samsung and Google programs, Mastercard and American Express benefits, the EU 2-year guarantee, and consumer law in more countries.
 - **Business model:** free checks; paid tracked claims (deadline reminders, follow-up letters). Repair shops and card issuers are the partner channel: both benefit when a covered repair is claimed instead of paid out of pocket.

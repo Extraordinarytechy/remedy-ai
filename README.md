@@ -8,7 +8,7 @@
 
 RemedyAI checks a broken product against official sources (the maker's warranty and free repair
 programs, card warranty benefits and consumer law), tells you what to do next, and prepares the
-claim. It only answers from a source a person has verified, re-checks every source daily, and says
+claim. It only answers from an official source that has been verified, re-checks every source daily, and says
 so when nothing covers you.
 
 **Try it:** https://d1fnfajqesgvsl.cloudfront.net · no sign-up · nothing stored
@@ -27,7 +27,9 @@ so when nothing covers you.
 | UK consumer rights on faulty goods: up to 6 years to claim (5 in Scotland) | Any brand, UK | [GOV.UK](https://www.gov.uk/accepting-returns-and-giving-refunds) |
 
 Each option is one JSON record in [`backend/knowledge/`](backend/knowledge), and the site's coverage
-list is built from those same records.
+list is built from those same records. The UK and Visa Infinite options cover any brand, including TVs
+and home appliances. A new manufacturer warranty or repair program is only a record; a new card network
+or country's consumer law also needs a small evaluator.
 
 ## How it works
 
@@ -49,8 +51,8 @@ list is built from those same records.
 **Source Watch** ([`source_watch.py`](backend/src/services/source_watch.py)) runs daily. It re-reads
 every source (or just the exact sentence a record relies on), stores a snapshot when it changes, and
 downgrades an option to "check it first" if its page disappears, the sentence a record relies on
-disappears, or an Apple program leaves Apple's list. Any other change to a page after a person last
-checked it adds a warning with both dates. It also reports any Apple repair program that has no
+disappears, or an Apple program leaves Apple's list. Any other change to a page after it was last
+verified adds a warning with both dates. It also reports any Apple repair program that has no
 record yet. Options marked "check it first" are never used in the claim letter.
 
 ## Architecture
