@@ -1,0 +1,52 @@
+{
+  "id": "samsung_galaxy_limited_warranty_us",
+  "category": "manufacturer_warranty",
+  "issuer_or_brand": "Samsung Electronics America, Inc.",
+  "brand_short": "Samsung",
+  "program_name": "Samsung Care: 12-month built-in limited warranty for Galaxy phones (U.S.)",
+  "coverage_summary": "Samsung Galaxy phones bought new in the U.S., including Galaxy Z Fold and Flip, for faults in the first 12 months",
+  "coverage_region": "United States",
+  "source_url": "https://www.samsung.com/us/explore/care/game-changing-phone-repair-that-walks-the-walk/",
+  "verified_at": "2026-10-01",
+  "countries": ["US"],
+  "warranty_years": 1,
+  "watch_phrases": [
+    "Samsung Care is the 12-month built-in limited warranty"
+  ],
+  "applicable_devices": [
+    "Galaxy"
+  ],
+  "excluded_devices": [
+    "Galaxy Tab",
+    "Galaxy Book",
+    "Galaxy Watch",
+    "Galaxy Buds",
+    "Galaxy Ring",
+    "Galaxy Fit"
+  ],
+  "coverage": "Defects in material and workmanship under normal use and service, for 12 months from delivery to the original purchaser or from the device's first set-up and activation, whichever comes first",
+  "remedy": "Repair or replacement by Samsung through its authorized walk-in, mobile or mail-in service",
+  "mandatory_conditions": [
+    "The phone was bought new in the United States (the warranty doesn't cover products bought for use outside the U.S.)",
+    "The claim is made within 12 months of delivery or first set-up and activation, whichever came first",
+    "Service is through one of Samsung's authorized walk-in, mobile (We Come to You) or mail-in options; see samsung.com/service or call 1-800-SAMSUNG",
+    "Bring the sales receipt or other proof of purchase showing the original purchase date, the seller's name and address, and the phone's serial number"
+  ],
+  "exclusions_and_caveats": [
+    "Not covered: defects or damage caused by accident, misuse, abnormal use or conditions, neglect, or unusual physical, electrical or electromechanical stress",
+    "Not covered: damage from liquid, moisture, sand, dust or dirt beyond the product's specifications",
+    "Not covered: scratches, dents and cosmetic damage, or damage from pressing the touch screen with excessive force",
+    "The battery is covered only if its capacity falls below 80% of rated capacity or it leaks",
+    "Used phones resold by a dealer or retailer are not covered, except Samsung-certified pre-owned or renewed devices",
+    "If Samsung decides the fault isn't covered, you pay for parts, shipping and labor; back up the phone first, as its contents may be erased",
+    "Full terms are in Samsung's Standard Limited Warranty for mobile devices (linked below); some carriers and retailers add their own warranty or protection plans"
+  ],
+  "claim_action": "Book warranty service before {deadline}: walk in to a Samsung authorized service center, use We Come to You, or start a mail-in repair at samsung.com/service (or call 1-800-SAMSUNG). Back up the phone first and bring the receipt showing the purchase date, the seller and the serial number.",
+  "visible_damage_note": "Visible physical damage was recorded in the evidence photo. Samsung's warranty does not cover accidental, liquid or cosmetic damage, or damage from pressing the screen with excessive force.",
+  "related_sources": [
+    {
+      "title": "Samsung: Terms and Conditions for Mobile (Standard Limited Warranty)",
+      "url": "https://www.samsung.com/us/support/legal/LGL10000282/"
+    }
+  ]
+}

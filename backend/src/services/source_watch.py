@@ -20,7 +20,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 APPLE_INDEX_URL = "https://support.apple.com/service-programs"
-USER_AGENT = "Mozilla/5.0 (compatible; RemedyAI-SourceWatch/1.0; +https://github.com/)"
+USER_AGENT = "Mozilla/5.0 (compatible; RemedyAI-SourceWatch/1.0; +https://github.com/Extraordinarytechy/remedy-ai)"
 _CACHE: Dict[str, Any] = {"at": 0.0, "status": {}}
 CACHE_SECONDS = 300
 

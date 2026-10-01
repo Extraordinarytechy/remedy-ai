@@ -25,13 +25,14 @@ so when nothing covers you.
 | iPhone 12 / 12 Pro no-sound program (ended; kept to show delisting) | Apple | [Apple](https://support.apple.com/en-in/iphone-12-and-iphone-12-pro-service-program-for-no-sound-issues) |
 | Google Consumer Hardware Limited Warranty: Pixel phones, tablets, watches and earbuds, first year | Google, U.S. and Canada | [Google](https://support.google.com/product-documentation/answer/12461608?hl=en) |
 | Pixel 9 Pro & 9 Pro XL Extended Repair Program: vertical display line (or flicker on 9 Pro), 3 years | Google | [Google](https://support.google.com/pixelphone/answer/16737524?hl=en) |
+| Samsung Care 12-month built-in limited warranty: Galaxy phones, including Fold and Flip | Samsung, U.S. | [Samsung](https://www.samsung.com/us/explore/care/game-changing-phone-repair-that-walks-the-walk/) ([terms](https://www.samsung.com/us/support/legal/LGL10000282/)) |
 | Visa Infinite Extended Warranty Protection: +1 year on warranties of 3 years or less | Any brand, U.S. | [Visa](https://www.visa.com/en-us/personal/cards/credit/visa-infinite) |
 | UK consumer rights on faulty goods: up to 6 years to claim (5 in Scotland) | Any brand, UK | [GOV.UK](https://www.gov.uk/accepting-returns-and-giving-refunds) |
 
 Each option is one JSON record in [`backend/knowledge/`](backend/knowledge), and the site's coverage
 list is built from those same records. The UK and Visa Infinite options cover any brand, including TVs
 and home appliances. A new manufacturer warranty or repair program is only a record: the two Google
-options were added as JSON files with no Google-specific code. A new card network or country's consumer
+options and Samsung's warranty were added as JSON files with no brand-specific code. A new card network or country's consumer
 law also needs a small evaluator.
 
 ## How it works
@@ -72,7 +73,7 @@ flowchart LR
     L --> BR["Amazon Bedrock<br/>Nova 2 Lite (vision)"]
     L --> DDB[("DynamoDB<br/>source status,<br/>daily caps")]
     SCH["EventBridge Scheduler<br/>daily 06:00 UTC"] --> SW["Lambda: Source Watch"]
-    SW -->|"fetch + hash"| SRC["Apple / Google / Visa / GOV.UK pages"]
+    SW -->|"fetch + hash"| SRC["Apple, Google, Samsung,<br/>Visa and GOV.UK pages"]
     SW --> DDB
     SW --> SNAP[("S3 snapshots<br/>(versioned)")]
 ```
@@ -98,7 +99,7 @@ project writeup is in [`docs/WRITEUP.md`](docs/WRITEUP.md).
 ```bash
 cd backend
 pip install -r requirements-dev.txt
-python -m pytest tests -q                    # 163 tests
+python -m pytest tests -q                    # 184 tests
 python -m uvicorn src.app:app --port 8082    # the Vite dev server proxies /api here
 ```
 

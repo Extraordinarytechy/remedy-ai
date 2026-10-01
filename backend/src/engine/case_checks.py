@@ -111,17 +111,20 @@ def run_checks(case: NormalizedCase) -> List[CaseCheck]:
             confirmed="country_currency" in confirmed,
         ))
 
-    # 2. Receipt date vs purchase date entered (soft).
+    # 2. Receipt date vs purchase date entered (hard). Every deadline is counted from the purchase
+    # date, so a different date on the receipt would move every deadline: the user confirms first.
     receipt_date = _iso(r.purchase_date)
     entered_date = _iso(case.purchase_date)
     if receipt_date and entered_date and receipt_date != entered_date:
         checks.append(CaseCheck(
             id="receipt_date",
-            severity="soft",
+            severity="hard",
             message=(
                 f"The receipt date reads {receipt_date}, but the purchase date entered is {entered_date}. "
-                "The entered date is used. Check it matches your receipt."
+                "Every deadline here is counted from the date you entered, so a wrong date gives a wrong deadline."
             ),
+            confirm_label=f"I've checked: the purchase date I entered ({entered_date}) is correct.",
+            confirmed="receipt_date" in confirmed,
         ))
 
     # 3. Receipt store vs store entered (soft).

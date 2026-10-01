@@ -50,6 +50,14 @@ def parse_date(date_str: str) -> date:
     return date.fromisoformat(s)
 
 
+# Symptom matching: a fault description is read clause by clause, and a keyword preceded (within five
+# words) by one of these denials doesn't count. A bare "no" is not a denial: "no preview" is a symptom.
+CLAUSE_SPLIT = re.compile(r"[.;:!?,()]|\bbut\b|\band\b|\bthough\b|\balthough\b")
+NEGATION = re.compile(
+    r"\b(not|never|isn't|wasn't|aren't|doesn't|don't|didn't|hasn't|haven't|without|"
+    r"no (?:problems?|issues?|sign) (?:with|of))\b"
+)
+
 # Words that mean the product is an accessory, an app or a service, not the device a record covers
 # ("iPhone 18 Pro case", "Apple TV app").
 NOT_THE_DEVICE = re.compile(
@@ -176,6 +184,15 @@ class EligibilityEngine:
                     0,
                     "RemedyAI could not load a recent automatic check of this source (it is missing or "
                     "more than a day old). Check the official page before relying on this option.",
+                )
+            elif source_status:
+                # The latest check exists but has no entry for this source (for example a record added
+                # after that run): it has never been checked automatically, so it isn't trusted yet.
+                route.status = "NEEDS_REVERIFICATION"
+                route.provenance.exceptions.insert(
+                    0,
+                    "This source has not been checked automatically yet. Check the official page before "
+                    "relying on this option.",
                 )
             if route.deadline:
                 route.days_left = (parse_date(route.deadline) - as_of).days
@@ -331,8 +348,19 @@ class EligibilityEngine:
 
     @staticmethod
     def _symptom_matches(case: NormalizedCase, record: Dict[str, Any]) -> bool:
-        desc = case.defect_description.lower()
-        return any(k.lower() in desc for k in record.get("symptom_keywords", []))
+        """
+        A program symptom keyword counts only where it isn't denied earlier in the same clause: "not a vertical
+        line", "the screen doesn't flicker" and "no problem with the rear camera" don't match. Keywords
+        match at a word start, so "flicker" also matches "flickering" but "line" doesn't match "outline".
+        """
+        desc = case.defect_description.lower().replace("\u2019", "'")
+        for clause in CLAUSE_SPLIT.split(desc):
+            for k in record.get("symptom_keywords", []):
+                for m in re.finditer(rf"(?<![a-z0-9]){re.escape(k.lower())}", clause):
+                    before = clause[: m.start()].split()[-5:]
+                    if not NEGATION.search(" ".join(before)):
+                        return True
+        return False
 
     # ------------------------------------------------------------------
     # Route evaluators

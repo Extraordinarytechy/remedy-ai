@@ -14,45 +14,58 @@ from src.engine.eligibility import EligibilityEngine, is_actionable  # noqa: E40
 from src.models.schemas import NormalizedCase  # noqa: E402
 
 COUNTRY = {"US": "U.S.", "GB": "UK", "IN": "India", "AU": "Australia", "CA": "Canada", "OTHER": "other / not stated"}
+# Records added after the first run of this test (2026-10-01), to show what each one changed.
+ADDED_AFTER_FIRST_RUN = {"samsung_galaxy_limited_warranty_us": "Samsung's U.S. phone warranty"}
 
 
-def gap(case: dict) -> str:
-    """Why nothing matched, in plain words (for the roadmap)."""
-    from datetime import date
+def body_of(c: dict, **override) -> dict:
+    return {"case_id": c["id"], "evaluation_date": c["posted"], "purchase_country": "US", **c["case"], **override}
 
-    country = case.get("purchase_country", "US")
-    brand = (case.get("product_brand") or case["product_name"].split()[0]).lower()
-    age_days = (date.fromisoformat(case["failure_date"]) - date.fromisoformat(case["purchase_date"])).days
-    where = "country not stated" if country == "OTHER" else f"bought in {COUNTRY[country]}"
-    if brand == "samsung":
-        return "Samsung's warranty not covered yet" + ("" if country in ("US", "GB") else f"; {where}")
-    if brand in ("apple", "google") and age_days <= 365:
-        return f"inside {brand.title()}'s one-year warranty, but {where}: only the U.S. version is covered so far"
-    return f"outside the maker's warranty; {where}: consumer law there not covered yet"
+
+def has_route(engine: EligibilityEngine, body: dict) -> bool:
+    return any(is_actionable(r) for r in engine.evaluate(NormalizedCase(**body)).matched_routes)
+
+
+def gap(engine: EligibilityEngine, body: dict) -> str:
+    """Why nothing matched, in plain words, worked out by re-running the case (not guessed)."""
+    country = body["purchase_country"]
+    brand = (body.get("product_brand") or body["product_name"].split()[0]).title()
+    if country != "US" and has_route(engine, {**body, "purchase_country": "US"}):
+        where = "the poster didn't say where it was bought" if country == "OTHER" else f"bought in {COUNTRY[country]}"
+        return f"would match if bought in the U.S.; {where}, and {brand}'s warranty there isn't covered yet"
+    if country == "OTHER":
+        return "the poster didn't say where it was bought, and it wouldn't match as a U.S. purchase either"
+    if country in ("IN", "AU", "CA"):
+        return f"bought in {COUNTRY[country]}: {brand}'s warranty and consumer law there aren't covered yet"
+    return f"bought in the {COUNTRY[country]}: no record covers this product at this age yet"
 
 
 def main():
     data = json.loads((ROOT / "docs/field-test/cases.json").read_text(encoding="utf-8"))
     engine = EligibilityEngine()
+    before = EligibilityEngine()
+    for rid in ADDED_AFTER_FIRST_RUN:
+        before.records.pop(rid, None)
+
     rows, outcomes, gaps = [], Counter(), Counter()
+    first_run_hits = 0
     for c in data["included"]:
-        body = {"case_id": c["id"], "evaluation_date": c["posted"], "purchase_country": "US", **c["case"]}
-        ev = engine.evaluate(NormalizedCase(**body))
-        routes = ev.matched_routes
-        actionable = [r for r in routes if is_actionable(r)]
-        if actionable:
+        body = body_of(c)
+        routes = engine.evaluate(NormalizedCase(**body)).matched_routes
+        first_run_hits += has_route(before, body)
+        if any(is_actionable(r) for r in routes):
             outcome = "Route found"
         elif routes:
             outcome = "Route found, confirm details first"
         else:
             outcome = "No covered route"
         outcomes[outcome] += 1
-        found = "; ".join(f"{r.title} ({r.status.replace('_', ' ').lower()}, deadline {r.deadline})" for r in routes) or "-"
-        why = "" if routes else gap(body)
+        found = "; ".join(f"{r.title} ({r.status.replace('_', ' ').lower()}, deadline {r.deadline})" for r in routes)
+        why = "" if routes else gap(engine, body)
         if why:
             gaps[why] += 1
         rows.append((c["id"], c["case"]["product_name"], COUNTRY.get(body["purchase_country"], body["purchase_country"]),
-                     c["posted"], outcome, found if routes else why, c["url"]))
+                     c["posted"], outcome, found or why, c["url"]))
 
     n = len(rows)
     lines = [
@@ -74,26 +87,22 @@ def main():
     ]
     for k in ("Route found", "Route found, confirm details first", "No covered route"):
         lines.append(f"- **{k}:** {outcomes[k]} of {n}")
+    added = ", ".join(ADDED_AFTER_FIRST_RUN.values())
+    lines += ["", f"Before and after: the first run (2026-10-01) found a route for {first_run_hits} of {n}. The biggest gap "
+              f"was Samsung, so the next record verified and added was {added}; with it, {outcomes['Route found']} of {n}."]
     lines += ["", "Why nothing matched:", ""]
     lines += [f"- {k}: {v}" for k, v in gaps.most_common()]
-    # Sensitivity: the posts that didn't say where the product was bought, re-run as U.S. purchases.
     unknown = [c for c in data["included"] if c["case"].get("purchase_country") == "OTHER"]
-    as_us = sum(
-        1 for c in unknown
-        if any(is_actionable(r) for r in engine.evaluate(NormalizedCase(**{
-            "case_id": c["id"], "evaluation_date": c["posted"], **c["case"], "purchase_country": "US"})).matched_routes)
-    )
+    as_us = sum(has_route(engine, body_of(c, purchase_country="US")) for c in unknown)
     lines += ["", f"Sensitivity: {len(unknown)} posts didn't say where the product was bought. Entered as U.S. purchases, "
-              f"{as_us} of them would get a route (Apple's U.S. warranty). The result above does not count them."]
-    lines += ["", "What this changes: Samsung's warranty is the most common gap (5 of 12 misses), so it is the next record "
-              "to verify, followed by Apple's warranty outside the U.S. and consumer law in more countries."]
+              f"{as_us} of them would get a route. The result above does not count them."]
     lines += ["", "## Cases", "", "| # | Product | Bought in | Posted | Outcome | Route or gap | Source |", "| --- | --- | --- | --- | --- | --- | --- |"]
     for r in rows:
         lines.append(f"| {r[0]} | {r[1]} | {r[2]} | {r[3]} | {r[4]} | {r[5]} | [post]({r[6]}) |")
     lines += ["", "A route is what RemedyAI would tell the person to try first; the maker, card issuer or store makes the final decision."]
     out = ROOT / "docs/field-test/results.md"
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print("\n".join(lines[14:22]))
+    print("\n".join(lines[14:30]))
     print("WROTE", out)
 
 

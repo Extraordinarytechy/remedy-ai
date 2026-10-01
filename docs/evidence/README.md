@@ -20,5 +20,10 @@ is as AWS and the scripts produced it.
 | `deploy-20260929T183512Z.log` | First deploy: the stack is created from nothing. |
 | `deploy-20260929T184745Z.log` to `deploy-20260929T190504Z.log` | Same-day fixes and redeploys (Source Watch, upload flow, spend guard, writeup links). `185404Z` shows a failed run from a shell syntax error in the deploy script, fixed in the next run; it is kept on purpose. |
 | `deploy-20260930T*.log` | Deploys for the claim-integrity checks, security hardening, the redesign, new Apple sources and Source Watch changes. |
+| `deploy-20261001T115730Z.log` to `deploy-20261001T152615Z.log` | Code-review fixes, the origin-verify header, Source Watch's 36-hour staleness rule and its alarms, and the site copy rewrite. |
+| `deploy-20261001T170510Z.log` | Strict Bedrock output schema, fail-closed source changes and the degraded-sources alarm, and Google's warranty. Its smoke test failed: a record (the Pixel 9 Pro program) was added to the repository while this deploy ran, so the live API's records didn't match the repository's. It is kept on purpose. |
+| `deploy-20261001T171007Z.log` | The next deploy, with the Pixel 9 Pro record: smoke test passed. |
+| `deploy-20261001T172852Z.log` | Site copy and the source-status panel. |
+| `deploy-20261001T180527Z.log` | Samsung's U.S. warranty, per-source freshness, negation-aware symptom matching, the receipt-date hard check and anonymous usage counts. From this deploy on, the agent's AWS CLI and SAM CLI calls carry `app/kiro-ide` in their user agent (set with `AWS_SDK_UA_APP_ID`; a client-set value that CloudTrail records as sent). |
 
 Regenerate the CloudTrail export with `python3 scripts/export_cloudtrail.py --user <iam-user> --since YYYY-MM-DD`, then mask it with `python3 scripts/redact_evidence.py`.

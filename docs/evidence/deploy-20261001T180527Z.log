@@ -1,0 +1,165 @@
+== caller identity (the credentials the coding agent deploys with)
+{
+    "UserId": "AIDATTSKF4BWMSUYKT4XA",
+    "Account": "2481****5724",
+    "Arn": "arn:aws:iam::2481****5724:user/aksilhoutte"
+}
+== lambda package
+_pydantic_core.cpython-313-aarch64-linux-gnu.so: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, BuildID[sha1]=2c8edb78c49087d21d9162ed83f3d9177f673680, stripped
+== validate
+/mnt/h/Antigravity/remedy-ai/template.yaml is a valid SAM Template
+== deploy stack remedy-ai
+
+	Managed S3 bucket: aws-sam-cli-managed-default-samclisourcebucket-ruo8zrzfsc8g
+	Auto resolution of buckets can be turned off by setting resolve_s3=False
+	To use a specific S3 bucket, set --s3-bucket=<bucket_name>
+	Above settings can be stored in samconfig.toml
+
+	Uploading to 87036d9bf4068b84acedc2b7429da9ff  1048576 / 11460868  (9.15%)
+	Uploading to 87036d9bf4068b84acedc2b7429da9ff  2097152 / 11460868  (18.30%)
+	Uploading to 87036d9bf4068b84acedc2b7429da9ff  3145728 / 11460868  (27.45%)
+	Uploading to 87036d9bf4068b84acedc2b7429da9ff  4194304 / 11460868  (36.60%)
+	Uploading to 87036d9bf4068b84acedc2b7429da9ff  5242880 / 11460868  (45.75%)
+	Uploading to 87036d9bf4068b84acedc2b7429da9ff  6291456 / 11460868  (54.90%)
+	Uploading to 87036d9bf4068b84acedc2b7429da9ff  7340032 / 11460868  (64.04%)
+	Uploading to 87036d9bf4068b84acedc2b7429da9ff  8388608 / 11460868  (73.19%)
+	Uploading to 87036d9bf4068b84acedc2b7429da9ff  9437184 / 11460868  (82.34%)
+	Uploading to 87036d9bf4068b84acedc2b7429da9ff  10485760 / 11460868  (91.49%)
+	Uploading to 87036d9bf4068b84acedc2b7429da9ff  11460868 / 11460868  (100.00%)
+
+	File with same data already exists at 87036d9bf4068b84acedc2b7429da9ff, skipping upload
+
+	Deploying with following values
+	===============================
+	Stack name                   : remedy-ai
+	Region                       : us-east-1
+	Confirm changeset            : False
+	Disable rollback             : False
+	Deployment s3 bucket         : aws-sam-cli-managed-default-samclisourcebucket-ruo8zrzfsc8g
+	Capabilities                 : ["CAPABILITY_IAM"]
+	Parameter overrides          : {"AlertEmail": "*****", "OriginVerifySecret": "*****"}
+	Signing Profiles             : {}
+
+Initiating deployment
+=====================
+
+
+	Uploading to e7759916e1d9fdc942be74600b96b10a.template  15702 / 15702  (100.00%)
+
+
+Waiting for changeset to be created..
+
+CloudFormation stack changeset
+-------------------------------------------------------------------------------------------------
+Operation                LogicalResourceId        ResourceType             Replacement            
+-------------------------------------------------------------------------------------------------
+* Modify                 ApiFunction              AWS::Lambda::Function    False                  
+* Modify                 HttpApi                  AWS::ApiGatewayV2::Api   False                  
+* Modify                 SourceWatchFunctionDai   AWS::IAM::Role           False                  
+                         lyRole                                                                   
+* Modify                 SourceWatchFunctionDai   AWS::Scheduler::Schedu   False                  
+                         ly                       le                                              
+* Modify                 SourceWatchFunction      AWS::Lambda::Function    False                  
+-------------------------------------------------------------------------------------------------
+
+
+Changeset created successfully. arn:aws:cloudformation:us-east-1:2481****5724:changeSet/samcli-deploy1790877999/18725923-28fc-46c6-aa31-59d243890743
+
+
+2026-10-01 23:37:00 - Waiting for stack create/update to complete
+
+CloudFormation events from stack operations (refresh every 5.0 seconds)
+-------------------------------------------------------------------------------------------------
+ResourceStatus           ResourceType             LogicalResourceId        ResourceStatusReason   
+-------------------------------------------------------------------------------------------------
+UPDATE_IN_PROGRESS       AWS::CloudFormation::S   remedy-ai                User Initiated         
+                         tack                                                                     
+UPDATE_IN_PROGRESS       AWS::Lambda::Function    ApiFunction              -                      
+UPDATE_IN_PROGRESS       AWS::Lambda::Function    SourceWatchFunction      -                      
+UPDATE_IN_PROGRESS -     AWS::Lambda::Function    ApiFunction              Eventual consistency   
+CONFIGURATION_COMPLETE                                                     check initiated        
+UPDATE_IN_PROGRESS -     AWS::Lambda::Function    SourceWatchFunction      Eventual consistency   
+CONFIGURATION_COMPLETE                                                     check initiated        
+UPDATE_COMPLETE          AWS::Lambda::Function    ApiFunction              -                      
+UPDATE_COMPLETE          AWS::Lambda::Function    SourceWatchFunction      -                      
+UPDATE_COMPLETE_CLEANU   AWS::CloudFormation::S   remedy-ai                -                      
+P_IN_PROGRESS            tack                                                                     
+UPDATE_COMPLETE          AWS::CloudFormation::S   remedy-ai                -                      
+                         tack                                                                     
+-------------------------------------------------------------------------------------------------
+
+CloudFormation outputs from deployed stack
+-------------------------------------------------------------------------------------------------
+Outputs                                                                                         
+-------------------------------------------------------------------------------------------------
+Key                 ApiUrl                                                                      
+Description         -                                                                           
+Value               https://1b8faqxx82.execute-api.us-east-1.amazonaws.com                      
+
+Key                 SiteBucketName                                                              
+Description         -                                                                           
+Value               remedy-ai-sitebucket-fd3mw8e3lrts                                           
+
+Key                 DistributionId                                                              
+Description         -                                                                           
+Value               E1T89KVW5A90CD                                                              
+
+Key                 SiteUrl                                                                     
+Description         Public URL (site and API on one origin)                                     
+Value               https://d1fnfajqesgvsl.cloudfront.net                                       
+
+Key                 SnapshotBucketName                                                          
+Description         -                                                                           
+Value               remedy-ai-snapshotbucket-sfjbb3pyjv17                                       
+
+Key                 SourceWatchFunctionName                                                     
+Description         -                                                                           
+Value               remedy-ai-SourceWatchFunction-X5h8YoYfHd6H                                  
+-------------------------------------------------------------------------------------------------
+
+
+Successfully created/updated stack - remedy-ai in us-east-1
+
+== frontend -> s3://remedy-ai-sitebucket-fd3mw8e3lrts
+delete: s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-C3yTjFBN.js
+Completed 0 Bytes/883.9 KiB (0 Bytes/s) with 9 file(s) remaining
+Completed 319.8 KiB/883.9 KiB (464.7 KiB/s) with 9 file(s) remaining
+Completed 345.2 KiB/883.9 KiB (281.8 KiB/s) with 9 file(s) remaining
+upload: frontend/dist/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2 to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2
+Completed 345.2 KiB/883.9 KiB (281.8 KiB/s) with 8 file(s) remaining
+Completed 363.5 KiB/883.9 KiB (289.8 KiB/s) with 8 file(s) remaining
+upload: frontend/dist/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2 to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2
+Completed 363.5 KiB/883.9 KiB (289.8 KiB/s) with 7 file(s) remaining
+Completed 374.5 KiB/883.9 KiB (293.3 KiB/s) with 7 file(s) remaining
+upload: frontend/dist/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2 to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2
+Completed 374.5 KiB/883.9 KiB (293.3 KiB/s) with 6 file(s) remaining
+Completed 393.0 KiB/883.9 KiB (298.2 KiB/s) with 6 file(s) remaining
+upload: frontend/dist/assets/inter-greek-wght-normal-CkhJZR-_.woff2 to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/inter-greek-wght-normal-CkhJZR-_.woff2
+Completed 393.0 KiB/883.9 KiB (298.2 KiB/s) with 5 file(s) remaining
+Completed 403.0 KiB/883.9 KiB (300.9 KiB/s) with 5 file(s) remaining
+upload: frontend/dist/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2 to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2
+Completed 403.0 KiB/883.9 KiB (300.9 KiB/s) with 4 file(s) remaining
+Completed 437.5 KiB/883.9 KiB (289.1 KiB/s) with 4 file(s) remaining
+upload: frontend/dist/assets/index-C6LlbqgW.css to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-C6LlbqgW.css
+Completed 437.5 KiB/883.9 KiB (289.1 KiB/s) with 3 file(s) remaining
+Completed 484.6 KiB/883.9 KiB (302.4 KiB/s) with 3 file(s) remaining
+upload: frontend/dist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2 to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/inter-latin-wght-normal-Dx4kXJAl.woff2
+Completed 484.6 KiB/883.9 KiB (302.4 KiB/s) with 2 file(s) remaining
+Completed 567.6 KiB/883.9 KiB (290.1 KiB/s) with 2 file(s) remaining
+upload: frontend/dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2 to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2
+Completed 567.6 KiB/883.9 KiB (290.1 KiB/s) with 1 file(s) remaining
+upload: frontend/dist/assets/index-DrKI9ylW.js to s3://remedy-ai-sitebucket-fd3mw8e3lrts/assets/index-DrKI9ylW.js
+Completed 3.1 KiB/3.1 KiB (3.2 KiB/s) with 1 file(s) remaining
+upload: frontend/dist/index.html to s3://remedy-ai-sitebucket-fd3mw8e3lrts/index.html
+Completed 539 Bytes/539 Bytes (578 Bytes/s) with 1 file(s) remaining
+upload: frontend/dist/theme-init.js to s3://remedy-ai-sitebucket-fd3mw8e3lrts/theme-init.js
+IAZDN9JPIHB1NIH7YUUSTIVDLL
+== first Source Watch run
+200
+{"apple_index": {"http_status": 200}, "visa_infinite_extended_warranty_us": {"http_status": 200, "changed_this_run": false}, "uk_cra_2015_goods": {"http_status": 200, "changed_this_run": false}, "apple_one_year_limited_warranty_ios_us": {"http_status": 200, "changed_this_run": false}, "apple_iphone12_no_sound_2021": {"http_status": 200, "changed_this_run": false, "listed_on_apple_index": false}, "apple_iphone14plus_rear_camera_2024": {"http_status": 200, "changed_this_run": false, "listed_on_apple_index": true}, "apple_mac_mini_2023_no_power_2025": {"http_status": 200, "changed_this_run": false, "listed_on_apple_index": true}, "google_consumer_hardware_warranty_us_ca": {"http_status": 200, "changed_this_run": false}, "google_pixel9pro_display_2025": {"http_status": 200, "changed_this_run": false}, "samsung_galaxy_limited_warranty_us": {"http_status": 200, "changed_this_run": false}}
+== AI services opt-out (effective policy for this account)
+{"services":{"default":{"opt_out_policy":"optOut"}}}
+== smoke test https://d1fnfajqesgvsl.cloudfront.net
+{"status":"healthy","service":"RemedyAI","version":"1.2.0","policy":"Closed-World Evidence Policy","knowledge_records":["apple_iphone12_no_sound_2021","apple_iphone14plus_rear_camera_2024","apple_mac_mini_2023_no_power_2025","apple_one_year_limited_warranty_ios_us","google_consumer_hardware_warranty_us_ca","google_pixel9pro_display_2025","samsung_galaxy_limited_warranty_us","uk_cra_2015_goods","visa_infinite_extended_warranty_us"]}
+smoke test passed
+DEPLOYED https://d1fnfajqesgvsl.cloudfront.net

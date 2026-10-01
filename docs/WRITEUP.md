@@ -24,7 +24,7 @@ If a receipt photo was read, RemedyAI also **checks it against what you typed**.
 
 If no source covers the case, it says so: `NO VERIFIED COVERAGE FOUND`, plus the sources it checked that did not apply and why.
 
-Eight routes today, from four kinds of source:
+Nine routes today (one of them an ended program kept to show delisting), from four kinds of source:
 
 | Route | Source | Status in RemedyAI |
 | --- | --- | --- |
@@ -34,6 +34,7 @@ Eight routes today, from four kinds of source:
 | iPhone 12 / 12 Pro no-sound program | Apple | Page still online, **not on Apple's index**; nearly every unit is past its window |
 | Google Consumer Hardware Limited Warranty (U.S. and Canada; Pixel devices) | Google | One year from purchase (90 days if refurbished). Added as a JSON record only, with no Google-specific code |
 | Pixel 9 Pro & 9 Pro XL Extended Repair Program | Google | Vertical display line (or flicker on 9 Pro), free display for 3 years from purchase; inspection first |
+| Samsung Care 12-month built-in limited warranty (U.S.; Galaxy phones) | Samsung | Added after the field test showed Samsung as the biggest gap; a JSON record only. Terms from Samsung's Standard Limited Warranty |
 | Visa Infinite extended warranty (+1 year on warranties of 3 years or less) | Visa | Issuer's Guide to Benefits governs; RemedyAI shows only what Visa's page states |
 | UK consumer rights on faulty goods (6 years, 5 in Scotland) | GOV.UK | Includes the burden-of-proof shift after 6 months |
 
@@ -139,7 +140,7 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 | Whether your iPhone 14 Plus serial is in Apple's affected range | Only Apple's serial checker knows. RemedyAI sends you there |
 | Your device's first retail sale date | If it was bought used or refurbished, the 3-year window may have started before your purchase |
 | Your card issuer's exact terms | Visa's page defers to the issuer's Guide to Benefits |
-| Every program that exists | Eight verified routes today. Adding one means verifying its official page first. Source Watch flags Apple programs that have no record yet |
+| Every program that exists | Nine verified routes today. Adding one means verifying its official page first. Source Watch flags Apple programs that have no record yet |
 | Whether a changed page changed the terms | Source Watch detects that text changed, not what the change means. The page is then re-verified |
 
 ## Cost
@@ -151,7 +152,7 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 
 ## Where it goes next
 
-- **Field test:** 16 broken-product cases from public posts were run through the engine using only what each poster said ([results](field-test/results.md)). 4 got a route to try first, all through UK consumer law; 5 of the 12 misses were Samsung devices, which makes Samsung's warranty the next record to verify.
+- **Field test:** 16 broken-product cases from public posts were run through the engine using only what each poster said ([results](field-test/results.md)). The first run found a route for 4, all through UK consumer law, and 5 of the 12 misses were Samsung devices. Samsung's U.S. phone warranty was then verified and added as a record, and the same 16 cases give 6 routes. The largest remaining gap is makers' warranties outside the U.S.
 - **First users:** people whose warranty just ended (device forums, consumer columns, repair shops that see these faults daily).
 - **Corpus growth:** every route is verified against its official page before it goes live, then watched by Source Watch. A new manufacturer warranty or repair program (any brand) is only a JSON record, because those evaluators are driven by the record's data. A new kind of route, such as another card network or another country's consumer law, also needs its own small evaluator today, as Visa Infinite and UK law do. The home page lists what is covered today (built from the same records the engine uses) and what is planned: new Apple programs as they appear, Samsung warranties and programs, Mastercard and American Express benefits, the EU 2-year guarantee, and consumer law in more countries.
 - **Business model (planned):** free checks; paid tracked claims (deadline reminders, a follow-up letter if a claim is refused, escalation), priced per claim and well below the repair recovered. The natural partners are repairers the maker pays for warranty and repair-program work, such as Apple and Google authorized service providers, since RemedyAI would send them customers whose repair is free to the customer. Complaint-letter tools such as Resolver and Which? help people write to a company; RemedyAI tells them which free route applies, until when, and keeps that answer checked against the source.

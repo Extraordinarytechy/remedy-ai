@@ -83,6 +83,14 @@ def main():
         return f"other: {ua[:40] or 'no user agent'}"
 
     by_agent = collections.Counter(client(r["user_agent"]) for r in writes)
+    # From 2026-10-01 the agent's deploy runs with AWS_SDK_UA_APP_ID=kiro-ide, so the AWS CLI and SAM CLI
+    # add "app/kiro-ide" to each call's user agent. The client sets this tag; AWS records it as sent.
+    tagged = [r for r in rows if "app/kiro-ide" in (r["user_agent"] or "").lower()]
+    tagged_note = (
+        f"- Calls whose user agent carries the `app/kiro-ide` tag (set by the agent's deploy script with "
+        f"`AWS_SDK_UA_APP_ID`; a client-set value, recorded by AWS as sent): **{len(tagged)}**"
+        + (f", first at `{min(r['time'] for r in tagged)}`, e.g. request {tagged[0]['request_id']}." if tagged else ".")
+    )
     lines = [
         f"# CloudTrail: calls made with `{args.user}` since {args.since}",
         "",
@@ -90,6 +98,7 @@ def main():
         f"(`aws cloudtrail lookup-events`). All times are UTC (CloudTrail `eventTime`). Account IDs and IPs redacted.",
         "",
         f"- Total events: **{len(rows)}**, of which **{len(writes)}** changed something (ReadOnly=false).",
+        tagged_note,
         "",
         "| Client (from userAgent) | Mutating calls |",
         "| --- | ---: |",

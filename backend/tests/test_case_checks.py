@@ -74,11 +74,22 @@ def test_default_currency_is_never_treated_as_evidence(engine):
     assert not [c for c in res.checks if c.id == "country_currency"]
 
 
-def test_receipt_date_mismatch_is_a_soft_warning(engine):
-    res = engine.evaluate(uk_case(retailer="Currys", receipt_data=textract_receipt(store_name="CURRYS", currency_evidence="£", purchase_date="2023-11-20")))
+def test_receipt_date_mismatch_blocks_the_pdf_until_confirmed(engine):
+    """Deadlines are counted from the purchase date, so a different receipt date must be confirmed."""
+    receipt = textract_receipt(store_name="CURRYS", currency_evidence="£", purchase_date="2023-11-20")
+    res = engine.evaluate(uk_case(retailer="Currys", receipt_data=receipt))
     check = next(c for c in res.checks if c.id == "receipt_date")
-    assert check.severity == "soft"
+    assert check.severity == "hard" and check.confirmed is False
+    assert "2023-11-24" in check.confirm_label
+    assert res.pdf_allowed is False
+    res = engine.evaluate(uk_case(retailer="Currys", receipt_data=receipt, confirmed_checks=["receipt_date"]))
     assert res.pdf_allowed is True
+    assert next(c for c in res.checks if c.id == "receipt_date").confirmed is True
+
+
+def test_matching_receipt_date_raises_no_date_check(engine):
+    res = engine.evaluate(uk_case(retailer="Currys", receipt_data=textract_receipt(store_name="CURRYS", currency_evidence="£")))
+    assert not [c for c in res.checks if c.id == "receipt_date"]
 
 
 def test_receipt_store_mismatch_is_a_soft_warning(engine):

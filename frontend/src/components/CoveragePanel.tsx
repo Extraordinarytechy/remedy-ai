@@ -26,17 +26,26 @@ const GROUPS: { category: string; title: string; who: string; teaser: string; ic
   { category: 'statutory_consumer_law', title: 'Consumer law', who: 'Any brand', teaser: 'Bought from a UK store: up to 6 years to claim a repair or replacement', icon: Landmark },
   { category: 'card_benefit', title: 'Card benefits', who: 'Any brand', teaser: 'Paid with Visa Infinite in the U.S.: one extra year of warranty', icon: CreditCard },
   { category: 'manufacturer_service_program', title: 'Free repair programs', who: 'Apple, Google', teaser: 'Known faults the maker repairs free for 3 years from purchase', icon: Wrench },
-  { category: 'manufacturer_warranty', title: "Maker's warranty", who: 'Apple, Google', teaser: 'iPhone, iPad, Pixel and more in their first year (U.S.; Pixel also Canada)', icon: ShieldCheck },
+  { category: 'manufacturer_warranty', title: "Maker's warranty", who: 'Apple, Google, Samsung', teaser: 'iPhone, iPad, Pixel, Galaxy phones and more in their first year (U.S.; Pixel also Canada)', icon: ShieldCheck },
 ];
 
 // Planned sources. None is used until its official page has been verified.
 export const COMING_NEXT = [
-  'New Apple repair programs as Apple lists them (Source Watch flags them daily)',
-  'Samsung warranties and repair programs',
+  "Apple's, Google's and Samsung's warranties outside the U.S. (the biggest remaining gap in the field test)",
+  "Samsung's repair programs and its warranties for tablets, watches and appliances",
+  'The EU two-year legal guarantee and Australian consumer law',
   'Mastercard and American Express warranty benefits',
-  'EU two-year legal guarantee',
-  'Consumer law in India, the US states, Canada and Australia',
+  'New Apple repair programs as Apple lists them (Source Watch flags them daily)',
+  'Consumer law in India, the U.S. states and Canada',
 ];
+
+// "3 active + 1 ended · details": a program Apple has dropped is shown, but never counted as live.
+function sourceCount(items: KnowledgeRecord[]): string {
+  const ended = items.filter((r) => r.listed_on_apple_service_programs_index === false).length;
+  const active = items.length - ended;
+  const label = ended ? `${active} active + ${ended} ended` : `${active} ${active === 1 ? 'source' : 'sources'}`;
+  return `${label} · details`;
+}
 
 export function CoveragePanel() {
   const [open, setOpen] = useState<string | null>(null);
@@ -49,7 +58,8 @@ export function CoveragePanel() {
         <h2 id="coverage-heading" className="text-3xl font-semibold tracking-tight sm:text-4xl">What RemedyAI covers today</h2>
         <p className="text-lg text-muted">
           Any brand, including TVs and home appliances, through UK consumer law and Visa Infinite. Apple and Google Pixel
-          devices also get their maker's repair programs and warranty. Every option comes from a verified official page.
+          devices also get their maker's repair programs and warranty, and Samsung Galaxy phones get Samsung's U.S.
+          warranty. Every option comes from a verified official page.
         </p>
       </div>
 
@@ -77,7 +87,7 @@ export function CoveragePanel() {
                 onClick={() => setOpen(expanded ? null : g.category)}
                 className="mt-4 inline-flex items-center gap-1.5 self-start text-sm font-semibold text-accent-text hover:underline"
               >
-                {expanded ? 'Hide details' : `${items.length} ${items.length === 1 ? 'source' : 'sources'} · details`}
+                {expanded ? 'Hide details' : sourceCount(items)}
                 <ChevronDown className={`size-4 transition-transform ${expanded ? 'rotate-180' : ''}`} aria-hidden="true" />
               </button>
               {expanded && (
@@ -104,7 +114,7 @@ export function CoveragePanel() {
 
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl border border-dashed border-line-strong px-5 py-4 text-sm text-muted">
         <Route className="size-4 text-accent-text" aria-hidden="true" />
-        <span>Coming next: Samsung and Google repair programs, Mastercard and American Express benefits, and the EU two-year guarantee.</span>
+        <span>Coming next: makers' warranties outside the U.S., Samsung's repair programs, the EU two-year guarantee and Australian consumer law.</span>
         <button type="button" onClick={() => setRoadmap(true)} className="link">See the roadmap</button>
       </div>
 

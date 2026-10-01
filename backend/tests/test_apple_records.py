@@ -99,8 +99,9 @@ def test_visible_damage_adds_accident_caveat(engine):
     assert "accident" in route.provenance.exceptions[0]
 
 
-def test_non_apple_product_keeps_generic_warranty_note(engine):
-    res = engine.evaluate(case(product_name="Samsung Galaxy S26", purchase_date="2026-06-01", failure_date="2026-09-01"))
+def test_product_without_a_warranty_record_keeps_generic_warranty_note(engine):
+    # A brand with no warranty record in the corpus (Samsung, Google and Apple now have one).
+    res = engine.evaluate(case(product_name="OnePlus 13", purchase_date="2026-06-01", failure_date="2026-09-01"))
     assert res.has_coverage is False
     assert any("original manufacturer warranty" in n for n in res.notes)
 

@@ -10,7 +10,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from src.models.schemas import NormalizedCase, RemedyEvaluation, SHORT_TEXT
-from src.engine.eligibility import EligibilityEngine
+from src.engine.eligibility import EligibilityEngine, is_actionable
 from src.services.textract_service import TextractService
 from src.services.bedrock_service import BedrockVisionService
 from src.services.pdf_service import ClaimPdfService
@@ -207,7 +207,35 @@ def evaluate_coverage(case: NormalizedCase):
     Evaluates submitted case evidence against the verified primary source corpus.
     Closed-world: returns NO VERIFIED COVERAGE FOUND if no source record matches.
     """
-    return evaluate(with_claim_date(case))
+    result = evaluate(with_claim_date(case))
+    # Counted by where the case came from: the site's form ("user_..."), its examples ("demo_...").
+    # Scripted probes and tests use other ids and aren't counted.
+    if case.case_id.startswith("demo_"):
+        usage_metric(ExampleChecks=1)
+    elif case.case_id.startswith("user_"):
+        usage_metric(Checks=1, ChecksWithRoute=int(any(is_actionable(r) for r in result.matched_routes)))
+    return result
+
+
+def usage_metric(**counts: int) -> None:
+    """
+    Anonymous usage counts for the RemedyAI/Usage CloudWatch namespace, written as one log line in
+    CloudWatch embedded metric format. Only the counts are logged: nothing about the case, the person
+    or their device. Off outside Lambda (tests, local development).
+    """
+    if not os.getenv("AWS_LAMBDA_FUNCTION_NAME"):
+        return
+    import json
+    import time
+
+    print(json.dumps({
+        "_aws": {
+            "Timestamp": int(time.time() * 1000),
+            "CloudWatchMetrics": [{"Namespace": "RemedyAI/Usage", "Dimensions": [[]],
+                                   "Metrics": [{"Name": k, "Unit": "Count"} for k in counts]}],
+        },
+        **counts,
+    }))
 
 
 def _safe_filename(case_id: str) -> str:
@@ -238,6 +266,8 @@ def generate_claim_package(req: GeneratePackageRequest, request: Request):
     except Exception as e:
         print(f"PDF generation failed: {type(e).__name__}")
         raise HTTPException(status_code=500, detail="The claim PDF could not be generated. Please try again.")
+    if req.case.case_id.startswith("user_"):
+        usage_metric(ClaimPdfs=1)
     return Response(
         content=pdf_bytes,
         media_type="application/pdf",
