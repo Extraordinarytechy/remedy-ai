@@ -174,8 +174,8 @@ class EligibilityEngine:
                 route.status = "NEEDS_REVERIFICATION"
                 route.provenance.exceptions.insert(
                     0,
-                    "RemedyAI could not load its latest automatic check of this source just now. "
-                    "Check the official page before relying on this option.",
+                    "RemedyAI could not load a recent automatic check of this source (it is missing or "
+                    "more than a day old). Check the official page before relying on this option.",
                 )
             if route.deadline:
                 route.days_left = (parse_date(route.deadline) - as_of).days
@@ -301,7 +301,7 @@ class EligibilityEngine:
         if changed and verified and changed > verified:
             route.provenance.exceptions.insert(
                 0,
-                f"The source page's text changed on {changed}, after it was last checked by a person on {verified}. "
+                f"The source page's text changed on {changed}, after it was last verified on {verified}. "
                 "The terms shown here may be out of date.",
             )
 

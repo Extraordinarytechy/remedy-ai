@@ -201,6 +201,63 @@ Resources:
       LogGroupName: !Sub /aws/lambda/${SourceWatchFunction}
       RetentionInDays: 30
 
+  # Emails the owner if the daily check fails or doesn't run. The API already treats a missing or
+  # out-of-date check as "unverified"; this makes sure a person notices and fixes it.
+  OpsAlertTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: RemedyAI alerts
+      KmsMasterKeyId: alias/aws/sns
+      Subscription:
+        - Protocol: email
+          Endpoint: !Ref AlertEmail
+
+  OpsAlertTopicPolicy:
+    Type: AWS::SNS::TopicPolicy
+    Properties:
+      Topics: [!Ref OpsAlertTopic]
+      PolicyDocument:
+        Statement:
+          - Sid: CloudWatchAlarms
+            Effect: Allow
+            Principal: { Service: cloudwatch.amazonaws.com }
+            Action: sns:Publish
+            Resource: !Ref OpsAlertTopic
+            Condition:
+              ArnLike: { aws:SourceArn: !Sub 'arn:aws:cloudwatch:${AWS::Region}:${AWS::AccountId}:alarm:*' }
+
+  SourceWatchErrorAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: The daily Source Watch run failed.
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions: [{ Name: FunctionName, Value: !Ref SourceWatchFunction }]
+      Statistic: Sum
+      Period: 86400
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      AlarmActions: [!Ref OpsAlertTopic]
+
+  SourceWatchMissedRunAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      # Two whole UTC days without a run (the schedule runs once a day at 06:00).
+      AlarmDescription: Source Watch has missed its daily run.
+      Namespace: AWS/Lambda
+      MetricName: Invocations
+      Dimensions: [{ Name: FunctionName, Value: !Ref SourceWatchFunction }]
+      Statistic: Sum
+      Period: 86400
+      EvaluationPeriods: 2
+      DatapointsToAlarm: 2
+      Threshold: 1
+      ComparisonOperator: LessThanThreshold
+      TreatMissingData: breaching
+      AlarmActions: [!Ref OpsAlertTopic]
+
   # ---------------------------------------------------------------------------
   # Frontend: private S3 bucket + one CloudFront distribution for site and API
   # ---------------------------------------------------------------------------

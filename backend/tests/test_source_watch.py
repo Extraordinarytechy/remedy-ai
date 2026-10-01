@@ -155,3 +155,41 @@ def test_missing_key_wording_downgrades_route(monkeypatch):
     route = EligibilityEngine().evaluate(case, source_status={"visa_infinite_extended_warranty_us": st}).matched_routes[0]
     assert route.status == "NEEDS_REVERIFICATION"
     assert "could not find the wording" in route.provenance.exceptions[0]
+
+
+# --- A missed daily run is treated as "unverified", not as healthy ------------------------------
+def _cached(monkeypatch, status, unavailable=False):
+    from src.services import source_watch
+
+    monkeypatch.setenv("TABLE_NAME", "test")
+    monkeypatch.setitem(source_watch._CACHE, "status", status)
+    monkeypatch.setitem(source_watch._CACHE, "unavailable", unavailable)
+    return source_watch
+
+
+def test_recent_check_is_trusted(monkeypatch):
+    from datetime import datetime, timezone
+
+    sw = _cached(monkeypatch, {"a": {"checked_at": "2026-10-01T06:00:00+00:00"}})
+    assert sw.status_unavailable(now=datetime(2026, 10, 2, 6, 0, tzinfo=timezone.utc)) is False
+
+
+def test_check_older_than_36_hours_is_stale(monkeypatch):
+    from datetime import datetime, timezone
+
+    sw = _cached(monkeypatch, {"a": {"checked_at": "2026-10-01T06:00:00+00:00"}})
+    assert sw.status_unavailable(now=datetime(2026, 10, 2, 18, 30, tzinfo=timezone.utc)) is True
+
+
+def test_no_stored_check_in_aws_is_unavailable(monkeypatch):
+    sw = _cached(monkeypatch, {})
+    assert sw.status_unavailable() is True
+
+
+def test_local_development_has_no_source_watch(monkeypatch):
+    from src.services import source_watch
+
+    monkeypatch.delenv("TABLE_NAME", raising=False)
+    monkeypatch.setitem(source_watch._CACHE, "status", {})
+    monkeypatch.setitem(source_watch._CACHE, "unavailable", False)
+    assert source_watch.status_unavailable() is False

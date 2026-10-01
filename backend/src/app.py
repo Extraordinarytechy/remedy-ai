@@ -113,7 +113,10 @@ def with_claim_date(case: NormalizedCase) -> NormalizedCase:
 
 def evaluate(case: NormalizedCase) -> RemedyEvaluation:
     status = source_watch.load_status()
-    return engine.evaluate(case, source_status=status, source_status_unavailable=source_watch.status_unavailable())
+    if source_watch.status_unavailable():
+        # Missing, unreadable or out of date: no route is presented as freshly verified.
+        return engine.evaluate(case, source_status={}, source_status_unavailable=True)
+    return engine.evaluate(case, source_status=status)
 
 
 @app.get("/health")

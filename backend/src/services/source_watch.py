@@ -180,10 +180,35 @@ def load_status(force: bool = False) -> Dict[str, Dict[str, Any]]:
     return status
 
 
-def status_unavailable() -> bool:
-    """True when the last load_status() call ran in AWS but could not read a stored status.
-    Routes are then treated as unverified (fail closed), not as healthy."""
-    return bool(_CACHE.get("unavailable"))
+# Source Watch runs daily; a result older than this means a run was missed.
+STALE_AFTER_HOURS = 36
+
+
+def newest_check(status: Dict[str, Dict[str, Any]]) -> Optional[datetime]:
+    times = []
+    for st in status.values():
+        try:
+            times.append(datetime.fromisoformat(str(st.get("checked_at", ""))))
+        except (TypeError, ValueError):
+            continue
+    return max(times) if times else None
+
+
+def status_unavailable(now: Optional[datetime] = None) -> bool:
+    """
+    True when running in AWS and the latest Source Watch result can't be relied on: it could not be
+    read, none has been stored yet, or the newest check is more than STALE_AFTER_HOURS old (the daily
+    run stopped). Routes are then treated as unverified (fail closed), not as healthy.
+    """
+    if _CACHE.get("unavailable"):
+        return True
+    if not os.getenv("TABLE_NAME"):
+        return False  # local development: no Source Watch at all
+    newest = newest_check(_CACHE.get("status") or {})
+    if newest is None:
+        return True
+    now = now or datetime.now(timezone.utc)
+    return (now - newest).total_seconds() > STALE_AFTER_HOURS * 3600
 
 
 def handler(event, context):  # EventBridge scheduled entry point
