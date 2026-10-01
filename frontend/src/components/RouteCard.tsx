@@ -157,13 +157,13 @@ export function RouteCard({ route, index, c, onDownload, downloading, pdfAllowed
                   </a>
                 </div>
               ))}
-              <p className="text-sm">Checked by a person: {shortDate(route.primary_source.verified_at)}</p>
+              <p className="text-sm">Verified against the official page: {shortDate(route.primary_source.verified_at)}</p>
               <p className="flex items-start gap-1.5 text-sm">
                 <RefreshCw className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
                 {check
                   ? `Checked automatically ${shortDate(check.checked_at)}: page ${check.reachable ? 'online' : `offline (HTTP ${check.http_status})`}` +
                     (check.listed_on_apple_index != null ? `, ${check.listed_on_apple_index ? 'still listed' : 'not listed'} on Apple's program list` : '')
-                  : 'Automatic source check: not run yet here'}
+                  : 'No recent automatic check is available for this source.'}
               </p>
             </div>
           </div>

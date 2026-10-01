@@ -26,9 +26,9 @@ export function SourcesTable({ data }: { data: SourcesResponse }) {
   return (
     <div className="space-y-5">
       <p className="text-muted">
-        Every answer comes from one of these official pages. A person checked each one, and Source Watch re-checks them
-        automatically every day. If a page disappears, its key wording changes, or an Apple program leaves Apple's list, that
-        option is marked "check it first" instead of being shown as a match.
+        Every answer comes from one of these official pages. Each was verified before it went live, and Source Watch re-checks
+        them automatically every day. If a page disappears, its key wording changes or Apple drops a program, that option is
+        marked "check it first" instead of being shown as a match.
       </p>
       <div className="overflow-x-auto rounded-2xl border border-line">
         <table className="w-full text-left text-sm">
@@ -36,7 +36,7 @@ export function SourcesTable({ data }: { data: SourcesResponse }) {
           <thead className="bg-subtle text-muted">
             <tr>
               <th scope="col" className="px-4 py-2.5 font-medium">Source</th>
-              <th scope="col" className="px-4 py-2.5 font-medium whitespace-nowrap">Checked by a person</th>
+              <th scope="col" className="px-4 py-2.5 font-medium whitespace-nowrap">Verified</th>
               <th scope="col" className="px-4 py-2.5 font-medium whitespace-nowrap">Last automatic check</th>
               <th scope="col" className="px-4 py-2.5 font-medium">Result</th>
             </tr>
@@ -69,7 +69,7 @@ export function SourcesTable({ data }: { data: SourcesResponse }) {
           </p>
           {idx.uncovered_service_programs && (
             idx.uncovered_service_programs.length > 0 ? (
-              <p className="font-medium text-warn-ink">Not covered yet (a person must verify these first): {idx.uncovered_service_programs.join('; ')}.</p>
+              <p className="font-medium text-warn-ink">Not covered yet (each needs to be verified first): {idx.uncovered_service_programs.join('; ')}.</p>
             ) : (
               <p>Every repair program on Apple's list is covered.</p>
             )

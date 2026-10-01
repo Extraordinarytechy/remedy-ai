@@ -180,7 +180,7 @@ class ClaimPdfService:
                 story.append(Paragraph(
                     f"<b>From:</b> {e(route.provider)} · <b>Source:</b> "
                     f"<link href=\"{e(url)}\"><u>{e(route.primary_source.get('title'))}</u></link> "
-                    f"(checked by a person on {e(human_date(route.primary_source.get('verified_at')))})",
+                    f"(verified against the official page on {e(human_date(route.primary_source.get('verified_at')))})",
                     self.body_style,
                 ))
                 for rs in route.related_sources:

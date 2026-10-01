@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
 import {
   AlertTriangle, ArrowRight, BadgeCheck, CalendarDays, CheckCircle2, ClipboardCheck, Coffee, CreditCard, Eye, FileText, Info,
-  Lock, RefreshCw, Search, ShieldAlert, ShieldCheck, Smartphone, Sparkles, Tv,
+  Lock, RefreshCw, Search, ShieldAlert, ShieldCheck, Smartphone, Tv,
 } from 'lucide-react';
 import { api } from './api';
 import type { CaseCheck, NormalizedCase, RemedyEvaluation, SourcesResponse } from './types';
@@ -156,8 +156,8 @@ export default function App() {
                 Your warranty ended. You may still get a free repair.
               </h1>
               <p className="max-w-xl text-lg leading-relaxed text-muted text-pretty">
-                RemedyAI checks your product against the maker's repair programs, card benefits and consumer law, using only
-                official sources. It tells you what to do next and prepares the claim.
+                RemedyAI checks a broken product against official sources: repair programs, warranties, card benefits and
+                consumer law. You get the next step, the deadline and a claim ready to send.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <button onClick={startOwn} className="btn-primary min-h-12 px-6 text-base">
@@ -182,9 +182,9 @@ export default function App() {
             <h2 id="how-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Three steps, about two minutes</h2>
             <ol className="mt-10 grid gap-6 md:grid-cols-3">
               {[
-                { icon: FileText, title: 'Tell us what broke', text: 'Product, dates and the fault. A receipt photo is optional.' },
-                { icon: ClipboardCheck, title: 'We check official sources', text: "Maker's warranty and repair programs, card benefits and consumer law." },
-                { icon: CheckCircle2, title: 'Get your next step', text: 'A clear answer, the deadline, what you need, and a claim PDF.' },
+                { icon: FileText, title: 'Describe the problem', text: 'The product, when you bought it, when it broke and what went wrong. Photos are optional.' },
+                { icon: ClipboardCheck, title: 'We check official sources', text: 'Repair programs, warranties, card benefits and consumer law, each from its official page.' },
+                { icon: CheckCircle2, title: 'Get your next step', text: "What to do, the deadline, what you'll need, and a claim PDF." },
               ].map((s, i) => (
                 <li key={s.title} className="relative rounded-3xl border border-line bg-canvas p-6">
                   <span className="absolute right-6 top-6 text-sm font-semibold text-faint">0{i + 1}</span>
@@ -233,7 +233,7 @@ export default function App() {
                 );
               })}
             </div>
-            {mode.kind === 'demo' && <p className="-mt-4 text-sm text-faint">Examples use sample receipts and photo descriptions, marked as sample data.</p>}
+            {mode.kind === 'demo' && <p className="-mt-4 text-sm text-faint">Examples use sample receipts and photo descriptions, labelled "Sample data".</p>}
 
             <div className="grid gap-8 lg:grid-cols-12">
               {/* On small screens an example's answer comes before its case details; the form always comes first. */}
@@ -289,7 +289,7 @@ export default function App() {
               <h2 id="trust-heading" className="text-3xl font-semibold tracking-tight sm:text-4xl">Answers come from sources, not guesses</h2>
               {summary && (
                 <p className="text-muted">
-                  {summary.count} official sources · last checked {shortDate(summary.last)}
+                  {summary.count} official sources, last checked automatically on {shortDate(summary.last)}
                   {summary.issues > 0 ? ` · ${summary.issues} need attention` : ''}.{' '}
                   <button onClick={() => setDialog('sources')} className="link">View source status</button>
                 </p>
@@ -297,9 +297,9 @@ export default function App() {
             </div>
             <ul className="grid gap-4 md:grid-cols-3">
               {[
-                { icon: BadgeCheck, title: 'Only verified pages', text: 'Every option is tied to an official page a person has checked. No source, no answer.' },
-                { icon: RefreshCw, title: 'Re-checked every day', text: 'If a page changes or a program ends, the option is flagged "check it first".' },
-                { icon: Eye, title: 'AI reads, never decides', text: 'AI reads receipts and photos for you to review. Coverage comes from the rules on the page.' },
+                { icon: BadgeCheck, title: 'Official sources only', text: 'Every option is tied to an official page, verified before it goes live. No source, no answer.' },
+                { icon: RefreshCw, title: 'Re-checked every day', text: 'If a page changes or a program ends, the option is marked "check it first" and left out of the claim letter.' },
+                { icon: Eye, title: 'AI reads, never decides', text: "AI reads your receipt and photo, and you see what it read. Fixed rules from the source decide whether you're covered." },
               ].map((t) => (
                 <li key={t.title} className="card p-6">
                   <t.icon className="size-5 text-accent-text" aria-hidden="true" />
@@ -319,27 +319,28 @@ export default function App() {
               <h2 id="faq-heading" className="text-3xl font-semibold tracking-tight sm:text-4xl">Questions, answered</h2>
             </div>
             <div className="space-y-2.5">
-              <Faq q="Is it free? Do I need an account?">Yes, it's free, and there is no sign-up. Checks take about two minutes.</Faq>
+              <Faq q="Is it free? Do I need an account?">Yes, it's free, and there's no sign-up. A check takes about two minutes.</Faq>
               <Faq q="What do you keep about me?">
-                Nothing. RemedyAI does not save your details or photos, and uses no cookies, analytics or ads. Photos are optional.{' '}
+                Nothing. RemedyAI doesn't save your details or photos, and uses no cookies, analytics or ads. Photos are optional.{' '}
                 <button onClick={() => setDialog('privacy')} className="link">Read the privacy notice</button>
               </Faq>
               <Faq q="Which products and countries work?">
-                Apple devices get Apple's warranty (U.S.) and repair programs. Any brand can match the Visa Infinite benefit (U.S.)
-                and UK consumer law. <a href="#coverage" className="link">See full coverage</a>
+                Any brand, including TVs and home appliances, if you bought it from a UK store or paid with a Visa Infinite card
+                in the U.S. Apple products also get Apple's repair programs and, in the U.S., Apple's one-year warranty.{' '}
+                <a href="#coverage" className="link">See full coverage</a>
               </Faq>
               <Faq q="Is this legal advice?">
-                No. RemedyAI helps you prepare a claim from what official sources say. The maker, card issuer or store makes the
-                final decision.
+                No. RemedyAI helps you prepare a claim based on what official sources say. The maker, card issuer or store makes
+                the final decision.
               </Faq>
               <Faq q="How do you keep sources up to date?">
-                Source Watch re-reads every source page daily. If a page disappears, its key wording changes, or a program leaves
-                Apple's list, the option is marked "check it first" until a person re-verifies it.{' '}
+                Every source page is re-read automatically each day. If a page disappears, its key wording changes or Apple drops a
+                program, the option is marked "check it first" until it has been verified again.{' '}
                 <button onClick={() => setDialog('sources')} className="link">View source status</button>
               </Faq>
               <Faq q="What if my product isn't covered?">
-                RemedyAI says so rather than guessing, and suggests what you can still try. New sources are added one verified
-                page at a time.
+                RemedyAI tells you so instead of guessing, and suggests what you can still try. New sources are added once their
+                official page has been verified.
               </Faq>
             </div>
           </div>
@@ -349,8 +350,8 @@ export default function App() {
         <section className="container-page py-16 sm:py-24">
           <div className="relative overflow-hidden rounded-[2rem] bg-accent px-8 py-14 text-accent-ink sm:px-14">
             <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-white/10" />
-            <Sparkles className="size-6" aria-hidden="true" />
-            <h2 className="mt-4 max-w-xl text-3xl font-semibold tracking-tight sm:text-4xl">Something broke after the warranty? Check before you pay.</h2>
+            <h2 className="max-w-xl text-3xl font-semibold tracking-tight sm:text-4xl">Before you pay for a repair, check what you may still be owed.</h2>
+            <p className="mt-3 max-w-xl text-lg opacity-90">About two minutes. No sign-up.</p>
             <button onClick={startOwn} className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-full bg-accent-ink px-6 font-semibold text-accent hover:opacity-90">
               Check my product <ArrowRight className="size-4" aria-hidden="true" />
             </button>
@@ -370,8 +371,8 @@ export default function App() {
           </nav>
         </div>
         <div className="container-page border-t border-line py-5 text-xs leading-relaxed text-faint">
-          Not legal advice. RemedyAI is not affiliated with or endorsed by Apple, Visa, Sony, Samsung, Best Buy, Currys or any
-          retailer named; names are used only to identify products and programs. Contains public sector information licensed under
+          Not legal advice. RemedyAI is not affiliated with or endorsed by Apple, Visa, Sony, Samsung, Best Buy, Currys or any other
+          company named; names are used only to identify products and programs. Contains public sector information licensed under
           the <a className="underline" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>.
         </div>
       </footer>
@@ -470,7 +471,7 @@ function Result({
           {invalid
             ? evaluation.unmatched_reason?.replace('INVALID INPUT: ', '')
             : !has
-              ? 'None of the official sources RemedyAI checks covers this case. That does not mean nothing does.'
+              ? "None of the official sources RemedyAI checks covers this case. Other help may still exist; see what you can try below."
               : routes.length > 1
                 ? `${routes.length} options found. Start with "What to do next".`
                 : 'Start with "What to do next" below.'}
