@@ -57,7 +57,8 @@ def main():
             "event": e["EventName"],
             "source": e.get("EventSource"),
             "read_only": e.get("ReadOnly"),
-            "user_agent": (detail.get("userAgent") or "")[:120],
+            # Kept whole: the app/<id> tag the agent's deploy adds is at the end of the string.
+            "user_agent": (detail.get("userAgent") or "")[:400],
             "request_id": detail.get("requestID"),
             "resources": [r.get("ResourceName") for r in e.get("Resources", [])][:3],
         })
