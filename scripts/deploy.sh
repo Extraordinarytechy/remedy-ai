@@ -68,9 +68,21 @@ echo "== first Source Watch run"
 aws lambda invoke --function-name "$WATCH_FN" --region "$REGION" /tmp/sourcewatch.json --query "StatusCode" --output text
 cat /tmp/sourcewatch.json; echo
 
+echo "== AI services opt-out (effective policy for this account)"
+aws organizations describe-effective-policy --policy-type AISERVICES_OPT_OUT_POLICY \
+  --query "EffectivePolicy.PolicyContent" --output text 2>&1 || echo "could not read the effective policy"
+
 echo "== smoke test $SITE_URL"
-curl -sS -o /dev/null -w "site %{http_code}\n" "$SITE_URL/"
-curl -sS "$SITE_URL/health"; echo
-curl -sS -o /dev/null -w "sources %{http_code}\n" "$SITE_URL/api/sources"
+fail() { echo "SMOKE TEST FAILED: $1"; exit 1; }
+[ "$(curl -sS -o /dev/null -w '%{http_code}' "$SITE_URL/")" = 200 ] || fail "site did not return 200"
+HEALTH=$(curl -sS "$SITE_URL/health"); echo "$HEALTH"
+# The live API must load exactly the knowledge records in the repository.
+EXPECTED=$(python3 -c "import json,glob;print(','.join(sorted(json.load(open(f))['id'] for f in glob.glob('backend/knowledge/**/*.json',recursive=True))))")
+LIVE=$(echo "$HEALTH" | python3 -c "import json,sys;print(','.join(sorted(json.load(sys.stdin).get('knowledge_records',[]))))")
+[ "$EXPECTED" = "$LIVE" ] || fail "knowledge records differ (expected $EXPECTED, live $LIVE)"
+[ "$(curl -sS -o /dev/null -w '%{http_code}' "$SITE_URL/api/sources")" = 200 ] || fail "/api/sources did not return 200"
+API_URL=$(out ApiUrl)
+[ "$(curl -sS -o /dev/null -w '%{http_code}' "$API_URL/health")" = 403 ] || fail "the API Gateway URL answered without CloudFront"
+echo "smoke test passed"
 
 echo "DEPLOYED $SITE_URL"

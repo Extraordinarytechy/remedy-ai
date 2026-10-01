@@ -20,6 +20,9 @@ samconfig.toml
 # Local-only notes and AWS resource inventory (account-specific; never pushed)
 local/
 
+# Coding-agent working files
+.agents/
+
 # Environment and secrets
 .env
 .env.local
