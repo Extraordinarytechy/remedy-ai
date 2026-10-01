@@ -1,4 +1,4 @@
-# RemedyAI: find the free repair or refund you may still be owed after your warranty ends
+# RemedyAI: find the free repair you may still be owed after your warranty ends
 
 **Live:** https://d1fnfajqesgvsl.cloudfront.net (no sign-up) · **Code:** https://github.com/Extraordinarytechy/remedy-ai
 
@@ -24,7 +24,7 @@ If a receipt photo was read, RemedyAI also **checks it against what you typed**.
 
 If no source covers the case, it says so: `NO VERIFIED COVERAGE FOUND`, plus the sources it checked that did not apply and why.
 
-Six routes today, from four kinds of source:
+Eight routes today, from four kinds of source:
 
 | Route | Source | Status in RemedyAI |
 | --- | --- | --- |
@@ -32,6 +32,8 @@ Six routes today, from four kinds of source:
 | Mac mini (2023, M2) no-power program | Apple | Active, on Apple's index since June 2025; serial check required. Found missing on 2026-09-30, verified against Apple's page and added |
 | iPhone 14 Plus rear camera program | Apple | Active; requires Apple's serial check, so RemedyAI never says "eligible", only "possible: check your serial number" |
 | iPhone 12 / 12 Pro no-sound program | Apple | Page still online, **not on Apple's index**; nearly every unit is past its window |
+| Google Consumer Hardware Limited Warranty (U.S. and Canada; Pixel devices) | Google | One year from purchase (90 days if refurbished). Added as a JSON record only, with no Google-specific code |
+| Pixel 9 Pro & 9 Pro XL Extended Repair Program | Google | Vertical display line (or flicker on 9 Pro), free display for 3 years from purchase; inspection first |
 | Visa Infinite extended warranty (+1 year on warranties of 3 years or less) | Visa | Issuer's Guide to Benefits governs; RemedyAI shows only what Visa's page states |
 | UK consumer rights on faulty goods (6 years, 5 in Scotland) | GOV.UK | Includes the burden-of-proof shift after 6 months |
 
@@ -42,7 +44,8 @@ A static warranty database goes stale quietly. We found this out the hard way (s
 - **EventBridge Scheduler** runs a Lambda at 06:00 UTC.
 - It fetches every source page plus Apple's [service-program index](https://support.apple.com/service-programs), hashes the visible text, and **stores a dated snapshot in S3 whenever a page changes**.
 - It records, per source: HTTP status, whether an Apple program is still listed on the index, when the text last changed, and which programs appeared or disappeared from the index since the previous run.
-- The API reads that status on every evaluation. A route whose source page is unreachable, or whose Apple program has left the index, is **downgraded to "Source changed: re-verify first"** instead of being shown as a match. If a page's text changes after it was last verified, the route carries a warning with both dates.
+- The API reads that status on every evaluation. A route is **downgraded to "Source changed: re-verify first"** instead of being shown as a match if its page is unreachable, the sentence it relies on is gone, its text changed after it was last verified, its Apple program has left the index, or Apple's index can't be read. Downgraded routes are never used in the claim PDF or letter.
+- Each run publishes a `DegradedSources` CloudWatch metric (embedded metric format, no extra API call). An alarm emails the owner when it is above zero; two more alarms cover a failed run and a missed run. If the newest check is more than 36 hours old, every route is treated as unverified.
 
 The Source Watch table is on the home page, so anyone can see when each source was last verified and when it was last checked automatically.
 
@@ -127,6 +130,7 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 8. **A security review found two real flaws in the claim PDF.** Text typed into the form was read as PDF markup, so an image tag could make the server load a file into the PDF and a link tag could plant a link in a RemedyAI-branded document. And the PDF endpoint trusted the result the browser sent, so a PDF could claim coverage the engine never found. All PDF text is now escaped, and the server re-evaluates the case itself before building any PDF. Both have regression tests.
 9. **A pre-launch security check found a way around CloudFront.** The API Gateway URL was still public, and the API trusted the `CloudFront-Viewer-Address` header to count visitors. Anyone calling that URL directly could set the header themselves and get a fresh per-visitor allowance each time (the daily total still held). CloudFront now adds a random secret header, and the API refuses any request without it. It also only trusts the visitor address when that header is present.
 10. **A full code read-through before launch found the engine applying its own rules unevenly.** The Visa route compared the failure date with the purchase date but never with the claim date, so a benefit that ended in 2023 could still show as an option, and it matched purchases outside the U.S. A program the record itself marked as delisted could read "likely" whenever the daily source check hadn't run. "iPhone 18 Pro case" matched Apple's hardware warranty. And the claim date, which every deadline is measured against, could be set by the caller. All are fixed with tests: every route now checks the claim date and its country, delisted or unverified options are never used in the claim letter, accessories don't match devices, and the server sets the claim date. The same pass added byte-level checks on receipt uploads, length limits on every nested field, a daily cap on claim PDFs, item-level DynamoDB permissions, and a review step that shows what was read from photos before it is used.
+11. **A second code review found three places that failed open.** The photo reader's reply was coerced with Python's `bool()`, so the text `"false"` counted as true. A source page edited after it was verified only added a warning, so the route stayed usable in the claim PDF. And when Apple's index couldn't be read, the delisting check returned "unknown" and the route stayed live, with no alarm. Now the reply must match a strict schema or it is discarded, any change after verification and an unreadable index both mean "check it first", and a `DegradedSources` alarm emails the owner. Each has regression tests.
 
 ## What it doesn't know
 
@@ -135,7 +139,7 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 | Whether your iPhone 14 Plus serial is in Apple's affected range | Only Apple's serial checker knows. RemedyAI sends you there |
 | Your device's first retail sale date | If it was bought used or refurbished, the 3-year window may have started before your purchase |
 | Your card issuer's exact terms | Visa's page defers to the issuer's Guide to Benefits |
-| Every program that exists | Six verified routes today. Adding one means verifying its official page first. Source Watch flags Apple programs that have no record yet |
+| Every program that exists | Eight verified routes today. Adding one means verifying its official page first. Source Watch flags Apple programs that have no record yet |
 | Whether a changed page changed the terms | Source Watch detects that text changed, not what the change means. The page is then re-verified |
 
 ## Cost
@@ -147,6 +151,7 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 
 ## Where it goes next
 
-- **First users:** people whose warranty just ended (device forums, repair shops that see these faults daily).
-- **Corpus growth:** every route is verified against its official page before it goes live, then watched by Source Watch. A new manufacturer warranty or repair program (any brand) is only a JSON record, because those evaluators are driven by the record's data. A new kind of route, such as another card network or another country's consumer law, also needs its own small evaluator today, as Visa Infinite and UK law do. The home page lists what is covered today (built from the same records the engine uses) and what is planned: new Apple programs as they appear, Samsung and Google programs, Mastercard and American Express benefits, the EU 2-year guarantee, and consumer law in more countries.
-- **Business model:** free checks; paid tracked claims (deadline reminders, follow-up letters). Repair shops and card issuers are the partner channel: both benefit when a covered repair is claimed instead of paid out of pocket.
+- **Field test:** 16 broken-product cases from public posts were run through the engine using only what each poster said ([results](field-test/results.md)). 4 got a route to try first, all through UK consumer law; 5 of the 12 misses were Samsung devices, which makes Samsung's warranty the next record to verify.
+- **First users:** people whose warranty just ended (device forums, consumer columns, repair shops that see these faults daily).
+- **Corpus growth:** every route is verified against its official page before it goes live, then watched by Source Watch. A new manufacturer warranty or repair program (any brand) is only a JSON record, because those evaluators are driven by the record's data. A new kind of route, such as another card network or another country's consumer law, also needs its own small evaluator today, as Visa Infinite and UK law do. The home page lists what is covered today (built from the same records the engine uses) and what is planned: new Apple programs as they appear, Samsung warranties and programs, Mastercard and American Express benefits, the EU 2-year guarantee, and consumer law in more countries.
+- **Business model (planned):** free checks; paid tracked claims (deadline reminders, a follow-up letter if a claim is refused, escalation), priced per claim and well below the repair recovered. The natural partners are repairers the maker pays for warranty and repair-program work, such as Apple and Google authorized service providers, since RemedyAI would send them customers whose repair is free to the customer. Complaint-letter tools such as Resolver and Which? help people write to a company; RemedyAI tells them which free route applies, until when, and keeps that answer checked against the source.

@@ -8,6 +8,10 @@ function resultOf(s: SourceEntry): { text: string; bad: boolean } {
   if (w.reachable === false) return { text: `Page offline (HTTP ${w.http_status})`, bad: true };
   if (w.key_text_present === false) return { text: 'Key wording missing', bad: true };
   if (w.listed_on_apple_index === false) return { text: "Not on Apple's list", bad: true };
+  if (w.apple_index_ok === false) return { text: "Apple's list could not be read", bad: true };
+  const changed = (w.last_changed_at ?? '').slice(0, 10);
+  const verified = (s.human_verified_at ?? '').slice(0, 10);
+  if (changed && verified && changed > verified) return { text: `Changed ${shortDate(changed)}, re-verify`, bad: true };
   if (w.listed_on_apple_index) return { text: "Online, on Apple's list", bad: false };
   return { text: 'Online', bad: false };
 }
@@ -27,8 +31,8 @@ export function SourcesTable({ data }: { data: SourcesResponse }) {
     <div className="space-y-5">
       <p className="text-muted">
         Every answer comes from one of these official pages. Each was verified before it went live, and Source Watch re-checks
-        them automatically every day. If a page disappears, its key wording changes or Apple drops a program, that option is
-        marked "check it first" instead of being shown as a match.
+        them automatically every day. If a page disappears, its text changes after it was verified or Apple drops a program,
+        that option is marked "check it first" instead of being shown as a match.
       </p>
       <div className="overflow-x-auto rounded-2xl border border-line">
         <table className="w-full text-left text-sm">

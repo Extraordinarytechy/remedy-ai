@@ -1,0 +1,331 @@
+{
+ "about": "Real cases described in public posts, read on 2026-10-01. Only what each poster stated is used. Dates given as 'about N months' are converted from the post date and marked approximate. The claim date is the day of the post. Posters are not named.",
+ "included": [
+  {
+   "id": "A1",
+   "url": "https://discussions.apple.com/thread/256250464",
+   "posted": "2026-02-22",
+   "said": "iPhone 16 Pro, motherboard failure at 16 months, 4 months after the one-year warranty; quoted in euros",
+   "case": {
+    "product_name": "Apple iPhone 16 Pro",
+    "purchase_date": "2024-10-22",
+    "failure_date": "2026-02-22",
+    "purchase_country": "OTHER",
+    "defect_description": "Phone died; screen stayed black; motherboard failure diagnosed, no damage"
+   },
+   "approximate": [
+    "purchase_date"
+   ],
+   "country_note": "EU (euros, EU warranty mentioned in replies)"
+  },
+  {
+   "id": "A2",
+   "url": "https://discussions.apple.com/thread/256302831",
+   "posted": "2026-05-25",
+   "said": "iPhone 17 Pro Max bought about 6 months earlier, OLED burn-in of status icons; country not stated",
+   "case": {
+    "product_name": "Apple iPhone 17 Pro Max",
+    "purchase_date": "2025-11-25",
+    "failure_date": "2026-05-25",
+    "defect_description": "OLED burn-in: permanent ghost images of the status bar icons",
+    "purchase_country": "OTHER"
+   },
+   "approximate": [
+    "purchase_date"
+   ],
+   "country_note": "not stated"
+  },
+  {
+   "id": "A3",
+   "url": "https://discussions.apple.com/thread/256254491",
+   "posted": "2026-03-01",
+   "said": "iPad Pro M4, display goes black while audio continues, 'barely out of warranty'; quoted in Thai baht",
+   "case": {
+    "product_name": "Apple iPad Pro M4",
+    "purchase_date": "2025-02-01",
+    "failure_date": "2026-03-01",
+    "purchase_country": "OTHER",
+    "defect_description": "Display goes black while audio keeps playing; hardware failure confirmed"
+   },
+   "approximate": [
+    "purchase_date"
+   ],
+   "country_note": "Thailand"
+  },
+  {
+   "id": "A4",
+   "url": "https://discussions.apple.com/thread/256331802",
+   "posted": "2026-07-26",
+   "said": "iPad (10th generation), dust inside the display, warranty expired about six months earlier; country not stated",
+   "case": {
+    "product_name": "Apple iPad (10th generation)",
+    "purchase_date": "2025-01-26",
+    "failure_date": "2026-07-26",
+    "defect_description": "Dust particles visible inside the display",
+    "purchase_country": "OTHER"
+   },
+   "approximate": [
+    "purchase_date"
+   ],
+   "country_note": "not stated"
+  },
+  {
+   "id": "A5",
+   "url": "https://discussions.apple.com/thread/256222932",
+   "posted": "2026-01-09",
+   "said": "AirPods Max bought about 2.5 years earlier, now completely dead; prices in AUD",
+   "case": {
+    "product_name": "Apple AirPods Max",
+    "purchase_date": "2023-07-09",
+    "failure_date": "2026-01-09",
+    "purchase_country": "AU",
+    "defect_description": "Headphones stopped working completely; will not connect or power on"
+   },
+   "approximate": [
+    "purchase_date"
+   ],
+   "country_note": "Australia"
+  },
+  {
+   "id": "A6",
+   "url": "https://discussions.apple.com/thread/256360354",
+   "posted": "2026-09-19",
+   "said": "Apple Watch Series 12 bought the day before, restarting with kernel panics; country not stated",
+   "case": {
+    "product_name": "Apple Watch Series 12",
+    "purchase_date": "2026-09-18",
+    "failure_date": "2026-09-19",
+    "defect_description": "Watch restarts unexpectedly with kernel panics",
+    "purchase_country": "OTHER"
+   },
+   "approximate": [],
+   "country_note": "not stated"
+  },
+  {
+   "id": "A7",
+   "url": "https://discussions.apple.com/thread/256081662",
+   "posted": "2025-06-16",
+   "said": "iPad Air, 4 months old, stopped responding to touch (Apple Pencil still works); country not stated",
+   "case": {
+    "product_name": "Apple iPad Air 11-inch",
+    "purchase_date": "2025-02-16",
+    "failure_date": "2025-06-16",
+    "defect_description": "Screen stopped responding to touch; Apple Pencil still works",
+    "purchase_country": "OTHER"
+   },
+   "approximate": [
+    "purchase_date"
+   ],
+   "country_note": "not stated"
+  },
+  {
+   "id": "S1",
+   "url": "https://us.community.samsung.com/t5/Galaxy-Z-Series/Galaxy-ZFold-7-Warranty-issues/td-p/3629970",
+   "posted": "2026-07-29",
+   "said": "Galaxy Z Fold 7 bought about four months earlier, half of the inner display failed; Samsung said water damage; U.S. community, dollars",
+   "case": {
+    "product_name": "Samsung Galaxy Z Fold 7",
+    "product_brand": "Samsung",
+    "purchase_date": "2026-03-29",
+    "failure_date": "2026-07-29",
+    "purchase_country": "US",
+    "defect_description": "Half of the inner display stopped working"
+   },
+   "approximate": [
+    "purchase_date"
+   ],
+   "country_note": "United States"
+  },
+  {
+   "id": "S2",
+   "url": "https://r2.community.samsung.com/t5/Galaxy-S/Samsung-s-Pink-Line-Scam-Warranty-Ends-Customer-Pays/td-p/22217370",
+   "posted": "2026-05-31",
+   "said": "Galaxy S23 bought April 2023, vertical pink line on the display, told the warranty had just expired; India",
+   "case": {
+    "product_name": "Samsung Galaxy S23",
+    "product_brand": "Samsung",
+    "purchase_date": "2023-04-15",
+    "failure_date": "2026-05-31",
+    "purchase_country": "IN",
+    "defect_description": "Vertical pink line on the display"
+   },
+   "approximate": [
+    "purchase_date (month stated)"
+   ],
+   "country_note": "India"
+  },
+  {
+   "id": "S3",
+   "url": "https://r2.community.samsung.com/t5/Galaxy-S/Samsung-Galaxy-S24-Display-Issue-Need-Official-Clarification/td-p/22407843",
+   "posted": "2026-06-25",
+   "said": "Galaxy S24 bought 22 September 2025, stuck pixels and a black spot; India",
+   "case": {
+    "product_name": "Samsung Galaxy S24",
+    "product_brand": "Samsung",
+    "purchase_date": "2025-09-22",
+    "failure_date": "2026-06-25",
+    "purchase_country": "IN",
+    "defect_description": "Stuck green and orange pixels and a black spot on the display"
+   },
+   "approximate": [],
+   "country_note": "India"
+  },
+  {
+   "id": "S4",
+   "url": "https://us.community.samsung.com/t5/Laundry/Ongoing-Issue-with-a-Samsung-Washer-Dryer-Combo-Purchased-July/td-p/3631605",
+   "posted": "2026-07-31",
+   "said": "Samsung washer/dryer combo bought July 2024, laundry still wet after every cycle since day one; a warranty repair did not fix it; U.S.",
+   "case": {
+    "product_name": "Samsung washer/dryer combo",
+    "product_brand": "Samsung",
+    "purchase_date": "2024-07-15",
+    "failure_date": "2026-07-31",
+    "purchase_country": "US",
+    "defect_description": "Laundry comes out of completed cycles still wet; in-warranty repair did not fix it"
+   },
+   "approximate": [
+    "purchase_date (month stated)"
+   ],
+   "country_note": "United States"
+  },
+  {
+   "id": "S5",
+   "url": "https://eu.community.samsung.com/t5/galaxy-s26-series/samsung-warranty-denied/td-p/14679303",
+   "posted": "2026-05-12",
+   "said": "Galaxy Z Fold, 7 months old, display flicker and dead pixels, quoted $650; based in Atlanta, Georgia",
+   "case": {
+    "product_name": "Samsung Galaxy Z Fold",
+    "product_brand": "Samsung",
+    "purchase_date": "2025-10-12",
+    "failure_date": "2026-05-12",
+    "purchase_country": "US",
+    "defect_description": "Display flickering with dead pixels"
+   },
+   "approximate": [
+    "purchase_date"
+   ],
+   "country_note": "United States"
+  },
+  {
+   "id": "U1",
+   "url": "https://news.sky.com/story/money-problem-my-1-2k-samsung-tv-broke-within-two-years-but-they-wont-give-me-any-money-back-13437866",
+   "posted": "2025-09-30",
+   "said": "Samsung OLED TV bought November 2023 for 1,200 pounds, stopped turning on in month 20, 12-month warranty; UK",
+   "case": {
+    "product_name": "Samsung OLED TV",
+    "product_brand": "Samsung",
+    "purchase_date": "2023-11-15",
+    "failure_date": "2025-07-15",
+    "purchase_country": "GB",
+    "defect_description": "TV suddenly stopped turning on"
+   },
+   "approximate": [
+    "purchase_date (month stated)",
+    "failure_date (month 20)"
+   ],
+   "country_note": "United Kingdom, region not stated"
+  },
+  {
+   "id": "U2",
+   "url": "https://news.sky.com/story/my-phone-has-broken-back-market-is-fobbing-me-off-what-are-my-rights-13470179",
+   "posted": "2025-11-17",
+   "said": "Refurbished phone bought from Back Market in July 2024; sound fault in April, fixed in May, now back; told it is out of warranty; UK",
+   "case": {
+    "product_name": "Refurbished smartphone",
+    "retailer": "Back Market",
+    "purchase_date": "2024-07-15",
+    "failure_date": "2025-11-17",
+    "purchase_country": "GB",
+    "defect_description": "Sound fault has come back after a repair"
+   },
+   "approximate": [
+    "purchase_date (month stated)"
+   ],
+   "country_note": "United Kingdom, region not stated"
+  },
+  {
+   "id": "U3",
+   "url": "https://news.sky.com/story/money-problem-my-washing-machine-has-eaten-1-000-of-clothes-13499582",
+   "posted": "2026-02-03",
+   "said": "Grundig washer/dryer owned from new, failed about two years into a three-year warranty and kept burning clothes after two repairs; UK",
+   "case": {
+    "product_name": "Grundig washer dryer",
+    "product_brand": "Grundig",
+    "purchase_date": "2023-10-15",
+    "failure_date": "2025-10-15",
+    "purchase_country": "GB",
+    "original_warranty_years": 3,
+    "defect_description": "Machine burns and shrinks clothes; faulty wiring found after two repairs"
+   },
+   "approximate": [
+    "purchase_date",
+    "failure_date"
+   ],
+   "country_note": "United Kingdom, region not stated"
+  },
+  {
+   "id": "U4",
+   "url": "https://forums.moneysavingexpert.com/discussion/6684559/return-of-faulty-speaker",
+   "posted": "2026-09-26",
+   "said": "New speaker not working; seller in England agreed a return; buyer in Northern Ireland",
+   "case": {
+    "product_name": "Bluetooth speaker",
+    "purchase_date": "2026-09-10",
+    "failure_date": "2026-09-26",
+    "purchase_country": "GB",
+    "uk_region": "northern_ireland",
+    "defect_description": "New speaker does not work"
+   },
+   "approximate": [
+    "purchase_date (stated as new)"
+   ],
+   "country_note": "United Kingdom (Northern Ireland)"
+  }
+ ],
+ "excluded": [
+  {
+   "url": "https://discussions.apple.com/thread/256089640",
+   "reason": "purchase date not stated"
+  },
+  {
+   "url": "https://discussions.apple.com/thread/256170530",
+   "reason": "purchase date not stated"
+  },
+  {
+   "url": "https://discussions.apple.com/thread/256252427",
+   "reason": "purchase date not stated"
+  },
+  {
+   "url": "https://discussions.apple.com/thread/256260050",
+   "reason": "purchase date not stated"
+  },
+  {
+   "url": "https://us.community.samsung.com/t5/Galaxy-Z-Series/Disappointed-in-Warranty-Denial/td-p/3619922",
+   "reason": "purchase date not stated"
+  },
+  {
+   "url": "https://r2.community.samsung.com/t5/Galaxy-S/Warranty-Denied-for-Galaxy-S24-Ultra-Display-Defect-at-R-G/td-p/22169439",
+   "reason": "purchase date not stated"
+  },
+  {
+   "url": "https://r2.community.samsung.com/t5/Galaxy-S/S24fe-green-line-issue/td-p/22487015",
+   "reason": "no fault yet (question about a possible future fault)"
+  },
+  {
+   "url": "https://eu.community.samsung.com/t5/galaxy-s24-series/s24-battery-exploded-out-of-the-phone-used-by-my-12-year-old/m-p/15433990",
+   "reason": "purchase date and country not stated"
+  },
+  {
+   "url": "https://www.androidauthority.com/google-pixel-9-pro-fold-repair-support-nightmare-3681239/",
+   "reason": "news article about a Reddit post; purchase date not stated"
+  },
+  {
+   "url": "https://us.community.samsung.com/t5/Laundry/Samsung-assigned-repair-provider-will-not-service-stacked-washer/m-p/3587281",
+   "reason": "page did not load"
+  },
+  {
+   "url": "https://us.community.samsung.com/t5/Kitchen-and-Family-Hub/REFRIGERATOR-4-YEARS-OLD-STOPPED-WORKING-SAMSUNG-FIXED-THE/td-p/3413980",
+   "reason": "page did not load"
+  }
+ ]
+}

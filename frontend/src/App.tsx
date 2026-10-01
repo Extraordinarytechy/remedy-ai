@@ -335,8 +335,8 @@ export default function App() {
                 the final decision.
               </Faq>
               <Faq q="How do you keep sources up to date?">
-                Every source page is re-read automatically each day. If a page disappears, its key wording changes or Apple drops a
-                program, the option is marked "check it first" until it has been verified again.{' '}
+                Every source page is re-read automatically each day. If a page disappears, its text changes after it was verified or
+                Apple drops a program, the option is marked "check it first" until it has been verified again.{' '}
                 <button onClick={() => setDialog('sources')} className="link">View source status</button>
               </Faq>
               <Faq q="What if my product isn't covered?">
@@ -372,7 +372,7 @@ export default function App() {
           </nav>
         </div>
         <div className="container-page border-t border-line py-5 text-xs leading-relaxed text-faint">
-          Not legal advice. RemedyAI is not affiliated with or endorsed by Apple, Visa, Sony, Samsung, Best Buy, Currys or any other
+          Not legal advice. RemedyAI is not affiliated with or endorsed by Apple, Google, Visa, Sony, Samsung, Best Buy, Currys or any other
           company named; names are used only to identify products and programs. Contains public sector information licensed under
           the <a className="underline" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>.
         </div>

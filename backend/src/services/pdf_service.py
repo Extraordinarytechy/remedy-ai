@@ -30,7 +30,7 @@ STATUS_TEXT = {
 
 OGL_NOTICE = "Contains public sector information licensed under the Open Government Licence v3.0."
 NON_AFFILIATION = (
-    "RemedyAI is not affiliated with or endorsed by Apple, Visa, Sony, Samsung, Best Buy, Currys or any "
+    "RemedyAI is not affiliated with or endorsed by Apple, Google, Visa, Sony, Samsung, Best Buy, Currys or any "
     "retailer named. Names are used only to identify products and programs."
 )
 

@@ -72,6 +72,7 @@ export interface SourceCheck {
   last_changed_at?: string;
   human_verified_at?: string;
   listed_on_apple_index?: boolean | null;
+  apple_index_ok?: boolean;
   key_text_present?: boolean | null;
 }
 

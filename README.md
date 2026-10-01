@@ -23,13 +23,16 @@ so when nothing covers you.
 | Mac mini (2023, M2) Service Program for No Power Issue | Apple | [Apple](https://support.apple.com/mac-mini-2023-service-program-for-no-power-issue) |
 | iPhone 14 Plus Service Program for Rear Camera Issue | Apple | [Apple](https://support.apple.com/iphone-14-plus-service-program-for-rear-camera-issue) |
 | iPhone 12 / 12 Pro no-sound program (ended; kept to show delisting) | Apple | [Apple](https://support.apple.com/en-in/iphone-12-and-iphone-12-pro-service-program-for-no-sound-issues) |
+| Google Consumer Hardware Limited Warranty: Pixel phones, tablets, watches and earbuds, first year | Google, U.S. and Canada | [Google](https://support.google.com/product-documentation/answer/12461608?hl=en) |
+| Pixel 9 Pro & 9 Pro XL Extended Repair Program: vertical display line (or flicker on 9 Pro), 3 years | Google | [Google](https://support.google.com/pixelphone/answer/16737524?hl=en) |
 | Visa Infinite Extended Warranty Protection: +1 year on warranties of 3 years or less | Any brand, U.S. | [Visa](https://www.visa.com/en-us/personal/cards/credit/visa-infinite) |
 | UK consumer rights on faulty goods: up to 6 years to claim (5 in Scotland) | Any brand, UK | [GOV.UK](https://www.gov.uk/accepting-returns-and-giving-refunds) |
 
 Each option is one JSON record in [`backend/knowledge/`](backend/knowledge), and the site's coverage
 list is built from those same records. The UK and Visa Infinite options cover any brand, including TVs
-and home appliances. A new manufacturer warranty or repair program is only a record; a new card network
-or country's consumer law also needs a small evaluator.
+and home appliances. A new manufacturer warranty or repair program is only a record: the two Google
+options were added as JSON files with no Google-specific code. A new card network or country's consumer
+law also needs a small evaluator.
 
 ## How it works
 
@@ -51,9 +54,11 @@ or country's consumer law also needs a small evaluator.
 **Source Watch** ([`source_watch.py`](backend/src/services/source_watch.py)) runs daily. It re-reads
 every source (or just the exact sentence a record relies on), stores a snapshot when it changes, and
 downgrades an option to "check it first" if its page disappears, the sentence a record relies on
-disappears, or an Apple program leaves Apple's list. Any other change to a page after it was last
-verified adds a warning with both dates. It also reports any Apple repair program that has no
-record yet. Options marked "check it first" are never used in the claim letter.
+disappears or changes after the record was last verified, an Apple program leaves Apple's list, or
+Apple's list can't be read. It also reports any Apple repair program that has no record yet. Each run
+publishes a `DegradedSources` CloudWatch metric, and an alarm emails the owner when anything needs
+re-verifying; separate alarms cover a failed or missed run. Options marked "check it first" are never
+used in the claim PDF or letter.
 
 ## Architecture
 
@@ -67,7 +72,7 @@ flowchart LR
     L --> BR["Amazon Bedrock<br/>Nova 2 Lite (vision)"]
     L --> DDB[("DynamoDB<br/>source status,<br/>daily caps")]
     SCH["EventBridge Scheduler<br/>daily 06:00 UTC"] --> SW["Lambda: Source Watch"]
-    SW -->|"fetch + hash"| SRC["Apple / Visa / GOV.UK pages"]
+    SW -->|"fetch + hash"| SRC["Apple / Google / Visa / GOV.UK pages"]
     SW --> DDB
     SW --> SNAP[("S3 snapshots<br/>(versioned)")]
 ```
@@ -93,7 +98,7 @@ project writeup is in [`docs/WRITEUP.md`](docs/WRITEUP.md).
 ```bash
 cd backend
 pip install -r requirements-dev.txt
-python -m pytest tests -q                    # 128 tests
+python -m pytest tests -q                    # 163 tests
 python -m uvicorn src.app:app --port 8082    # the Vite dev server proxies /api here
 ```
 
@@ -133,7 +138,7 @@ template.yaml        AWS SAM template for the whole stack
 ## Notices
 
 RemedyAI prepares claims; it is not legal advice and does not guarantee coverage. It is not affiliated
-with or endorsed by Apple, Visa, Sony, Samsung, Best Buy, Currys or any retailer named. Contains public
+with or endorsed by Apple, Google, Visa, Sony, Samsung, Best Buy, Currys or any retailer named. Contains public
 sector information licensed under the
 [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
 Copyright © 2026. All rights reserved; see [`LICENSE`](LICENSE).
