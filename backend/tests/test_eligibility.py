@@ -97,7 +97,7 @@ def test_iphone14_pro_not_in_program(engine):
 # ---------------------------------------------------------------------------
 # Apple iPhone 12 no-sound program (no longer listed on Apple's index)
 # ---------------------------------------------------------------------------
-def test_iphone12_eligible_when_claimed_inside_window(engine):
+def test_iphone12_inside_window_is_shown_but_must_be_checked_first(engine):
     case = make_case(
         product_name="Apple iPhone 12",
         product_model="iPhone 12",
@@ -110,7 +110,9 @@ def test_iphone12_eligible_when_claimed_inside_window(engine):
     assert res.has_coverage is True
     route = res.matched_routes[0]
     assert route.route_id == "apple_iphone12_no_sound_2021"
-    assert route.status == "ELIGIBLE_PENDING_INSPECTION"
+    # The record marks the program as no longer on Apple's list, so it is never presented as live.
+    assert route.status == "NEEDS_REVERIFICATION"
+    assert res.pdf_allowed is False
     assert "https://support.apple.com" in route.provenance.source_url
     assert any("no longer listed" in e for e in route.provenance.exceptions)
 

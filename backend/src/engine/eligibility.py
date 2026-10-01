@@ -1,8 +1,8 @@
 import json
+import re
 from pathlib import Path
 from datetime import datetime, date, timezone
 from typing import List, Optional, Dict, Any, Tuple
-from dateutil import parser as date_parser
 from dateutil.relativedelta import relativedelta
 
 from src.models.schemas import (
@@ -42,8 +42,28 @@ def load_knowledge_records(knowledge_dir: Path = KNOWLEDGE_DIR) -> Dict[str, Dic
 
 
 def parse_date(date_str: str) -> date:
-    """Safely parse ISO or common date strings to date objects."""
-    return date_parser.parse(date_str).date()
+    """Strict calendar date, YYYY-MM-DD. Ambiguous forms such as 03/04/2024 are rejected,
+    because reading them the wrong way round would move a deadline by months."""
+    s = (date_str or "").strip()
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", s):
+        raise ValueError(f"'{date_str}' is not a YYYY-MM-DD date")
+    return date.fromisoformat(s)
+
+
+# Words that mean the product is an accessory, an app or a service, not the device a record covers
+# ("iPhone 18 Pro case", "Apple TV app").
+NOT_THE_DEVICE = re.compile(
+    r"\b(case|cases|cover|charger|cable|adapter|protector|strap|stand|mount|holder|skin|sleeve|dock|"
+    r"stylus|pencil|keyboard|app|subscription)\b"
+)
+
+# Statuses that describe a possible option the user must check before acting on it. They stay in the
+# result with their explanation, but no claim PDF, letter or reminder is offered for them.
+NOT_ACTIONABLE = {"NEEDS_REVERIFICATION", "NEEDS_CONFIRMATION"}
+
+
+def is_actionable(route: MatchedRoute) -> bool:
+    return route.status not in NOT_ACTIONABLE
 
 
 def add_years(d: date, years: float) -> date:
@@ -62,13 +82,18 @@ class EligibilityEngine:
     # Public entry point
     # ------------------------------------------------------------------
     def evaluate(
-        self, case: NormalizedCase, source_status: Optional[Dict[str, Dict[str, Any]]] = None
+        self,
+        case: NormalizedCase,
+        source_status: Optional[Dict[str, Dict[str, Any]]] = None,
+        source_status_unavailable: bool = False,
     ) -> RemedyEvaluation:
         """
         Evaluates a NormalizedCase against the closed-world knowledge corpus.
         Enforces strict evidence grounding: no routes are generated unless
         explicitly verified in primary-source records. `source_status` is the latest
         Source Watch result; a route whose source is unreachable or delisted is downgraded.
+        `source_status_unavailable` means the status could not be read: every route is then
+        treated as unverified rather than as healthy.
         """
         now_iso = datetime.now(timezone.utc).isoformat()
 
@@ -124,9 +149,11 @@ class EligibilityEngine:
         # 2. Payment-card extended warranty
         visa_record = self.records.get("visa_infinite_extended_warranty_us")
         if visa_record:
-            route = self._evaluate_visa_extended_warranty(case, visa_record, years_elapsed, p_date, f_date)
+            route, note = self._evaluate_visa_extended_warranty(case, visa_record, years_elapsed, p_date, f_date, as_of)
             if route:
                 matched_routes.append(route)
+            if note:
+                notes.append(note)
 
         # 3. Statutory consumer law
         uk_record = self.records.get("uk_cra_2015_goods")
@@ -140,7 +167,16 @@ class EligibilityEngine:
                 notes.append(note)
 
         for route in matched_routes:
-            self._apply_source_status(route, (source_status or {}).get(route.route_id))
+            st = (source_status or {}).get(route.route_id)
+            if st:
+                self._apply_source_status(route, st)
+            elif source_status_unavailable:
+                route.status = "NEEDS_REVERIFICATION"
+                route.provenance.exceptions.insert(
+                    0,
+                    "RemedyAI could not load its latest automatic check of this source just now. "
+                    "Check the official page before relying on this option.",
+                )
             if route.deadline:
                 route.days_left = (parse_date(route.deadline) - as_of).days
 
@@ -161,7 +197,9 @@ class EligibilityEngine:
                 route.provenance.exceptions.insert(
                     0, next(c.message for c in pending_hard if c.id == "country_currency")
                 )
-        pdf_allowed = not pending_hard
+        # The claim PDF needs every hard check confirmed and, when options were found, at least one
+        # option the user can act on now. Options that must be checked first are never in the letter.
+        pdf_allowed = not pending_hard and (not matched_routes or any(is_actionable(r) for r in matched_routes))
 
         # Closed-world determination
         if matched_routes:
@@ -270,10 +308,20 @@ class EligibilityEngine:
     @staticmethod
     def _device_matches(case: NormalizedCase, record: Dict[str, Any]) -> bool:
         name = f"{case.product_name} {case.product_model or ''}".lower()
+        # A brand the user named that isn't the record's brand rules the record out.
+        record_brand = (record.get("issuer_or_brand") or "").split()[0].lower() if record.get("issuer_or_brand") else ""
+        if case.product_brand and record_brand and record_brand not in case.product_brand.lower():
+            return False
+        if NOT_THE_DEVICE.search(name):
+            return False
         for excluded in record.get("excluded_devices", []):
             if excluded.lower() in name:
                 return False
-        return any(dev.lower() in name for dev in record.get("applicable_devices", []))
+        # Whole-word match, so "iPhone 12" doesn't match "iPhone 120" and "iPad" doesn't match a longer word.
+        return any(
+            re.search(rf"(?<![a-z0-9]){re.escape(dev.lower())}(?![a-z0-9])", name)
+            for dev in record.get("applicable_devices", [])
+        )
 
     @staticmethod
     def _symptom_matches(case: NormalizedCase, record: Dict[str, Any]) -> bool:
@@ -395,8 +443,27 @@ class EligibilityEngine:
         status = "PENDING_SERIAL_VERIFICATION" if requires_serial else "ELIGIBLE_PENDING_INSPECTION"
 
         exceptions = list(record.get("exclusions_and_caveats", []))
-        if not record.get("listed_on_apple_service_programs_index", True) and record.get("index_note"):
-            exceptions.insert(0, record["index_note"])
+
+        # First retail sale can lag manufacture, so a later purchase is not ruled out, but more than a
+        # year after the last affected unit was made it is unlikely. Without a serial check to settle
+        # it, the status is lowered.
+        mfg_end = record.get("manufacturing_window_end")
+        if mfg_end and p_date > parse_date(mfg_end) + relativedelta(years=1):
+            exceptions.insert(
+                0,
+                f"Bought on {p_date.isoformat()}, more than a year after the last affected units were made "
+                f"({parse_date(mfg_end).isoformat()}). New stock from that period is unlikely by then, so this "
+                "device may not be one of the affected units.",
+            )
+            if not requires_serial:
+                status = "POTENTIALLY_ELIGIBLE"
+
+        # A program the record itself marks as no longer listed by Apple is never presented as live,
+        # whether or not the latest Source Watch result is available.
+        if not record.get("listed_on_apple_service_programs_index", True):
+            status = "NEEDS_REVERIFICATION"
+            if record.get("index_note"):
+                exceptions.insert(0, record["index_note"])
         if case.visual_evidence and case.visual_evidence.physical_damage_severity in ["screen_cracked", "severe"]:
             exceptions.insert(
                 0,
@@ -481,27 +548,42 @@ class EligibilityEngine:
         )
 
     def _evaluate_visa_extended_warranty(
-        self, case: NormalizedCase, record: Dict[str, Any], years_elapsed: float, p_date: date, f_date: date
-    ) -> Optional[MatchedRoute]:
+        self,
+        case: NormalizedCase,
+        record: Dict[str, Any],
+        years_elapsed: float,
+        p_date: date,
+        f_date: date,
+        as_of: date,
+    ) -> Tuple[Optional[MatchedRoute], Optional[str]]:
         payment_lower = (case.payment_method or "").lower()
         if "visa infinite" not in payment_lower:
-            return None
+            return None, None
+        country = (case.purchase_country or "").strip().upper()
+        if record.get("countries") and country not in record["countries"]:
+            return None, None  # a U.S. card benefit on a U.S. manufacturer's warranty
 
         orig_warranty = case.original_warranty_years
         max_eligible = record.get("max_eligible_manufacturer_warranty_years", 3.0)
         extension = record.get("benefit_extension_years", 1.0)
 
         if orig_warranty > max_eligible:
-            return None
+            return None, None
 
         total_coverage_years = orig_warranty + extension
         if years_elapsed <= orig_warranty:
-            return None  # still inside the original warranty
+            return None, None  # still inside the original warranty
         if years_elapsed > total_coverage_years:
-            return None  # outside the extended window
+            return None, None  # outside the extended window
 
         warranty_end = add_years(p_date, orig_warranty)
         extended_end = add_years(p_date, total_coverage_years)
+        if as_of > extended_end:
+            return None, (
+                f"{record['program_name']}: the fault appeared on {f_date.isoformat()}, inside the extended period, "
+                f"but that period ended on {extended_end.isoformat()}. Your card issuer sets the deadline for reporting "
+                "a claim; check your Guide to Benefits before relying on it."
+            )
         evidence_items = [
             f"Dates: purchased {p_date.isoformat()}, original warranty ended about {warranty_end.isoformat()}, "
             f"failed {f_date.isoformat()}, extended protection runs to about {extended_end.isoformat()}.",
@@ -521,7 +603,7 @@ class EligibilityEngine:
             source_citation=record["program_name"],
             source_url=record["source_url"],
             conditions=record.get("mandatory_conditions", []),
-            exceptions=record.get("exclusions_and_caveats", []),
+            exceptions=list(record.get("exclusions_and_caveats", [])),
         )
 
         return MatchedRoute(
@@ -547,7 +629,7 @@ class EligibilityEngine:
             ),
             deadline=extended_end.isoformat(),
             deadline_label="Extended protection ends (approx., from purchase date)",
-        )
+        ), None
 
     def _evaluate_uk_consumer_rights(
         self,
@@ -583,6 +665,10 @@ class EligibilityEngine:
                 f"ended on {limitation_end.isoformat()} (evaluated as of {as_of.isoformat()})."
             )
 
+        # Without a region, the 6-year period is only safe to use while Scotland's 5 years would also
+        # still be running. After that, the option is held until the user says where they bought it.
+        region_needed = not region and as_of > add_years(p_date, float(by_region.get("scotland", 5)))
+
         store = case.retailer or "the store that sold it"
         evidence_items = [
             f"Deadline to claim: {limitation_end.isoformat()} ({limitation_years:.0f} years from delivery in {place}; "
@@ -607,6 +693,12 @@ class EligibilityEngine:
                 0,
                 "Scotland: the 5-year period is prescription under Scots law, which can start from a different date. "
                 "RemedyAI measures it from the purchase date; check the exact date if you are close to it.",
+            )
+        elif region_needed:
+            exceptions.insert(
+                0,
+                "Choose which part of the UK you bought it in. In Scotland the period to claim is 5 years, which has "
+                "already ended for this purchase; in the rest of the UK it is 6 years.",
             )
         elif not region:
             exceptions.insert(0, "Region not given. If the item was bought in Scotland, the period is 5 years, not 6.")
@@ -635,7 +727,7 @@ class EligibilityEngine:
                 route_type="statutory_consumer_law",
                 title=record["program_name"],
                 provider=record["issuer_or_brand"],
-                status="POTENTIALLY_ELIGIBLE",
+                status="NEEDS_CONFIRMATION" if region_needed else "POTENTIALLY_ELIGIBLE",
                 summary=(
                     "Under the UK Consumer Rights Act 2015, goods must be of satisfactory quality, fit for purpose and as "
                     "described. The retailer must repair or replace an item that was faulty when bought, whether or not a "

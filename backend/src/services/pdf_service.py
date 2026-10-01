@@ -16,6 +16,7 @@ from reportlab.platypus import (
     HRFlowable,
 )
 from src.models.schemas import NormalizedCase, RemedyEvaluation
+from src.engine.eligibility import is_actionable
 
 STATUS_TEXT = {
     "POTENTIALLY_ELIGIBLE": "May apply",
@@ -206,14 +207,20 @@ class ClaimPdfService:
                         text = f"<font color='#b91c1c'>{e(item)}</font>" if red else e(item)
                         story.append(Paragraph(f"• {text}", self.bullet_style))
                     story.append(Spacer(1, 4))
+                if not is_actionable(route):
+                    story.append(Paragraph(
+                        "<b>Check this option first.</b> It is listed for information only and is not used in the "
+                        "draft letter below.",
+                        self.body_style,
+                    ))
                 story.append(Paragraph(f"<b>What to do next:</b> {e(route.recommended_action)}", self.body_style))
                 story.append(Spacer(1, 10))
 
         story.append(Spacer(1, 10))
 
-        # 6. Draft letter
-        if evaluation.has_coverage and evaluation.matched_routes:
-            top = evaluation.matched_routes[0]
+        # 6. Draft letter, only for an option the user can act on now
+        top = next((r for r in evaluation.matched_routes if is_actionable(r)), None)
+        if evaluation.has_coverage and top:
             story.append(Paragraph("Draft letter", self.section_title))
             letter_text = (
                 f"<b>Date:</b> {e(today)}<br/>"

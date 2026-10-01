@@ -158,20 +158,32 @@ def _table():
 
 
 def load_status(force: bool = False) -> Dict[str, Dict[str, Any]]:
-    """Latest stored status per source id. Empty dict when running without AWS."""
+    """Latest stored status per source id. Empty dict when running without AWS or when the
+    status could not be read; `status_unavailable()` tells those two apart."""
     if not force and time.time() - _CACHE["at"] < CACHE_SECONDS:
         return _CACHE["status"]
     table = _table()
     status: Dict[str, Dict[str, Any]] = {}
+    unavailable = False
     if table is not None:
         try:
             item = table.get_item(Key={"pk": "sourcewatch#latest"}).get("Item")
             if item and "status_json" in item:
                 status = json.loads(item["status_json"])
+            else:
+                unavailable = True  # deployed, but no check has been stored yet
         except Exception as e:
-            print(f"Source Watch status unavailable: {e}")
-    _CACHE.update(at=time.time(), status=status)
+            print(f"Source Watch status unavailable: {type(e).__name__}")
+            unavailable = True
+    # A failed read is cached briefly only, so it is retried soon.
+    _CACHE.update(at=time.time() - (CACHE_SECONDS - 30 if unavailable else 0), status=status, unavailable=unavailable)
     return status
+
+
+def status_unavailable() -> bool:
+    """True when the last load_status() call ran in AWS but could not read a stored status.
+    Routes are then treated as unverified (fail closed), not as healthy."""
+    return bool(_CACHE.get("unavailable"))
 
 
 def handler(event, context):  # EventBridge scheduled entry point
