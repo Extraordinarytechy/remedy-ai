@@ -31,9 +31,16 @@ export const UK_REGIONS: { value: UkRegion; label: string }[] = [
   { value: 'scotland', label: 'Scotland' },
 ];
 
+/** Options the user must check first: shown with their explanation, but no letter or reminder. Mirrors the API. */
+export function isActionable(route: MatchedRoute): boolean {
+  return route.status !== 'NEEDS_REVERIFICATION' && route.status !== 'NEEDS_CONFIRMATION';
+}
+
 /** One plain sentence for the top of the result, per option. */
 export function verdictFor(route: MatchedRoute): string {
   if (route.status === 'NEEDS_CONFIRMATION') return 'Confirm where you bought it before relying on this option.';
+  if (route.status === 'NEEDS_REVERIFICATION' && route.route_type === 'manufacturer_service_program')
+    return `"${route.title}" may have ended. Check with ${route.provider.replace(' Inc.', '')} before you rely on it.`;
   if (route.status === 'NEEDS_REVERIFICATION') return `The source for "${route.title}" has changed. Check it before you rely on it.`;
   switch (route.route_type) {
     case 'manufacturer_warranty':

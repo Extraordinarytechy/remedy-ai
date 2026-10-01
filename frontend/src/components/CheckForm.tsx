@@ -4,7 +4,7 @@ import { api, photoToBase64 } from '../api';
 import type { NormalizedCase, ReceiptData, UkRegion, VisualDefectEvidence } from '../types';
 import { Combobox } from './Combobox';
 import { PAYMENTS, PRODUCTS, faultsFor, storesFor } from '../suggestions';
-import { UK_REGIONS } from './labels';
+import { UK_REGIONS, formatMoney, humanDate } from './labels';
 import { DateField } from './DateField';
 import { todayIso } from '../dates';
 
@@ -233,12 +233,43 @@ export function CheckForm({ onSubmit, busy, onOpenPrivacy }: Props) {
             </button>
             {!privacyOk && (receiptFile || photoFile) && <span className="hint">Tick the box above to continue.</span>}
             <span aria-live="polite" className="text-sm text-muted">
-              {receipt && (receipt.source === 'textract' ? 'Receipt read; empty fields were filled in. ' : 'The receipt could not be read. ')}
-              {visual && (visual.source === 'bedrock' ? 'Fault photo described.' : 'The fault photo could not be analysed.')}
+              {receipt && (receipt.source === 'textract' ? 'Receipt read; see below. ' : 'The receipt could not be read. ')}
+              {visual && (visual.source === 'bedrock' ? 'Fault photo described; see below.' : 'The fault photo could not be analysed.')}
             </span>
           </div>
 
           {error && <p role="alert" className="text-sm font-medium text-bad-ink">{error}</p>}
+
+          {/* What the AI read is shown before it is used, and can be left out. */}
+          {(receipt?.source === 'textract' || visual?.source === 'bedrock') && (
+            <div className="space-y-4 rounded-2xl border border-line p-4">
+              <p className="font-semibold">What was read. Check it before you continue.</p>
+              {receipt?.source === 'textract' && (
+                <div className="space-y-1.5">
+                  <p className="flex items-center gap-2 text-sm font-semibold"><FileText className="size-4 text-accent-text" aria-hidden="true" /> Receipt</p>
+                  <p className="text-sm text-muted">
+                    Store: <b className="text-ink">{receipt.store_name || 'not read'}</b> · Date: <b className="text-ink">{humanDate(receipt.purchase_date)}</b> · Total:{' '}
+                    <b className="text-ink">{formatMoney(receipt.total_amount, receipt.currency)}</b>
+                  </p>
+                  <p className="hint">Empty details in step 1 were filled from it. Go back to change them.</p>
+                  <button type="button" onClick={() => setReceipt(null)} className="btn-ghost min-h-9 text-sm">Don't use the receipt</button>
+                </div>
+              )}
+              {visual?.source === 'bedrock' && (
+                <div className="space-y-1.5">
+                  <p className="flex items-center gap-2 text-sm font-semibold"><Camera className="size-4 text-accent-text" aria-hidden="true" /> Photo of the fault</p>
+                  {visual.visual_observations.length > 0 ? (
+                    <ul className="list-disc space-y-1 pl-5 text-sm text-muted">
+                      {visual.visual_observations.map((o, i) => <li key={i}>{o}</li>)}
+                    </ul>
+                  ) : (
+                    <p className="text-sm text-muted">Nothing specific was described.</p>
+                  )}
+                  <button type="button" onClick={() => setVisual(null)} className="btn-ghost min-h-9 text-sm">Don't use this description</button>
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="flex flex-wrap gap-3 border-t border-line pt-5">
             <button type="button" onClick={() => setStep(0)} className="btn-secondary">

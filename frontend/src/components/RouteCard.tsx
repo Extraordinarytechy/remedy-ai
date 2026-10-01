@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AlertTriangle, ArrowUpRight, CalendarClock, CalendarPlus, Check, ClipboardList, Copy, Download, FileSearch, RefreshCw } from 'lucide-react';
 import type { MatchedRoute, NormalizedCase } from '../types';
 import { deadlineIcs } from '../dates';
-import { ROUTE_TYPE_LABEL, STATUS_LABEL, TONE_CLASSES, daysLeftText, humanDate, shortDate } from './labels';
+import { ROUTE_TYPE_LABEL, STATUS_LABEL, TONE_CLASSES, daysLeftText, humanDate, isActionable, shortDate } from './labels';
 import { Disclosure } from './ui';
 
 interface Props {
@@ -19,6 +19,7 @@ export function RouteCard({ route, index, c, onDownload, downloading, pdfAllowed
   const status = STATUS_LABEL[route.status];
   const check = route.source_check;
   const serialCheck = route.status === 'PENDING_SERIAL_VERIFICATION';
+  const actionable = isActionable(route);
 
   // Builds a calendar file in the browser: an all-day event on the deadline with reminders
   // 14 days and 1 day before. Nothing is sent or stored.
@@ -80,12 +81,20 @@ export function RouteCard({ route, index, c, onDownload, downloading, pdfAllowed
           <button onClick={onDownload} disabled={downloading || !pdfAllowed} className="btn-secondary">
             <Download className="size-4" aria-hidden="true" /> {downloading ? 'Preparing PDF...' : 'Claim PDF'}
           </button>
-          <button onClick={copyLetter} className="btn-ghost">
-            {copied ? <Check className="size-4" aria-hidden="true" /> : <Copy className="size-4" aria-hidden="true" />}
-            {copied ? 'Copied' : 'Copy draft letter'}
-          </button>
+          {actionable && (
+            <button onClick={copyLetter} className="btn-ghost">
+              {copied ? <Check className="size-4" aria-hidden="true" /> : <Copy className="size-4" aria-hidden="true" />}
+              {copied ? 'Copied' : 'Copy draft letter'}
+            </button>
+          )}
         </div>
-        {!pdfAllowed && <p className="text-sm font-medium text-warn-ink">Confirm the highlighted details above to get the claim PDF.</p>}
+        {!actionable ? (
+          <p className="text-sm font-medium text-warn-ink">
+            Check the official page first. Until then, this option isn't used in the claim letter.
+          </p>
+        ) : (
+          !pdfAllowed && <p className="text-sm font-medium text-warn-ink">Confirm the highlighted details above to get the claim PDF.</p>
+        )}
       </section>
 
       {route.deadline && (
@@ -95,7 +104,7 @@ export function RouteCard({ route, index, c, onDownload, downloading, pdfAllowed
             <span className="font-semibold">{route.deadline_label}:</span> {humanDate(route.deadline)}
             {route.days_left != null && <span className="text-faint"> · {daysLeftText(route.days_left)}</span>}
           </p>
-          {(route.days_left ?? 0) >= 0 && (
+          {actionable && (route.days_left ?? 0) >= 0 && (
             <button onClick={addToCalendar} className="btn-ghost ml-auto min-h-9 text-sm">
               <CalendarPlus className="size-4" aria-hidden="true" /> Add to calendar
             </button>

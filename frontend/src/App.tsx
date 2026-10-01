@@ -11,7 +11,7 @@ import { SourcesTable, sourcesSummary } from './components/SourceWatchPanel';
 import { CheckForm } from './components/CheckForm';
 import { CoveragePanel } from './components/CoveragePanel';
 import { Disclosure, Modal, ThemeToggle } from './components/ui';
-import { STATUS_LABEL, TONE_CLASSES, daysLeftText, humanDate, shortDate, verdictFor } from './components/labels';
+import { STATUS_LABEL, TONE_CLASSES, daysLeftText, humanDate, isActionable, shortDate, verdictFor } from './components/labels';
 
 const REPO_URL = 'https://github.com/Extraordinarytechy/remedy-ai';
 
@@ -443,8 +443,17 @@ function Result({
   const invalid = evaluation.unmatched_reason?.startsWith('INVALID INPUT');
   const routes = evaluation.matched_routes;
   const has = evaluation.has_coverage && routes.length > 0;
-  const hold = !evaluation.pdf_allowed;
-  const headline = invalid ? 'Please check the dates' : !has ? "We couldn't find a verified option" : hold ? 'Confirm one detail first' : verdictFor(routes[0]);
+  // A hard receipt check waiting for the user, or no option they can act on yet.
+  const pendingCheck = evaluation.checks.some((ch) => ch.severity === 'hard' && !ch.confirmed);
+  const top = routes.find(isActionable) ?? routes[0];
+  const hold = !evaluation.pdf_allowed || !routes.some(isActionable);
+  const headline = invalid
+    ? 'Please check the dates'
+    : !has
+      ? "We couldn't find a verified option"
+      : pendingCheck
+        ? 'Confirm one detail first'
+        : verdictFor(top);
   const tone = !has ? 'border-bad-soft bg-bad-soft' : hold ? 'border-warn-line bg-warn-soft' : 'border-transparent bg-good-soft';
 
   return (
@@ -569,7 +578,7 @@ function PrivacyNotice() {
         ? "RemedyAI's AWS account is opted out of AWS using this content to improve its AI services, including Textract."
         : 'Amazon Textract may keep content to improve its service unless the account owner opts out. If that matters to you, skip the receipt photo and type the details in instead.'}</>],
     ['Before you upload', 'Cover your name, address, card number and any faces. Photos are re-saved in your browser before upload, which removes location (GPS) data. Nothing is sent until you press "Read photos".'],
-    ['Daily limit', "To keep free photo reading fair, photo reads are counted per visitor using a one-way code made from your IP address with a key that changes every day. The code and the key are deleted after 2 days; your IP address itself is never stored."],
+    ['Daily limit', "To keep free photo reading fair, photo reads are counted per visitor using a one-way code made from your IP address with a key that changes every day. The code and the key expire 2 days after they were last used and are then removed automatically; your IP address itself is never stored. Claim PDFs are counted the same way."],
     ['Questions', <>Open an issue on the <a href={`${REPO_URL}/issues`} className="link">project's GitHub page</a> and ask to be contacted. Please don't post personal details there.</>],
   ];
   return (
