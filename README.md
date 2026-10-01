@@ -48,8 +48,10 @@ list is built from those same records.
 
 **Source Watch** ([`source_watch.py`](backend/src/services/source_watch.py)) runs daily. It re-reads
 every source (or just the exact sentence a record relies on), stores a snapshot when it changes, and
-downgrades an option to "check it first" if its page disappears, its wording changes, or an Apple
-program leaves Apple's list. It also reports any Apple repair program that has no record yet.
+downgrades an option to "check it first" if its page disappears, the sentence a record relies on
+disappears, or an Apple program leaves Apple's list. Any other change to a page after a person last
+checked it adds a warning with both dates. It also reports any Apple repair program that has no
+record yet. Options marked "check it first" are never used in the claim letter.
 
 ## Architecture
 
@@ -89,7 +91,7 @@ project writeup is in [`docs/WRITEUP.md`](docs/WRITEUP.md).
 ```bash
 cd backend
 pip install -r requirements-dev.txt
-python -m pytest tests -q                    # 93 tests
+python -m pytest tests -q                    # 128 tests
 python -m uvicorn src.app:app --port 8082    # the Vite dev server proxies /api here
 ```
 
