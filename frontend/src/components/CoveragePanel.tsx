@@ -25,14 +25,14 @@ type Icon = ComponentType<{ className?: string; 'aria-hidden'?: boolean }>;
 const GROUPS: { category: string; title: string; who: string; teaser: string; icon: Icon }[] = [
   { category: 'statutory_consumer_law', title: 'Consumer law', who: 'Any brand', teaser: 'Bought from a UK store: up to 6 years to claim a repair or replacement', icon: Landmark },
   { category: 'card_benefit', title: 'Card benefits', who: 'Any brand', teaser: 'Paid with Visa Infinite in the U.S.: one extra year of warranty', icon: CreditCard },
-  { category: 'manufacturer_service_program', title: 'Free repair programs', who: 'Apple', teaser: 'Known faults Apple repairs free for 3 years, worldwide', icon: Wrench },
-  { category: 'manufacturer_warranty', title: "Maker's warranty", who: 'Apple', teaser: 'iPhone, iPad and more in their first year (U.S.)', icon: ShieldCheck },
+  { category: 'manufacturer_service_program', title: 'Free repair programs', who: 'Apple, Google', teaser: 'Known faults the maker repairs free for 3 years from purchase', icon: Wrench },
+  { category: 'manufacturer_warranty', title: "Maker's warranty", who: 'Apple, Google', teaser: 'iPhone, iPad, Pixel and more in their first year (U.S.; Pixel also Canada)', icon: ShieldCheck },
 ];
 
 // Planned sources. None is used until its official page has been verified.
 export const COMING_NEXT = [
   'New Apple repair programs as Apple lists them (Source Watch flags them daily)',
-  'Samsung and Google repair programs',
+  'Samsung warranties and repair programs',
   'Mastercard and American Express warranty benefits',
   'EU two-year legal guarantee',
   'Consumer law in India, the US states, Canada and Australia',
@@ -48,8 +48,8 @@ export function CoveragePanel() {
         <p className="eyebrow">Coverage</p>
         <h2 id="coverage-heading" className="text-3xl font-semibold tracking-tight sm:text-4xl">What RemedyAI covers today</h2>
         <p className="text-lg text-muted">
-          Any brand, including TVs and home appliances, through UK consumer law and Visa Infinite. Apple products also get
-          Apple's repair programs and warranty. Every option comes from a verified official page.
+          Any brand, including TVs and home appliances, through UK consumer law and Visa Infinite. Apple and Google Pixel
+          devices also get their maker's repair programs and warranty. Every option comes from a verified official page.
         </p>
       </div>
 

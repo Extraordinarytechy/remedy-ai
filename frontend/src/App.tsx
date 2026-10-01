@@ -326,7 +326,8 @@ export default function App() {
               </Faq>
               <Faq q="Which products and countries work?">
                 Any brand, including TVs and home appliances, if you bought it from a UK store or paid with a Visa Infinite card
-                in the U.S. Apple products also get Apple's repair programs and, in the U.S., Apple's one-year warranty.{' '}
+                in the U.S. Apple products also get Apple's repair programs and, in the U.S., Apple's one-year warranty. Google
+                Pixel devices get Google's repair programs and, if bought in the U.S. or Canada, Google's one-year warranty.{' '}
                 <a href="#coverage" className="link">See full coverage</a>
               </Faq>
               <Faq q="Is this legal advice?">

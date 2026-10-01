@@ -258,6 +258,23 @@ Resources:
       TreatMissingData: breaching
       AlarmActions: [!Ref OpsAlertTopic]
 
+  SourceWatchDegradedAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      # Published by each run in CloudWatch embedded metric format: a source page unreachable, its
+      # relied-on wording missing, changed since verification, Apple's list unreadable, or a newly
+      # delisted program. The API already shows those routes as "check it first"; this tells a person.
+      AlarmDescription: Source Watch found sources that need re-verification.
+      Namespace: RemedyAI/SourceWatch
+      MetricName: DegradedSources
+      Statistic: Maximum
+      Period: 86400
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      AlarmActions: [!Ref OpsAlertTopic]
+
   # ---------------------------------------------------------------------------
   # Frontend: private S3 bucket + one CloudFront distribution for site and API
   # ---------------------------------------------------------------------------

@@ -1,0 +1,48 @@
+{
+  "id": "google_consumer_hardware_warranty_us_ca",
+  "category": "manufacturer_warranty",
+  "issuer_or_brand": "Google LLC",
+  "brand_short": "Google",
+  "program_name": "Google Consumer Hardware Limited Warranty (U.S. and Canada)",
+  "coverage_summary": "Google Pixel phones, Pixel Tablet, Pixel Watch and Pixel Buds bought new in the U.S. or Canada, for faults in the first year",
+  "coverage_region": "United States and Canada",
+  "source_url": "https://support.google.com/product-documentation/answer/12461608?hl=en",
+  "verified_at": "2026-10-01",
+  "countries": ["US", "CA"],
+  "warranty_years": 1,
+  "watch_phrases": [
+    "purchased your Google-branded product",
+    "for one year from the date of original retail purchase in its original packaging by you"
+  ],
+  "applicable_devices": [
+    "Pixel"
+  ],
+  "excluded_devices": [
+    "Chromebook Pixel",
+    "Pixelbook"
+  ],
+  "coverage": "Defects in materials and workmanship under normal use in accordance with Google's published user documentation, for one year from the date of original retail purchase (90 days for products refurbished by Google or a Google-authorized third party)",
+  "remedy": "At Google's choice: repair with new or refurbished parts, replacement with a new or refurbished product at least functionally equivalent, or a refund of the purchase price",
+  "mandatory_conditions": [
+    "You are a consumer and bought the product in the United States or Canada, from Google or one of its authorized resellers",
+    "The product is returned as directed by Google during the warranty period: one year for a new product, 90 days for a refurbished one",
+    "The fault is a defect in materials or workmanship in the hardware (the warranty does not cover software)",
+    "To claim you must give your name, contact information and the product's serial number; Google may also ask for proof of purchase and diagnostic answers"
+  ],
+  "exclusions_and_caveats": [
+    "If the device was refurbished, the warranty is 90 days, not one year",
+    "Not covered: damage caused by normal wear and tear, accidents, misuse, neglect, disassembly, alterations, or servicing by anyone other than Google-authorized technicians",
+    "Not covered: external causes such as sharp objects, excessive force, electrical anomalies or extreme heat or cold. Liquid damage voids the warranty",
+    "Batteries, protective coatings and cosmetic damage are covered only when the failure is due to a defect in materials or workmanship",
+    "Repair or replacement may erase the data on the device",
+    "Consumer law in your state or province may give you further rights"
+  ],
+  "claim_action": "Start a warranty claim at g.co/warrantyclaim before {deadline}. Have your name, contact details and the device's serial number ready; Google may ask for proof of purchase. Back up the device first: repair or replacement may erase its data.",
+  "visible_damage_note": "Visible physical damage was recorded in the evidence photo. Google's warranty does not cover accidental or liquid damage, and other damage (such as a cracked screen) may have to be repaired at your cost before Google fixes the defect.",
+  "related_sources": [
+    {
+      "title": "Google Pixel Help: File a warranty claim for your Pixel phone",
+      "url": "https://support.google.com/pixelphone/answer/9218411?hl=en"
+    }
+  ]
+}

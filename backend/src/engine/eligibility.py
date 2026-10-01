@@ -293,17 +293,23 @@ class EligibilityEngine:
                 f"Source Watch found that this program is not listed on Apple's service-program index as of {checked}. "
                 "It may have ended; confirm with Apple before relying on it."
             )
-        if warnings:
-            route.status = "NEEDS_REVERIFICATION"
-            route.provenance.exceptions[:0] = warnings
+        elif st.get("apple_index_ok") is False:
+            warnings.append(
+                f"Source Watch could not read Apple's service-program index on {checked}, so it could not confirm "
+                "this program is still running. Confirm with Apple before relying on it."
+            )
         changed = (st.get("last_changed_at") or "")[:10]
         verified = (st.get("human_verified_at") or "")[:10]
         if changed and verified and changed > verified:
-            route.provenance.exceptions.insert(
-                0,
+            # Any change after the last verification, whole page or watched wording: the terms
+            # haven't been re-read since, so the route can't be relied on until they are.
+            warnings.append(
                 f"The source page's text changed on {changed}, after it was last verified on {verified}. "
-                "The terms shown here may be out of date.",
+                "The terms may be different now; re-verify before relying on this route."
             )
+        if warnings:
+            route.status = "NEEDS_REVERIFICATION"
+            route.provenance.exceptions[:0] = warnings
 
     @staticmethod
     def _device_matches(case: NormalizedCase, record: Dict[str, Any]) -> bool:
@@ -346,14 +352,17 @@ class EligibilityEngine:
             return None, None
 
         program = record["program_name"]
+        # Brand-specific wording lives in the record, so a new maker's warranty is a new JSON file.
+        brand = record.get("brand_short") or (record.get("issuer_or_brand") or "The manufacturer").split()[0]
         years = float(record.get("warranty_years", 1))
+        period = f"{years:g}-year"
         warranty_end = add_years(p_date, years)
         if f_date > warranty_end:
             return None, None  # the fault appeared after the warranty; other routes may apply
         if as_of > warranty_end:
             return None, (
                 f"{program}: the fault appeared on {f_date.isoformat()}, inside the warranty, but the warranty "
-                f"ended on {warranty_end.isoformat()} and claims must be made during it. Contact Apple anyway, "
+                f"ended on {warranty_end.isoformat()} and claims must be made during it. Contact {brand} anyway, "
                 "and check the other options below."
             )
 
@@ -361,22 +370,23 @@ class EligibilityEngine:
         if case.visual_evidence and case.visual_evidence.visible_physical_damage:
             exceptions.insert(
                 0,
-                "Visible physical damage was recorded in the evidence photo. Apple's warranty does not cover damage "
-                "caused by accident or other external causes; AppleCare coverage, if you have it, may.",
+                record.get("visible_damage_note")
+                or f"Visible physical damage was recorded in the evidence photo. {brand}'s warranty does not cover "
+                "damage caused by accident or other external causes.",
             )
         days_left = (warranty_end - as_of).days
         evidence_items = [
-            f"Warranty ends {warranty_end.isoformat()} ({years:.0f} year from the {p_date.isoformat()} purchase); "
-            f"{days_left} days remain as of the claim date {as_of.isoformat()}.",
+            f"Warranty ends {warranty_end.isoformat()} ({years:g} year{'s' if years != 1 else ''} from the "
+            f"{p_date.isoformat()} purchase); {days_left} days remain as of the claim date {as_of.isoformat()}.",
             f"Dates: purchased {p_date.isoformat()}, fault appeared {f_date.isoformat()}, claim date {as_of.isoformat()}.",
             f"Device named in case: {case.product_name} (bought in {country}).",
             f"Reported fault: '{case.defect_description}'.",
         ]
         provenance = ProvenanceChain(
-            claim=f"Covered by the {program} if the fault is a defect: Apple will repair, replace or refund at its option.",
+            claim=f"Covered by the {program} if the fault is a defect: {brand} will repair, replace or refund at its option.",
             why_matched=(
                 f"The case names a device this warranty covers ({case.product_name}), bought in {country}, and the claim "
-                f"date {as_of.isoformat()} is inside the one-year Warranty Period, which ends {warranty_end.isoformat()}."
+                f"date {as_of.isoformat()} is inside the {period} warranty period, which ends {warranty_end.isoformat()}."
             ),
             evidence=evidence_items,
             source_citation=program,
@@ -396,16 +406,12 @@ class EligibilityEngine:
                 primary_source={"title": program, "url": record["source_url"], "verified_at": record.get("verified_at", "")},
                 provenance=provenance,
                 recommended_action=(
-                    f"Contact Apple Support, or visit an Apple Store or Apple Authorized Service Provider, before "
-                    f"{warranty_end.isoformat()}. To see your coverage, open Settings > General > AppleCare & Warranty "
-                    "on the device, or sign in at mysupport.apple.com. Back up the device first and have proof of purchase ready."
-                ),
+                    record.get("claim_action")
+                    or f"Contact {brand} support before {{deadline}}. Back up the device first and have proof of purchase ready."
+                ).replace("{deadline}", warranty_end.isoformat()),
                 deadline=warranty_end.isoformat(),
-                deadline_label="Apple's warranty ends",
-                related_sources=[{
-                    "title": "Apple Support: Find information about your warranty or AppleCare plan",
-                    "url": "https://support.apple.com/102607",
-                }],
+                deadline_label=f"{brand}'s warranty ends",
+                related_sources=list(record.get("related_sources", [])),
             ),
             None,
         )
@@ -495,7 +501,7 @@ class EligibilityEngine:
             )
         else:
             claim = f"Potentially eligible for free service under {program}."
-            action = (
+            action = record.get("claim_action") or (
                 "Book service at an Apple Store or Apple Authorized Service Provider. Present the device and proof "
                 "of purchase for the mandatory pre-service inspection."
             )
@@ -521,9 +527,10 @@ class EligibilityEngine:
             exceptions=exceptions,
         )
 
+        made = f"affected devices manufactured {record['manufacturing_window']}" if record.get("manufacturing_window") else "a limited number of devices"
         summary = (
-            f"{record.get('issuer_or_brand')} states that affected devices manufactured {record.get('manufacturing_window')} "
-            f"may show this issue: {record.get('symptom').lower()}. {record.get('remedy')}."
+            f"{record.get('issuer_or_brand')} states that {made} may show this issue: "
+            f"{record.get('symptom').lower()}. {record.get('remedy')}."
         )
 
         return (

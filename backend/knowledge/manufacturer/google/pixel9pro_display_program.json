@@ -1,0 +1,53 @@
+{
+  "id": "google_pixel9pro_display_2025",
+  "category": "manufacturer_service_program",
+  "issuer_or_brand": "Google LLC",
+  "brand_short": "Google",
+  "program_name": "Pixel 9 Pro & Pixel 9 Pro XL Extended Repair Program",
+  "coverage_summary": "Pixel 9 Pro and 9 Pro XL with a bottom-to-top vertical line on the display (or flicker on 9 Pro); free display for 3 years from purchase",
+  "source_url": "https://support.google.com/pixelphone/answer/16737524?hl=en",
+  "source_information_as_of": "2025-12-08",
+  "verified_at": "2026-10-01",
+  "watch_phrases": [
+    "Coverage lasts for 3 years after the original retail-purchase date",
+    "Eligibility requires a vertical line on the display"
+  ],
+  "applicable_devices": [
+    "Pixel 9 Pro",
+    "Pixel 9 Pro XL"
+  ],
+  "excluded_devices": [
+    "Pixel 9 Pro Fold"
+  ],
+  "coverage_window_years_from_sale": 3,
+  "symptom": "A vertical line on the display that runs from bottom to top; display flicker on Pixel 9 Pro also qualifies",
+  "symptom_keywords": [
+    "vertical line",
+    "vertical lines",
+    "line down the screen",
+    "line down the display",
+    "green line",
+    "pink line",
+    "white line",
+    "flicker",
+    "flickering"
+  ],
+  "requires_serial_check": false,
+  "remedy": "Display replacement at no charge, after the repair facility inspects the phone to confirm eligibility",
+  "mandatory_conditions": [
+    "The phone is a Pixel 9 Pro or Pixel 9 Pro XL (check Settings > About phone > Model)",
+    "The display shows a vertical line running from bottom to top, or (Pixel 9 Pro) display flicker. Other faults are not part of this program but may be covered by Google's limited warranty",
+    "Coverage lasts 3 years after the original retail purchase date",
+    "The repair facility inspects the phone first to verify eligibility; you may be asked for proof of ownership",
+    "You must be 18 or older, or a parent or guardian must make the request"
+  ],
+  "exclusions_and_caveats": [
+    "A cracked display or cover glass, or liquid damage, may disqualify the phone, and other damage may have to be paid for",
+    "Google says support options may not be available in all countries",
+    "Google says flicker qualifies on Pixel 9 Pro devices; for a 9 Pro XL with flicker but no vertical line, confirm with Google",
+    "Repairs under the program are warranted for 90 days or the rest of the original warranty, whichever is longer",
+    "The program is separate from, and does not restrict, your consumer-law rights in the country where you bought the phone",
+    "If you already paid an authorized repair center for this repair before December 8, 2025 and the phone is eligible, Google says you will be notified by email"
+  ],
+  "claim_action": "Back up the phone (Settings > System > Backup), then book a repair through Google's repair options, at a Google walk-in center or an authorized repair center. The facility inspects the phone before the free display replacement; have proof of purchase ready."
+}

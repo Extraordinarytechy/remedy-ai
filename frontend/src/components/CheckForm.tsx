@@ -119,7 +119,7 @@ export function CheckForm({ onSubmit, busy, onOpenPrivacy }: Props) {
           <legend className="sr-only">Step 1: what broke</legend>
           <Combobox
             label="What is the product?"
-            hint="Brand and model. Any brand works; Apple devices also get Apple's warranty and repair programs."
+            hint="Brand and model. Any brand works; Apple and Google Pixel devices also get their maker's warranty and repair programs."
             value={f.product_name}
             onChange={(v) => set('product_name', v)}
             suggestions={PRODUCTS}

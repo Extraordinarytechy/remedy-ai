@@ -129,6 +129,9 @@ def run_check(records: Dict[str, Dict[str, Any]], previous: Dict[str, Dict[str, 
             status["key_text_present"] = key_present if text else None
         if rec.get("category") == "manufacturer_service_program" and "apple" in rec.get("issuer_or_brand", "").lower():
             status["listed_on_apple_index"] = (_normalise_title(rec["program_name"]) in listed) if titles else None
+            # No titles means Apple's list couldn't be loaded or read: listing is unknown, so the
+            # engine treats the program as unconfirmed rather than as still listed (fail closed).
+            status["apple_index_ok"] = bool(titles)
         out[rid] = status
         out[rid]["_text"] = text  # kept in memory only, for snapshots
 
@@ -143,6 +146,32 @@ def run_check(records: Dict[str, Dict[str, Any]], previous: Dict[str, Dict[str, 
 
 def is_recall_or_exchange(title: str) -> bool:
     return bool(re.search(r"\b(recall|exchange)\b", title, re.IGNORECASE))
+
+
+def degraded_sources(result: Dict[str, Dict[str, Any]], previous: Dict[str, Dict[str, Any]]) -> List[str]:
+    """
+    Sources a person needs to look at after this run: page unreachable, the relied-on wording missing,
+    text changed after the last human verification, Apple's list unreadable, or a program that was
+    listed last time and isn't now. A record already known to be delisted is not reported again.
+    """
+    out: List[str] = []
+    index = result.get("apple_index", {})
+    if index and not index.get("titles"):
+        out.append("apple_index: unreadable")
+    for rid, st in result.items():
+        if rid == "apple_index":
+            continue
+        if st.get("reachable") is False:
+            out.append(f"{rid}: unreachable (HTTP {st.get('http_status')})")
+        if st.get("key_text_present") is False:
+            out.append(f"{rid}: relied-on wording missing")
+        changed = (st.get("last_changed_at") or "")[:10]
+        verified = (st.get("human_verified_at") or "")[:10]
+        if changed and verified and changed > verified:
+            out.append(f"{rid}: changed {changed}, verified {verified}")
+        if st.get("listed_on_apple_index") is False and previous.get(rid, {}).get("listed_on_apple_index") is not False:
+            out.append(f"{rid}: no longer on Apple's list")
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -237,6 +266,17 @@ def handler(event, context):  # EventBridge scheduled entry point
     if table is not None:
         table.put_item(Item={"pk": "sourcewatch#latest", "status_json": json.dumps(result), "checked_at": _now_iso()})
     _CACHE.update(at=time.time(), status=result)
+    degraded = degraded_sources(result, previous)
+    # CloudWatch embedded metric format: Lambda's log line becomes the RemedyAI/SourceWatch
+    # DegradedSources metric (no extra API call or permission). An alarm emails the owner when > 0.
+    print(json.dumps({
+        "_aws": {
+            "Timestamp": int(time.time() * 1000),
+            "CloudWatchMetrics": [{"Namespace": "RemedyAI/SourceWatch", "Dimensions": [[]], "Metrics": [{"Name": "DegradedSources", "Unit": "Count"}]}],
+        },
+        "DegradedSources": len(degraded),
+        "degraded": degraded,
+    }))
     summary = {rid: {k: v for k, v in st.items() if k in ("http_status", "changed_this_run", "listed_on_apple_index")} for rid, st in result.items()}
     print(json.dumps({"source_watch": summary}))
     return summary

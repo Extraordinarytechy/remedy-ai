@@ -1,12 +1,50 @@
 import os
-import json
 import boto3
-from typing import Optional
+from typing import List, Literal, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, ValidationError
 from src.models.schemas import OBSERVATION_TEXT, VisualDefectEvidence
 
 # The model must be ACTIVE in the deployment region. Set BEDROCK_MODEL_ID at deploy time
 # (see template.yaml) and confirm it with `aws bedrock list-foundation-models`.
 DEFAULT_MODEL_ID = os.getenv("BEDROCK_MODEL_ID", "")
+MAX_RESPONSE_CHARS = 8000
+
+
+class _ModelOutput(BaseModel):
+    """The exact JSON the model must return. Anything else (string booleans, unknown keys,
+    a severity outside the list, non-string observations) is rejected, not coerced."""
+
+    model_config = ConfigDict(extra="forbid", strict=True)
+
+    anomaly_detected: StrictBool
+    visible_physical_damage: StrictBool
+    physical_damage_severity: Literal["none", "cosmetic", "screen_cracked", "severe"]
+    symptom_category: Optional[StrictStr] = Field(default=None, max_length=80)
+    visual_observations: List[StrictStr] = Field(default_factory=list, max_length=20)
+
+
+def parse_model_output(response_text: str) -> Optional[VisualDefectEvidence]:
+    """Parses the model's reply into evidence, or returns None if it doesn't match the schema."""
+    cleaned = (response_text or "").strip()[:MAX_RESPONSE_CHARS]
+    if "```json" in cleaned:
+        cleaned = cleaned.split("```json")[1].split("```")[0].strip()
+    elif "```" in cleaned:
+        cleaned = cleaned.split("```")[1].split("```")[0].strip()
+    try:
+        parsed = _ModelOutput.model_validate_json(cleaned)
+    except (ValidationError, ValueError):
+        return None
+    if parsed.physical_damage_severity != "none" and not parsed.visible_physical_damage:
+        return None  # contradictory answer: don't guess which half is right
+    return VisualDefectEvidence(
+        anomaly_detected=parsed.anomaly_detected,
+        visible_physical_damage=parsed.visible_physical_damage,
+        physical_damage_severity=parsed.physical_damage_severity,
+        symptom_category=(parsed.symptom_category or "").strip() or None,
+        # Keep the model's output within the same bounds the API enforces on input.
+        visual_observations=[o.strip()[:OBSERVATION_TEXT] for o in parsed.visual_observations if o.strip()],
+        source="bedrock",
+    )
 
 
 class BedrockVisionService:
@@ -87,29 +125,11 @@ class BedrockVisionService:
                 if "text" in block:
                     response_text += block["text"]
 
-            cleaned_text = response_text.strip()
-            if "```json" in cleaned_text:
-                cleaned_text = cleaned_text.split("```json")[1].split("```")[0].strip()
-            elif "```" in cleaned_text:
-                cleaned_text = cleaned_text.split("```")[1].split("```")[0].strip()
-
-            parsed = json.loads(cleaned_text)
-            severity = parsed.get("physical_damage_severity", "none")
-            if severity not in ("none", "cosmetic", "screen_cracked", "severe"):
-                severity = "severe" if parsed.get("visible_physical_damage") else "none"
-            observations = parsed.get("visual_observations") or []
-            if not isinstance(observations, list):
-                observations = [observations]
-            category = parsed.get("symptom_category")
-            return VisualDefectEvidence(
-                anomaly_detected=bool(parsed.get("anomaly_detected", False)),
-                visible_physical_damage=bool(parsed.get("visible_physical_damage", False)),
-                physical_damage_severity=severity,
-                symptom_category=str(category)[:80] if category else None,
-                # Keep the model's output within the same bounds the API enforces on input.
-                visual_observations=[str(o)[:OBSERVATION_TEXT] for o in observations if str(o).strip()][:20],
-                source="bedrock",
-            )
+            evidence = parse_model_output(response_text)
+            if evidence is None:
+                print("Bedrock reply did not match the expected schema; discarded.")
+                return self._unavailable("The image analysis returned an unexpected answer.")
+            return evidence
 
         except Exception as e:
             print(f"Bedrock Converse call failed: {type(e).__name__}")

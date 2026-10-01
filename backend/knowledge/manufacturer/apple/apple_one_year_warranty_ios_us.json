@@ -38,5 +38,14 @@
     "Not covered: defects caused by normal wear and tear or normal aging",
     "Apple may restrict warranty service for iPhone, iPad, Apple TV, HomePod and Apple Vision Pro to the country where the device was originally sold",
     "This is the U.S. version of Apple's warranty. Other countries have their own version, and consumer law may give you further rights"
+  ],
+  "brand_short": "Apple",
+  "claim_action": "Contact Apple Support, or visit an Apple Store or Apple Authorized Service Provider, before {deadline}. To see your coverage, open Settings > General > AppleCare & Warranty on the device, or sign in at mysupport.apple.com. Back up the device first and have proof of purchase ready.",
+  "visible_damage_note": "Visible physical damage was recorded in the evidence photo. Apple's warranty does not cover damage caused by accident or other external causes; AppleCare coverage, if you have it, may.",
+  "related_sources": [
+    {
+      "title": "Apple Support: Find information about your warranty or AppleCare plan",
+      "url": "https://support.apple.com/102607"
+    }
   ]
 }
