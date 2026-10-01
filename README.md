@@ -11,7 +11,7 @@ programs, card warranty benefits and consumer law), tells you what to do next, a
 claim. It only answers from an official source that has been verified, re-checks every source daily, and says
 so when nothing covers you.
 
-**Try it:** https://d1fnfajqesgvsl.cloudfront.net · no sign-up · nothing stored
+**Try it:** https://d1fnfajqesgvsl.cloudfront.net · no sign-up · your details aren't saved
 
 ![RemedyAI home page](docs/images/home.png)
 
@@ -47,7 +47,8 @@ law also needs a small evaluator.
    a note, never a match. AI never decides coverage.
 3. **Receipt checks** ([`case_checks.py`](backend/src/engine/case_checks.py)) compare the receipt
    with what was typed. A currency that doesn't fit the chosen country holds the consumer-law option
-   and the claim PDF until the user confirms; a different date or store is a warning.
+   and the claim PDF until the user confirms. A different receipt date also holds the claim PDF until the
+   user confirms; a different store is a warning.
 4. **The answer** leads with the next step, then the timeline and deadline (with a calendar file),
    what's needed, what could stop it, and the sources. A claim PDF and a draft letter are generated
    from the server's own evaluation.
@@ -99,7 +100,7 @@ project writeup is in [`docs/WRITEUP.md`](docs/WRITEUP.md).
 ```bash
 cd backend
 pip install -r requirements-dev.txt
-python -m pytest tests -q                    # 184 tests
+python -m pytest tests -q                    # 193 tests
 python -m uvicorn src.app:app --port 8082    # the Vite dev server proxies /api here
 ```
 
@@ -139,7 +140,7 @@ template.yaml        AWS SAM template for the whole stack
 ## Notices
 
 RemedyAI prepares claims; it is not legal advice and does not guarantee coverage. It is not affiliated
-with or endorsed by Apple, Google, Visa, Sony, Samsung, Best Buy, Currys or any retailer named. Contains public
+with or endorsed by Apple, Google, Visa, Sony, Samsung, Best Buy, Currys, the UK Government or any company named. Contains public
 sector information licensed under the
 [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
-Copyright © 2026. All rights reserved; see [`LICENSE`](LICENSE).
+Copyright © 2026 Extraordinarytechy. All rights reserved; see [`LICENSE`](LICENSE).

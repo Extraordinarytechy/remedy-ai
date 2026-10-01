@@ -25,6 +25,21 @@ _CACHE: Dict[str, Any] = {"at": 0.0, "status": {}}
 CACHE_SECONDS = 300
 
 
+MAX_PAGE_BYTES = 3_000_000  # the largest source page today is ~1 MB of HTML
+
+
+class _HttpsOnlyRedirects(urllib.request.HTTPRedirectHandler):
+    """Follows redirects only to https URLs, so a downgraded page is never trusted."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        if not newurl.lower().startswith("https://"):
+            raise urllib.error.HTTPError(newurl, 599, "redirect to non-https refused", headers, fp)
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+_OPENER = urllib.request.build_opener(_HttpsOnlyRedirects)
+
+
 def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
@@ -32,8 +47,8 @@ def _now_iso() -> str:
 def fetch(url: str, timeout: int = 15) -> Dict[str, Any]:
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept-Language": "en-US,en;q=0.8"})
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            body = resp.read().decode("utf-8", errors="replace")
+        with _OPENER.open(req, timeout=timeout) as resp:
+            body = resp.read(MAX_PAGE_BYTES).decode("utf-8", errors="replace")
             return {"http_status": resp.status, "html": body}
     except urllib.error.HTTPError as e:
         return {"http_status": e.code, "html": ""}

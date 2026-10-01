@@ -1,7 +1,7 @@
 import type { MatchedRoute, RouteStatus, UkRegion } from '../types';
 
 export const STATUS_LABEL: Record<RouteStatus, { text: string; tone: string }> = {
-  ELIGIBLE_PENDING_INSPECTION: { text: 'Likely, after an inspection', tone: 'emerald' },
+  ELIGIBLE_PENDING_INSPECTION: { text: 'May apply, after an inspection', tone: 'sky' },
   PENDING_SERIAL_VERIFICATION: { text: 'Possible: check your serial number', tone: 'sky' },
   POTENTIALLY_ELIGIBLE: { text: 'May apply', tone: 'sky' },
   NEEDS_REVERIFICATION: { text: 'Source changed: check it first', tone: 'amber' },
@@ -38,21 +38,23 @@ export function isActionable(route: MatchedRoute): boolean {
 
 /** One plain sentence for the top of the result, per option. */
 export function verdictFor(route: MatchedRoute): string {
+  // "Samsung Electronics America, Inc." -> "Samsung", "Google LLC" -> "Google", "Apple Inc." -> "Apple"
+  const brand = route.provider.split(/[ ,]/)[0];
   if (route.status === 'NEEDS_CONFIRMATION') return 'Confirm where you bought it before relying on this option.';
   if (route.status === 'NEEDS_REVERIFICATION' && route.route_type === 'manufacturer_service_program')
-    return `"${route.title}" may have ended. Check with ${route.provider.replace(' Inc.', '')} before you rely on it.`;
+    return `"${route.title}" may have ended. Check with ${brand} before you rely on it.`;
   if (route.status === 'NEEDS_REVERIFICATION') return `The source for "${route.title}" has changed. Check it before you rely on it.`;
   switch (route.route_type) {
     case 'manufacturer_warranty':
-      return `${route.provider.replace(' Inc.', '')}'s warranty may still cover this. Contact ${route.provider.replace(' Inc.', '')} before it ends.`;
+      return `${brand}'s warranty may still cover this. Contact ${brand} before it ends.`;
     case 'manufacturer_service_program':
       return route.status === 'PENDING_SERIAL_VERIFICATION'
-        ? `You may get a free repair from ${route.provider.replace(' Inc.', '')}. First, check your serial number.`
-        : `You may get a free repair from ${route.provider.replace(' Inc.', '')}.`;
+        ? `You may get a free repair from ${brand}. First, check your serial number.`
+        : `You may get a free repair from ${brand}.`;
     case 'card_benefit':
       return 'The card you paid with may add a year to the warranty. Ask your card issuer.';
     case 'statutory_consumer_law':
-      return 'The store that sold it may owe you a repair or replacement.';
+      return 'The store that sold it may owe you a refund, repair or replacement.';
   }
 }
 

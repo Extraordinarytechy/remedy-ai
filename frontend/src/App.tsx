@@ -14,6 +14,9 @@ import { Disclosure, Modal, ThemeToggle } from './components/ui';
 import { STATUS_LABEL, TONE_CLASSES, daysLeftText, humanDate, isActionable, shortDate, verdictFor } from './components/labels';
 
 const REPO_URL = 'https://github.com/Extraordinarytechy/remedy-ai';
+// Who runs the service (the data controller) and a private contact, shown in the privacy notice.
+const OPERATOR = 'RemedyAI is an independent project run by its developer (GitHub: Extraordinarytechy), based in India';
+const CONTACT_EMAIL = 'extraordinarytechy@gmail.com';
 
 // Set to true once the AWS account has an AI services opt-out policy for Amazon Textract.
 const TEXTRACT_OPTED_OUT = true; // AWS Organizations AI services opt-out policy attached 2026-10-01
@@ -78,7 +81,10 @@ export default function App() {
     }
   }, [evaluation]);
 
-  const goToTry = () => document.getElementById('try')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const goToTry = () => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.getElementById('try')?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  };
   const startOwn = () => {
     setMode({ kind: 'own', case: null });
     setEvaluation(null);
@@ -94,6 +100,8 @@ export default function App() {
   const confirmCheck = (id: string) => {
     if (mode.kind !== 'own' || !mode.case) return;
     const c = { ...mode.case, confirmed_checks: [...new Set([...(mode.case.confirmed_checks ?? []), id])] };
+    // The ticked box disappears with the new answer, so focus goes to the verdict.
+    moveFocus.current = true;
     setMode({ kind: 'own', case: c });
     evaluate(c);
   };
@@ -167,7 +175,7 @@ export default function App() {
               </div>
               <ul className="flex flex-wrap gap-2" aria-label="Why you can trust it">
                 <li className="chip"><BadgeCheck className="size-3.5 text-accent-text" aria-hidden="true" /> Official sources only</li>
-                <li className="chip"><Lock className="size-3.5 text-accent-text" aria-hidden="true" /> No sign-up, nothing stored</li>
+                <li className="chip"><Lock className="size-3.5 text-accent-text" aria-hidden="true" /> No sign-up · details not saved</li>
                 <li className="chip"><RefreshCw className="size-3.5 text-accent-text" aria-hidden="true" /> Sources re-checked daily</li>
               </ul>
             </div>
@@ -179,7 +187,7 @@ export default function App() {
         <section id="how" aria-labelledby="how-heading" className="scroll-mt-20 border-y border-line bg-surface">
           <div className="container-page py-16 sm:py-20">
             <p className="eyebrow">How it works</p>
-            <h2 id="how-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Three steps, about two minutes</h2>
+            <h2 id="how-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Three steps</h2>
             <ol className="mt-10 grid gap-6 md:grid-cols-3">
               {[
                 { icon: FileText, title: 'Describe the problem', text: 'The product, when you bought it, when it broke and what went wrong. Photos are optional.' },
@@ -248,7 +256,8 @@ export default function App() {
                 {activeCase && <EvidencePanel c={activeCase} />}
               </div>
 
-              <div className={`min-w-0 space-y-5 lg:col-span-7 ${mode.kind === 'demo' ? 'order-1 lg:order-2' : ''}`} aria-live="polite" aria-busy={loading}>
+              <div className={`min-w-0 space-y-5 lg:col-span-7 ${mode.kind === 'demo' ? 'order-1 lg:order-2' : ''}`} aria-busy={loading}>
+                <p role="status" className="sr-only">{loading ? 'Checking the official sources' : evaluation ? 'Answer ready' : ''}</p>
                 {error ? (
                   <div role="alert" className="card space-y-2 border-warn-line bg-warn-soft p-6 text-warn-ink">
                     <p className="flex items-center gap-2 font-semibold"><AlertTriangle className="size-5" aria-hidden="true" /> Something went wrong</p>
@@ -256,7 +265,7 @@ export default function App() {
                     <p className="text-sm">No result is shown, because RemedyAI only reports what its engine actually determined.</p>
                   </div>
                 ) : loading ? (
-                  <div className="card space-y-4 p-6" aria-label="Checking the official sources">
+                  <div className="card space-y-4 p-6" aria-hidden="true">
                     <div className="h-4 w-24 animate-pulse rounded-full bg-subtle" />
                     <div className="h-7 w-3/4 animate-pulse rounded-full bg-subtle" />
                     <div className="h-4 w-1/2 animate-pulse rounded-full bg-subtle" />
@@ -319,9 +328,10 @@ export default function App() {
               <h2 id="faq-heading" className="text-3xl font-semibold tracking-tight sm:text-4xl">Questions, answered</h2>
             </div>
             <div className="space-y-2.5">
-              <Faq q="Is it free? Do I need an account?">Yes, it's free, and there's no sign-up. A check takes about two minutes.</Faq>
+              <Faq q="Is it free? Do I need an account?">Yes, it's free, and there's no sign-up.</Faq>
               <Faq q="What do you keep about me?">
-                Nothing. RemedyAI doesn't save your details or photos, and uses no cookies, analytics or ads. Photos are optional.{' '}
+                Not your details or photos. There's no account, no cookies and no ads. We count anonymous totals, such as how many
+                checks were run, and keep a short-lived code per visitor to keep photo reading fair. Photos are optional.{' '}
                 <button onClick={() => setDialog('privacy')} className="link">Read the privacy notice</button>
               </Faq>
               <Faq q="Which products and countries work?">
@@ -334,6 +344,10 @@ export default function App() {
               <Faq q="Is this legal advice?">
                 No. RemedyAI helps you prepare a claim based on what official sources say. The maker, card issuer or store makes
                 the final decision.
+              </Faq>
+              <Faq q="Can I use it with a screen reader?">
+                Yes. The answer on screen is built to work with screen readers and keyboards. The claim PDF has the same content,
+                but its layout is not tagged for screen readers, so use the on-screen answer and the "Copy draft letter" button instead.
               </Faq>
               <Faq q="How do you keep sources up to date?">
                 Every source page is re-read automatically each day. If a page disappears, its text changes after it was verified or
@@ -353,7 +367,7 @@ export default function App() {
           <div className="relative overflow-hidden rounded-[2rem] bg-accent px-8 py-14 text-accent-ink sm:px-14">
             <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-white/10" />
             <h2 className="max-w-xl text-3xl font-semibold tracking-tight sm:text-4xl">Before you pay for a repair, check what you may still be owed.</h2>
-            <p className="mt-3 max-w-xl text-lg opacity-90">About two minutes. No sign-up.</p>
+            <p className="mt-3 max-w-xl text-lg opacity-90">Free. No sign-up.</p>
             <button onClick={startOwn} className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-full bg-accent-ink px-6 font-semibold text-accent hover:opacity-90">
               Check my product <ArrowRight className="size-4" aria-hidden="true" />
             </button>
@@ -373,7 +387,7 @@ export default function App() {
           </nav>
         </div>
         <div className="container-page border-t border-line py-5 text-xs leading-relaxed text-faint">
-          Not legal advice. RemedyAI is not affiliated with or endorsed by Apple, Google, Visa, Sony, Samsung, Best Buy, Currys or any other
+          Not legal advice. RemedyAI is not affiliated with or endorsed by Apple, Google, Visa, Sony, Samsung, Best Buy, Currys, the UK Government or any other
           company named; names are used only to identify products and programs. Contains public sector information licensed under
           the <a className="underline" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>.
         </div>
@@ -478,6 +492,10 @@ function Result({
                 ? `${routes.length} options found. Start with "What to do next".`
                 : 'Start with "What to do next" below.'}
         </p>
+        <p className="mt-3 text-sm text-muted">
+          Not legal advice. This is what the official source says about cases like yours. The maker, card issuer or store
+          decides your claim.
+        </p>
       </section>
 
       <Checks checks={evaluation.checks} onConfirm={onConfirm} />
@@ -577,14 +595,17 @@ function Notes({ notes }: { notes: string[] }) {
 function PrivacyNotice() {
   const rows: [string, ReactNode][] = [
     ['What we use', 'The details you type (product, dates, store, how you paid, the fault) and, only if you choose, a receipt photo and a photo of the fault. We use them only to check your options and prepare your claim, because you asked us to.'],
-    ['What we keep', 'Nothing. RemedyAI does not save your details or photos. There are no accounts, cookies, analytics or ads. Your browser remembers only your light/dark choice. Error logs record only the type of error and are deleted after 14 days.'],
-    ['Who processes photos', <>Amazon Web Services, in the US East (N. Virginia) region. Receipts are read by Amazon Textract and fault photos by Amazon Bedrock. AWS says Bedrock does not store your photo or use it to train models.{' '}
+    ['Who runs RemedyAI', <>{OPERATOR}. Contact: <a href={`mailto:${CONTACT_EMAIL}`} className="link">{CONTACT_EMAIL}</a>.</>],
+    ['Why we can use it', 'To give you the check you asked for, keep free photo reading fair and stop abuse (legitimate interests, UK GDPR and EU GDPR Article 6(1)(f)).'],
+    ['What we keep', "Not your details or photos: they're used for your check and then discarded. There are no accounts, cookies, tracking or ads. Server logs record only error types and anonymous totals (checks run, checks with an option, claim PDFs) and are deleted after 14 days. Your browser stores your light/dark choice only if you change it."],
+    ['Who processes photos', <>Amazon Web Services, in the United States (Amazon Bedrock may serve a request from any of several U.S. regions). Receipts are read by Amazon Textract and fault photos by Amazon Bedrock. AWS acts on our instructions under its data processing terms, which cover transfers from the UK, EU and Canada. AWS says Bedrock does not store your photo or use it to train models.{' '}
       {TEXTRACT_OPTED_OUT
         ? "RemedyAI's AWS account is opted out of AWS using this content to improve its AI services, including Textract."
         : 'Amazon Textract may keep content to improve its service unless the account owner opts out. If that matters to you, skip the receipt photo and type the details in instead.'}</>],
     ['Before you upload', 'Cover your name, address, card number and any faces. Photos are re-saved in your browser before upload, which removes location (GPS) data. Nothing is sent until you press "Read photos".'],
-    ['Daily limit', "To keep free photo reading fair, photo reads are counted per visitor using a one-way code made from your IP address with a key that changes every day. The code and the key expire 2 days after they were last used and are then removed automatically; your IP address itself is never stored. Claim PDFs are counted the same way."],
-    ['Questions', <>Open an issue on the <a href={`${REPO_URL}/issues`} className="link">project's GitHub page</a> and ask to be contacted. Please don't post personal details there.</>],
+    ['Daily limit', "To keep free photo reading fair, photo reads and claim PDFs are counted per visitor using a code made from your IP address and a key that changes daily. Both are deleted automatically, normally within a few days; your IP address itself isn't stored."],
+    ['Your rights', "You can ask what we hold about you, or ask us to delete it or stop using it. In practice we hold nothing we can link to you after a few days. You can also complain to the UK Information Commissioner's Office (ico.org.uk) or your local data protection authority."],
+    ['Questions', <>Email <a href={`mailto:${CONTACT_EMAIL}`} className="link">{CONTACT_EMAIL}</a>. Please don't post personal details on GitHub.</>],
   ];
   return (
     <dl className="space-y-4">

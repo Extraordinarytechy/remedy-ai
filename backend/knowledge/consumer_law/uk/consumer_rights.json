@@ -25,12 +25,25 @@
       "url": "https://www.legislation.gov.uk/ukpga/2015/15/section/19"
     },
     {
+      "title": "Consumer Rights Act 2015, sections 20 to 22 (short-term right to reject: 30 days)",
+      "url": "https://www.legislation.gov.uk/ukpga/2015/15/section/22"
+    },
+    {
+      "title": "Limitation Act 1980, section 5 (England and Wales: 6 years)",
+      "url": "https://www.legislation.gov.uk/ukpga/1980/58/section/5"
+    },
+    {
+      "title": "Prescription and Limitation (Scotland) Act 1973, section 6 (Scotland: 5 years)",
+      "url": "https://www.legislation.gov.uk/ukpga/1973/52/section/6"
+    },
+    {
       "title": "Limitation (Northern Ireland) Order 1989",
       "url": "https://www.legislation.gov.uk/nisi/1989/1339/contents"
     }
   ],
   "core_standard": "A retailer must repair or replace an item that was faulty when bought; the customer has the same right to free repairs or a replacement whether or not a warranty or guarantee exists or has run out",
   "mandatory_conditions": [
+    "You bought it as a consumer from a business (not from a private seller, and not for your business)",
     "The claim is made against the retailer that sold the item",
     "Proof of purchase from that retailer (receipt, bank statement or packaging)",
     "The item was faulty when it was bought (in the Act's terms: the goods did not conform to the contract when delivered)",

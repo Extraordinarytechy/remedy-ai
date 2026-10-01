@@ -183,7 +183,7 @@ class EligibilityEngine:
                 route.provenance.exceptions.insert(
                     0,
                     "RemedyAI could not load a recent automatic check of this source (it is missing or "
-                    "more than a day old). Check the official page before relying on this option.",
+                    "more than 36 hours old). Check the official page before relying on this option.",
                 )
             elif source_status:
                 # The latest check exists but has no entry for this source (for example a record added
@@ -440,6 +440,7 @@ class EligibilityEngine:
                 deadline=warranty_end.isoformat(),
                 deadline_label=f"{brand}'s warranty ends",
                 related_sources=list(record.get("related_sources", [])),
+                claim_to=record.get("claim_to") or f"{brand} Support",
             ),
             None,
         )
@@ -578,6 +579,8 @@ class EligibilityEngine:
                 recommended_action=action,
                 deadline=coverage_end.isoformat(),
                 deadline_label="Free repair program ends",
+                claim_to=record.get("claim_to")
+                or f"{record.get('brand_short') or (record.get('issuer_or_brand') or 'Manufacturer').split()[0]} Support",
             ),
             None,
         )
@@ -638,7 +641,11 @@ class EligibilityEngine:
             source_citation=record["program_name"],
             source_url=record["source_url"],
             conditions=record.get("mandatory_conditions", []),
-            exceptions=list(record.get("exclusions_and_caveats", [])),
+            exceptions=[
+                "Your issuer's Guide to Benefits sets a deadline to report a claim, usually counted from when the "
+                "item failed. It can be much earlier than the date shown here, so check it now.",
+                *record.get("exclusions_and_caveats", []),
+            ],
         )
 
         return MatchedRoute(
@@ -663,7 +670,8 @@ class EligibilityEngine:
                 "for the claim reporting deadline."
             ),
             deadline=extended_end.isoformat(),
-            deadline_label="Extended protection ends (approx., from purchase date)",
+            deadline_label="Extended protection ends (approx.; the deadline to report a claim may be earlier)",
+            claim_to="Your card's benefit administrator (the contact in your Guide to Benefits)",
         ), None
 
     def _evaluate_uk_consumer_rights(
@@ -737,6 +745,20 @@ class EligibilityEngine:
             )
         elif not region:
             exceptions.insert(0, "Region not given. If the item was bought in Scotland, the period is 5 years, not 6.")
+        if months_elapsed <= 6.0:
+            exceptions.insert(
+                0,
+                "If one repair or replacement doesn't fix it, you can ask for a price reduction or reject it for a "
+                "refund. Within 6 months of delivery the store can't usually take anything off the refund for your use.",
+            )
+        days_owned = (as_of - p_date).days
+        within_reject_window = days_owned <= 30
+        if within_reject_window:
+            exceptions.insert(
+                0,
+                "The 30-day right to reject runs from delivery (the purchase date is used here). Asking for a repair "
+                "first pauses it, but after one failed repair you can still reject it.",
+            )
 
         provenance = ProvenanceChain(
             claim=(
@@ -775,13 +797,18 @@ class EligibilityEngine:
                 },
                 provenance=provenance,
                 recommended_action=(
+                    f"You bought it {days_owned} days ago. Within 30 days of delivery you can reject a faulty item "
+                    f"and get a full refund under the Consumer Rights Act 2015. Tell {store} now that you're rejecting "
+                    "it. If you'd rather have a repair or replacement, you can ask for that instead."
+                    if within_reject_window else
                     f"Write to the store that sold it ({store}) asking for a repair or replacement under the Consumer "
                     "Rights Act 2015. Attach proof of purchase and evidence of the fault. After 6 months, the store can "
                     "ask you to show the item was faulty when you bought it."
                 ),
                 deadline=limitation_end.isoformat(),
-                deadline_label=f"Deadline to make a claim ({place})",
+                deadline_label=f"Legal time limit to claim ({place})",
                 related_sources=list(record.get("related_sources", [])),
+                claim_to=case.retailer or "The store that sold it",
             ),
             None,
         )

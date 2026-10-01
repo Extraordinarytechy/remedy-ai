@@ -1,8 +1,10 @@
 # Evidence
 
 These files show that the coding agent (Kiro) was connected to this AWS account and built and
-deployed RemedyAI. Account IDs, email addresses and IP addresses are masked; everything else
-is as AWS and the scripts produced it.
+deployed RemedyAI. Account IDs (in ARNs and account fields), IAM unique IDs, email addresses and IP
+addresses are masked, and user agents are cut down to their product names; everything else, including
+every AWS request ID, is as AWS and the scripts produced it. The masking is for tidiness: AWS doesn't
+treat an account ID as a secret, and older versions of these files in the repository history show it.
 
 ## Start here
 
@@ -25,5 +27,6 @@ is as AWS and the scripts produced it.
 | `deploy-20261001T171007Z.log` | The next deploy, with the Pixel 9 Pro record: smoke test passed. |
 | `deploy-20261001T172852Z.log` | Site copy and the source-status panel. |
 | `deploy-20261001T180527Z.log` | Samsung's U.S. warranty, per-source freshness, negation-aware symptom matching, the receipt-date hard check and anonymous usage counts. From this deploy on, the agent's AWS CLI and SAM CLI calls carry `app/kiro-ide` in their user agent (set with `AWS_SDK_UA_APP_ID`; a client-set value that CloudTrail records as sent). |
+| `deploy-20261001T194726Z.log` | Privacy, consumer-law and accessibility fixes: who each claim goes to, the UK 30-day right to reject, tighter input limits, more browser security headers, and a lower daily cap on photo reads. |
 
 Regenerate the CloudTrail export with `python3 scripts/export_cloudtrail.py --user <iam-user> --since YYYY-MM-DD`, then mask it with `python3 scripts/redact_evidence.py`.

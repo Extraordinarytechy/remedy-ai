@@ -99,6 +99,7 @@ export interface MatchedRoute {
   days_left?: number | null;
   related_sources?: { title: string; url: string }[];
   source_check?: SourceCheck | null;
+  claim_to?: string | null;
 }
 
 export interface RemedyEvaluation {

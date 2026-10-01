@@ -9,7 +9,8 @@ How the cases were chosen: searches for broken-device posts on Apple Community, 
 News's Money Problem column and the MoneySavingExpert forum, taken in search order. A post was skipped
 only if it gave no purchase date or did not load (11 skipped, listed in `cases.json`).
 Where a poster gave a month or 'about N months', the date is approximate. A country the poster didn't
-state was entered as 'other', so it can't create a match.
+state was entered as 'other', so it can't create a match, unless the post itself placed the buyer (a
+country-specific forum with local prices, or a stated home city), as in S1 and S5.
 
 ## Result
 

@@ -6,21 +6,21 @@
 
 Apple runs a free repair program for iPhone 14 Plus rear cameras that show no preview. It covers units made between April 10, 2023 and April 28, 2024, for **three years from first retail sale**, and Apple says people who already paid for that repair can ask for a refund ([Apple](https://support.apple.com/iphone-14-plus-service-program-for-rear-camera-issue)). The standard warranty on the same phone is one year.
 
-So an owner whose camera fails at month 30 is out of warranty and still entitled to a free repair, and nothing tells them. The windows for the earliest affected units have started closing: a phone first sold in April 2023 lost its free repair in April 2026. The last ones close around mid-2027.
+So an owner whose camera fails at month 30 is out of warranty but may still qualify for a free repair (Apple confirms by serial number and inspection), and nothing tells them. The windows for the earliest affected units have started closing: a phone first sold in April 2023 lost its free repair in April 2026. The last ones close around mid-2027.
 
-That gap is not specific to Apple. Some credit cards add a year to the manufacturer warranty. In the UK, the retailer can owe a repair or replacement for up to 6 years. Each route has its own rules, dates and caveats, and each lives on a different page.
+That gap is not specific to Apple. Some credit cards add a year to the manufacturer warranty. In the UK, a buyer has up to 6 years (5 in Scotland) to claim a repair or replacement from the retailer for a faulty product. Each route has its own rules, dates and caveats, and each lives on a different page.
 
 ## What RemedyAI does
 
 You describe what broke (optionally with a receipt photo and a photo of the fault). RemedyAI checks it against the **published source** for each route it knows about and returns, for every match:
 
 - **why it matched**, with the dates it measured (the claim date, not just the failure date)
-- **what you will need**, copied from the source
+- **what you will need**, taken from the source
 - **what could stop it**, also from the source (for Apple: a cracked back must be fixed first and may cost money)
 - a **timeline**: purchase, failure and claim dates, and the deadline for each option
 - a **claim PDF** and a draft letter
 
-If a receipt photo was read, RemedyAI also **checks it against what you typed**. A receipt priced in dollars for a claim entered as a UK purchase holds the UK option and the claim PDF until you confirm where you bought it; a different date or store on the receipt is shown as a warning.
+If a receipt photo was read, RemedyAI also **checks it against what you typed**. A receipt priced in dollars for a claim entered as a UK purchase holds the UK option and the claim PDF until you confirm where you bought it. A different receipt date also holds the claim PDF until you confirm it; a different store is shown as a warning.
 
 If no source covers the case, it says so: `NO VERIFIED COVERAGE FOUND`, plus the sources it checked that did not apply and why.
 
@@ -40,7 +40,7 @@ Nine routes today (one of them an ended program kept to show delisting), from fo
 
 ## What makes it different: Source Watch
 
-A static warranty database goes stale quietly. We found this out the hard way (see "What went wrong"), so RemedyAI now checks its own sources every day:
+A static warranty database goes stale quietly. I found this out the hard way (see "What went wrong"), so RemedyAI now checks its own sources every day:
 
 - **EventBridge Scheduler** runs a Lambda at 06:00 UTC.
 - It fetches every source page plus Apple's [service-program index](https://support.apple.com/service-programs), hashes the visible text, and **stores a dated snapshot in S3 whenever a page changes**.
@@ -50,9 +50,9 @@ A static warranty database goes stale quietly. We found this out the hard way (s
 
 The Source Watch table is on the home page, so anyone can see when each source was last verified and when it was last checked automatically.
 
-It also compares Apple's list with the corpus and publishes a **gap alert**: any repair program Apple lists that RemedyAI has no record for. That check exists because the Mac mini (2023) no-power program had been on Apple's list since June 2025 without a RemedyAI record; its page was verified and the record added on 2026-09-30.
+It also compares Apple's list with the corpus and publishes a **gap alert**: any repair program Apple lists that RemedyAI has no record for. That check was added after the Mac mini (2023) no-power program turned up on Apple's list with no RemedyAI record (it had been listed since June 2025). Its page was verified and the record added on 2026-09-30, and the check now catches the next one automatically.
 
-It has already done its job, and taught us something. On 2026-09-30 it recorded that the text of Visa's Visa Infinite page had changed since it was last verified. The page was re-read: the Extended Warranty wording (one extra year on eligible warranties of 3 years or less) was unchanged, so the record's verification date was updated. The page then changed again the same day, for reasons unrelated to that benefit. Watching a whole marketing page is noisy, so a record can now name the exact sentence it relies on: Source Watch tracks only that sentence and downgrades the option to "check it first" if the sentence disappears.
+It has already done its job, and taught a lesson. On 2026-09-30 it recorded that the text of Visa's Visa Infinite page had changed since it was last verified. The page was re-read: the Extended Warranty wording (one extra year on eligible warranties of 3 years or less) was unchanged, so the record's verification date was updated. The page then changed again the same day, for reasons unrelated to that benefit. Watching a whole marketing page is noisy, so a record can now name the exact sentence it relies on: Source Watch tracks only that sentence and downgrades the option to "check it first" if the sentence disappears.
 
 ## How it's built
 
@@ -97,11 +97,11 @@ It has already done its job, and taught us something. On 2026-09-30 it recorded 
 
 ### Privacy
 
-- RemedyAI stores nothing a user enters: no accounts, cookies, analytics or saved cases.
+- RemedyAI doesn't save what a user enters or uploads: no accounts, cookies, tracking or saved cases. It keeps only anonymous totals of checks, checks with an option and claim PDFs, and a short-lived per-visitor code for the daily limits.
 - Photos are optional. Before anything is uploaded the form asks the user to cover their name, address, card number and faces, and the upload button stays disabled until they tick a box. Photos are re-encoded in the browser, which removes GPS metadata, and are only sent when the user presses "Read photos".
-- The site has a plain-language privacy section covering what is used, who processes it (AWS, US East), what is kept (nothing; error logs hold only error types for 14 days) and how the per-visitor limit works.
+- The site has a plain-language privacy section covering what is used, who processes it (AWS, in the United States), what is kept (error types and anonymous totals for 14 days; the per-visitor code for a few days) and how the per-visitor limit works.
 - Typing is always an option, and the form suggests products, stores, payment methods and fault descriptions as you type. The suggestions are bundled with the site, so nothing is sent while typing. Dates can be typed in common formats or picked from a calendar.
-- **No sign-up, on purpose.** Accounts would mean storing names and emails for no benefit to a one-off check. Deadline reminders come from an "Add to my calendar" file built in the browser instead, so RemedyAI still stores nothing. Optional accounts only make sense later, for tracked claims.
+- **No sign-up, on purpose.** Accounts would mean storing names and emails for no benefit to a one-off check. Deadline reminders come from an "Add to my calendar" file built in the browser instead, so RemedyAI still keeps no personal details. Optional accounts only make sense later, for tracked claims.
 
 ## How the coding agent built and shipped it
 
@@ -116,7 +116,7 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 **Proof of the connection** is AWS's own record, not a screenshot of a chat:
 
 - `aws sts get-caller-identity` from the agent's session, at the top of every deploy log in `docs/evidence/`.
-- A **CloudTrail** export of every API call made with the agent's IAM user (`docs/evidence/cloudtrail-*.md`). From the first deploy through the export at 2026-10-01 14:05 UTC that was **2,951 events, 132 of them mutating, across 15 AWS services**, starting with the stack's `CreateChangeSet` at 2026-09-29 18:36:09Z. Every entry keeps AWS's own request ID, so any line can be checked against the account's event history.
+- A **CloudTrail** export of every API call made with the agent's IAM user (`docs/evidence/cloudtrail-*.md`). From the agent's first call (2026-09-29 18:10 UTC) through the export at 2026-10-01 20:04 UTC that was **4,714 events, 168 of them mutating, across 15 AWS services**; the first change was the stack's `CreateChangeSet` at 2026-09-29 18:36:09Z. Since the 2026-10-01 18:05 UTC deploy, calls also carry the client-set `app/kiro-ide` user-agent tag (70 in that export). Every entry keeps AWS's own request ID, so any line can be checked against the account's event history.
 - The live site's own `/api/sources` shows Source Watch runs with timestamps, triggered first by the agent's deploy script and then by the daily schedule.
 
 ## What went wrong (and what it changed)
@@ -126,7 +126,7 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 3. **The fallback invented evidence.** With no photo, an early version generated plausible visual observations ("front glass intact") from the product name. That contradicted the whole point of the product, so it was removed, and sample data is now labelled.
 4. **The Bedrock model had already reached end-of-life.** The original template pinned Claude 3.5 Sonnet v1, which reached end-of-life on Bedrock on 2026-07-30. Every photo analysis would have silently failed. The model is now a stack parameter, checked with a live call.
 5. **Three Visa figures had no source.** Claim limits and a "60–90 day" reporting window were in the knowledge record but not on Visa's page. They were removed.
-6. **A tester entered a US receipt as a UK claim, and RemedyAI accepted it.** The dates were right, but the result didn't show the failure date, so the tester couldn't check them, and nothing compared the receipt with the country chosen. Every result now shows a timeline (purchase, failure, claim date, deadline). A currency on the receipt that doesn't fit the chosen country is now a hard check: the consumer-law option is held and no claim PDF is produced until the user confirms. A different receipt date or store is shown as a warning.
+6. **A tester entered a US receipt as a UK claim, and RemedyAI accepted it.** The dates were right, but the result didn't show the failure date, so the tester couldn't check them, and nothing compared the receipt with the country chosen. Every result now shows a timeline (purchase, failure, claim date, deadline). A currency on the receipt that doesn't fit the chosen country is now a hard check: the consumer-law option is held and no claim PDF is produced until the user confirms. A different receipt date now holds the claim PDF the same way; a different store is shown as a warning.
 7. **Scotland got the wrong deadline.** Every UK case used 6 years. The form now asks which part of the UK: England and Wales and Northern Ireland use 6 years, Scotland 5.
 8. **A security review found two real flaws in the claim PDF.** Text typed into the form was read as PDF markup, so an image tag could make the server load a file into the PDF and a link tag could plant a link in a RemedyAI-branded document. And the PDF endpoint trusted the result the browser sent, so a PDF could claim coverage the engine never found. All PDF text is now escaped, and the server re-evaluates the case itself before building any PDF. Both have regression tests.
 9. **A pre-launch security check found a way around CloudFront.** The API Gateway URL was still public, and the API trusted the `CloudFront-Viewer-Address` header to count visitors. Anyone calling that URL directly could set the header themselves and get a fresh per-visitor allowance each time (the daily total still held). CloudFront now adds a random secret header, and the API refuses any request without it. It also only trusts the visitor address when that header is present.
@@ -146,13 +146,13 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 ## Cost
 
 - **Idle cost is close to zero.** Lambda, HTTP API, DynamoDB on-demand, S3, CloudFront and one daily scheduled run are all billed per use.
-- **The paid part is the optional photo reading.** Textract `AnalyzeExpense` is $0.01 per page ([pricing](https://aws.amazon.com/textract/pricing/)). One Bedrock call on Nova 2 Lite used a few hundred tokens in our tests.
-- **The ceiling is enforced, not hoped for.** At most 100 photo reads per UTC day (about $1/day in the worst case), and at most 10 per visitor so one person can't use up the day. Both are counted in DynamoDB with conditional writes that refuse the call if a counter cannot be read. Visitors are counted by an HMAC of their IP with a random key that changes daily and expires 2 days after last use; raw IPs are never stored. Claim PDFs, which use no paid AI service, are capped the same way (30 per visitor, 2,000 per day). API Gateway throttles at 10 requests/second. An AWS Budgets alert fires at 50% of $10/month.
+- **The paid part is the optional photo reading.** Textract `AnalyzeExpense` is $0.01 per page ([pricing](https://aws.amazon.com/textract/pricing/)). One Bedrock call on Nova 2 Lite used a few hundred tokens in testing.
+- **The ceiling is enforced, not hoped for.** At most 40 photo reads per UTC day (well under $1/day in the worst case), and at most 10 per visitor so one person can't use up the day. Both are counted in DynamoDB with conditional writes that refuse the call if a counter cannot be read. Visitors are counted by an HMAC of their IP with a random key that changes daily and expires 2 days after last use; raw IPs are never stored. Claim PDFs, which use no paid AI service, are capped the same way (30 per visitor, 2,000 per day). API Gateway throttles at 10 requests/second. An AWS Budgets alert fires at 50% of $10/month.
 - Checking a case without photos calls no paid AI service at all.
 
 ## Where it goes next
 
 - **Field test:** 16 broken-product cases from public posts were run through the engine using only what each poster said ([results](field-test/results.md)). The first run found a route for 4, all through UK consumer law, and 5 of the 12 misses were Samsung devices. Samsung's U.S. phone warranty was then verified and added as a record, and the same 16 cases give 6 routes. The largest remaining gap is makers' warranties outside the U.S.
 - **First users:** people whose warranty just ended (device forums, consumer columns, repair shops that see these faults daily).
-- **Corpus growth:** every route is verified against its official page before it goes live, then watched by Source Watch. A new manufacturer warranty or repair program (any brand) is only a JSON record, because those evaluators are driven by the record's data. A new kind of route, such as another card network or another country's consumer law, also needs its own small evaluator today, as Visa Infinite and UK law do. The home page lists what is covered today (built from the same records the engine uses) and what is planned: new Apple programs as they appear, Samsung warranties and programs, Mastercard and American Express benefits, the EU 2-year guarantee, and consumer law in more countries.
-- **Business model (planned):** free checks; paid tracked claims (deadline reminders, a follow-up letter if a claim is refused, escalation), priced per claim and well below the repair recovered. The natural partners are repairers the maker pays for warranty and repair-program work, such as Apple and Google authorized service providers, since RemedyAI would send them customers whose repair is free to the customer. Complaint-letter tools such as Resolver and Which? help people write to a company; RemedyAI tells them which free route applies, until when, and keeps that answer checked against the source.
+- **Corpus growth:** every route is verified against its official page before it goes live, then watched by Source Watch. A new manufacturer warranty or repair program (any brand) is only a JSON record, because those evaluators are driven by the record's data. A new kind of route, such as another card network or another country's consumer law, also needs its own small evaluator today, as Visa Infinite and UK law do. The home page lists what is covered today (built from the same records the engine uses) and what is planned: new Apple programs as they appear, Samsung's repair programs and its warranties for tablets, watches and appliances, makers' warranties outside the U.S. (the biggest gap in the field test), Mastercard and American Express benefits, the EU 2-year guarantee, and consumer law in more countries.
+- **Business model (planned):** free checks; paid tracked claims (deadline reminders, a follow-up letter if a claim is refused, escalation), priced per claim and well below the repair recovered. The natural partners are repairers the maker pays for warranty and repair-program work, such as Apple, Google and Samsung authorized service providers, since RemedyAI would send them customers whose repair is free to the customer. Complaint-letter tools such as Resolver and Which? help people write to a company; RemedyAI tells them which free route applies, until when, and keeps that answer checked against the source.

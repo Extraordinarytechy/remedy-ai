@@ -30,6 +30,9 @@ export function RouteCard({ route, index, c, onDownload, downloading, pdfAllowed
       title: `Deadline: ${route.deadline_label ?? 'claim'} (${c.product_name})`,
       description:
         `${route.title}\n${route.deadline_label}: ${humanDate(route.deadline)}.\n\nWhat to do: ${route.recommended_action}\n\n` +
+        (route.route_type === 'card_benefit'
+          ? "Check now: your issuer's Guide to Benefits sets a deadline to report a claim, usually counted from when the item failed. It can be much earlier than this date.\n\n"
+          : '') +
         `Official source: ${route.primary_source.url}\nPrepared with RemedyAI. Not legal advice.`,
       url: route.primary_source.url,
       uid: `${route.route_id}-${route.deadline}-${c.case_id}`,
@@ -44,9 +47,12 @@ export function RouteCard({ route, index, c, onDownload, downloading, pdfAllowed
 
   const copyLetter = async () => {
     const letter =
-      `To: ${route.provider}\nSubject: Claim for ${c.product_name}\n\n` +
+      `To: ${route.claim_to ?? route.provider}\nSubject: Claim for ${c.product_name}\n\n` +
       `I bought my ${c.product_name} on ${humanDate(c.purchase_date)}. On ${humanDate(c.failure_date)} it developed this fault: "${c.defect_description}".\n\n` +
-      `Based on the published terms of ${route.title} (${route.primary_source.url}), I believe it may qualify for a remedy, subject to your inspection. ` +
+      (route.route_type === 'statutory_consumer_law'
+        ? 'Under the Consumer Rights Act 2015, goods must be of satisfactory quality, fit for purpose and as described (sections 9 to 11). ' +
+          'I believe this fault was present when the goods were delivered, so I am asking you to repair or replace them at no cost to me (section 23). '
+        : `Based on the published terms of ${route.title} (${route.primary_source.url}), I believe it may qualify for a remedy, subject to your inspection. `) +
       `I can provide proof of purchase, photos of the fault and proof of payment.\n\nPlease confirm you have received this and tell me the next step.`;
     try {
       await navigator.clipboard.writeText(letter);
@@ -87,6 +93,7 @@ export function RouteCard({ route, index, c, onDownload, downloading, pdfAllowed
               {copied ? 'Copied' : 'Copy draft letter'}
             </button>
           )}
+          <span role="status" className="sr-only">{copied ? 'Draft letter copied' : ''}</span>
         </div>
         {!actionable ? (
           <p className="text-sm font-medium text-warn-ink">

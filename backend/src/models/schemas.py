@@ -66,7 +66,7 @@ class NormalizedCase(BaseModel):
     evaluation_date: Optional[str] = Field(default=None, max_length=40)
     already_paid_for_repair: bool = False
     # Check ids the user has explicitly confirmed (e.g. "country_currency").
-    confirmed_checks: List[str] = Field(default_factory=list, max_length=10)
+    confirmed_checks: List[Annotated[str, Field(max_length=64)]] = Field(default_factory=list, max_length=10)
     receipt_data: Optional[ReceiptData] = None
     visual_evidence: Optional[VisualDefectEvidence] = None
 
@@ -123,6 +123,8 @@ class MatchedRoute(BaseModel):
     related_sources: List[Dict[str, str]] = Field(default_factory=list)
     # Result of the latest automated Source Watch check for this route's source, if available.
     source_check: Optional[Dict[str, Any]] = None
+    # Who the claim letter is addressed to (the store for UK law, the benefit administrator for a card).
+    claim_to: Optional[str] = None
 
 
 class RemedyEvaluation(BaseModel):

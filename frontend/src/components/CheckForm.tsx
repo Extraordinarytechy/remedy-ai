@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowLeft, ArrowRight, Camera, Check, FileText, Loader2, Search, ShieldCheck } from 'lucide-react';
 import { api, photoToBase64 } from '../api';
 import type { NormalizedCase, ReceiptData, UkRegion, VisualDefectEvidence } from '../types';
@@ -16,10 +16,17 @@ interface Props {
 
 const STEPS = ['What broke', 'Photos (optional)'];
 const fileCls =
-  'block w-full text-sm text-muted file:mr-3 file:min-h-10 file:rounded-full file:border file:border-line-strong file:bg-surface file:px-4 file:font-semibold file:text-ink hover:file:bg-subtle';
+  'block w-full text-sm text-muted file:mr-3 file:min-h-10 file:rounded-full file:border file:border-field-border file:bg-surface file:px-4 file:font-semibold file:text-ink hover:file:bg-subtle';
 
 export function CheckForm({ onSubmit, busy, onOpenPrivacy }: Props) {
   const [step, setStep] = useState<0 | 1>(0);
+  const stepHeading = useRef<HTMLParagraphElement>(null);
+  const stepChanged = useRef(false);
+  // The step buttons unmount when the step changes, so move focus to the new step's heading.
+  useEffect(() => {
+    if (stepChanged.current) stepHeading.current?.focus();
+    stepChanged.current = true;
+  }, [step]);
   const [f, setF] = useState({
     product_name: '',
     purchase_date: '',
@@ -117,6 +124,7 @@ export function CheckForm({ onSubmit, busy, onOpenPrivacy }: Props) {
       {step === 0 && (
         <fieldset className="space-y-5">
           <legend className="sr-only">Step 1: what broke</legend>
+          <p ref={step === 0 ? stepHeading : undefined} tabIndex={-1} className="sr-only">Step 1 of 2: what broke</p>
           <Combobox
             label="What is the product?"
             hint="Brand and model. Any brand works; Apple, Google Pixel and Samsung Galaxy phones also get their maker's warranty."
@@ -165,12 +173,12 @@ export function CheckForm({ onSubmit, busy, onOpenPrivacy }: Props) {
             )}
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
-            <Combobox label="Which store?" hint="Consumer-law claims go to the store that sold it." value={f.retailer} onChange={(v) => set('retailer', v)} suggestions={storesFor(f.purchase_country)} maxLength={200} />
-            <Combobox label="How did you pay?" hint="Some cards, like Visa Infinite, extend the warranty." value={f.payment_method} onChange={(v) => set('payment_method', v)} suggestions={PAYMENTS} maxLength={200} />
+            <Combobox label="Which store? (optional)" hint="Consumer-law claims go to the store that sold it." value={f.retailer} onChange={(v) => set('retailer', v)} suggestions={storesFor(f.purchase_country)} maxLength={200} />
+            <Combobox label="How did you pay? (optional)" hint="Some cards, like Visa Infinite, extend the warranty." value={f.payment_method} onChange={(v) => set('payment_method', v)} suggestions={PAYMENTS} maxLength={200} />
           </div>
           <div className="grid items-end gap-5 sm:grid-cols-2">
             <div className="space-y-1.5">
-              <label htmlFor="warranty" className="label">Original warranty (years)</label>
+              <label htmlFor="warranty" className="label">Original warranty in years (optional)</label>
               <input id="warranty" type="number" min={0} max={10} step={0.25} className="field" value={f.original_warranty_years} onChange={(e) => set('original_warranty_years', Number(e.target.value))} />
               <p className="hint">Usually 1 year.</p>
             </div>
@@ -181,15 +189,15 @@ export function CheckForm({ onSubmit, busy, onOpenPrivacy }: Props) {
           </div>
 
           <div className="flex flex-wrap items-center gap-3 border-t border-line pt-5">
-            <button type="button" disabled={!step1Ready} onClick={() => setStep(1)} className="btn-primary">
+            <button type="button" disabled={!step1Ready} aria-describedby={step1Ready ? undefined : 'step1-needs'} onClick={() => setStep(1)} className="btn-primary">
               Next: photos <ArrowRight className="size-4" aria-hidden="true" />
             </button>
-            <button type="submit" disabled={busy || !step1Ready} className="btn-secondary">
+            <button type="submit" disabled={busy || !step1Ready} aria-describedby={step1Ready ? undefined : 'step1-needs'} className="btn-secondary">
               <Search className="size-4" aria-hidden="true" /> Skip photos and check
             </button>
           </div>
           {!step1Ready && (
-            <p className="hint">Add the product, what went wrong and both dates{isUk ? ', and the part of the UK' : ''} to continue.</p>
+            <p id="step1-needs" className="hint">Add the product, what went wrong and both dates{isUk ? ', and the part of the UK' : ''} to continue.</p>
           )}
         </fieldset>
       )}
@@ -197,6 +205,7 @@ export function CheckForm({ onSubmit, busy, onOpenPrivacy }: Props) {
       {step === 1 && (
         <fieldset className="space-y-5">
           <legend className="sr-only">Step 2: optional photos</legend>
+          <p ref={step === 1 ? stepHeading : undefined} tabIndex={-1} className="sr-only">Step 2 of 2: optional photos</p>
           <p className="text-muted">Optional. A receipt photo lets RemedyAI check your details against it.</p>
 
           <div role="note" className="space-y-2 rounded-2xl border border-warn-line bg-warn-soft p-4 text-warn-ink">
@@ -205,7 +214,7 @@ export function CheckForm({ onSubmit, busy, onOpenPrivacy }: Props) {
             </p>
             <p className="text-sm">
               Cover your <b>name, address, card and order numbers</b>, and any faces. We only need the store, date, item and
-              price. Nothing is sent until you press "Read photos", location data is removed first, and nothing is stored.{' '}
+              price. Nothing is sent until you press "Read photos", location data is removed first, and your photos are not saved.{' '}
               <button type="button" onClick={onOpenPrivacy} className="font-semibold underline underline-offset-2">Privacy</button>
             </p>
           </div>

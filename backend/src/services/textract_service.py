@@ -31,10 +31,7 @@ class TextractService:
             return self._parse_expense_response(response)
         except Exception as e:
             print(f"Textract AnalyzeExpense failed: {type(e).__name__}")
-            return ReceiptData(
-                source="unavailable",
-                raw_fields={"error": type(e).__name__},
-            )
+            return ReceiptData(source="unavailable", raw_fields={"error": "unavailable"})
 
     def _parse_expense_response(self, response: Dict[str, Any]) -> ReceiptData:
         extracted = ReceiptData(source="textract")
@@ -117,4 +114,12 @@ class TextractService:
         # Same bounds the API enforces on raw fields sent back by a client.
         extracted.raw_fields = {str(k)[:64]: str(v)[:500] for k, v in list(raw_fields.items())[:60]}
         extracted.confidence_score = round(sum(used) / len(used) / 100, 3) if used else 0.0
-        return extracted
+        # Hold what was read to the same limits the API applies when the browser sends it back.
+        from src.models.schemas import LONG_TEXT, SHORT_TEXT
+
+        for name, limit in (("store_name", SHORT_TEXT), ("payment_type", SHORT_TEXT),
+                            ("purchase_date", 40), ("item_description", LONG_TEXT)):
+            value = getattr(extracted, name)
+            if isinstance(value, str):
+                setattr(extracted, name, value[:limit])
+        return ReceiptData.model_validate(extracted.model_dump())

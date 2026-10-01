@@ -20,7 +20,7 @@ Parameters:
       prefix). Both are granted to the API; change them together.
   DailyAiCallLimit:
     Type: Number
-    Default: 100  # worst case ~$1/day: Textract AnalyzeExpense is $0.01/page
+    Default: 40  # worst case ~$0.40/day (~$12/month): Textract AnalyzeExpense is $0.01/page
     Description: Maximum Textract + Bedrock calls per UTC day from the public upload endpoint.
   PerClientDailyLimit:
     Type: Number
@@ -76,7 +76,9 @@ Resources:
         AttributeName: expires_at
         Enabled: true
       PointInTimeRecoverySpecification:
-        PointInTimeRecoveryEnabled: true
+        # Off: the table holds only short-lived counters and the Source Watch status (rebuilt daily),
+        # and backups would keep per-visitor codes for 35 days instead of a few.
+        PointInTimeRecoveryEnabled: false
       SSESpecification:
         SSEEnabled: true
 
@@ -207,7 +209,8 @@ Resources:
     Type: AWS::SNS::Topic
     Properties:
       DisplayName: RemedyAI alerts
-      KmsMasterKeyId: alias/aws/sns
+      # No KMS key: CloudWatch alarms can't publish to a topic encrypted with the AWS-managed
+      # alias/aws/sns key, and alarm messages carry no user data.
       Subscription:
         - Protocol: email
           Endpoint: !Ref AlertEmail
@@ -336,6 +339,14 @@ Resources:
           ContentSecurityPolicy:
             ContentSecurityPolicy: "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
             Override: true
+        CustomHeadersConfig:
+          Items:
+            - Header: Permissions-Policy
+              Value: "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+              Override: true
+            - Header: Cross-Origin-Opener-Policy
+              Value: same-origin
+              Override: true
 
   # Forwards only what the API needs, plus CloudFront-Viewer-Address (set by CloudFront, so a client
   # cannot spoof it) for the per-visitor cap. The Host header is not forwarded (API Gateway needs its own).

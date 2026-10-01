@@ -30,8 +30,8 @@ STATUS_TEXT = {
 
 OGL_NOTICE = "Contains public sector information licensed under the Open Government Licence v3.0."
 NON_AFFILIATION = (
-    "RemedyAI is not affiliated with or endorsed by Apple, Google, Visa, Sony, Samsung, Best Buy, Currys or any "
-    "retailer named. Names are used only to identify products and programs."
+    "RemedyAI is not affiliated with or endorsed by Apple, Google, Visa, Sony, Samsung, Best Buy, Currys, the UK Government or any "
+    "company named. Names are used only to identify products and programs."
 )
 
 
@@ -100,7 +100,11 @@ class ClaimPdfService:
     def generate_pdf(self, case: NormalizedCase, evaluation: RemedyEvaluation) -> bytes:
         """Generates an evidence-backed consumer claim package as a PDF binary."""
         buffer = io.BytesIO()
-        doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=40, leftMargin=40, topMargin=40, bottomMargin=40)
+        doc = SimpleDocTemplate(
+            buffer, pagesize=letter, rightMargin=40, leftMargin=40, topMargin=40, bottomMargin=40,
+            title="RemedyAI claim preparation package", author="RemedyAI",
+            subject=(evaluation.matched_routes[0].title if evaluation.matched_routes else "No verified coverage found"),
+        )
         today = datetime.now(timezone.utc).strftime("%d %B %Y").lstrip("0")
         story = []
 
@@ -222,16 +226,25 @@ class ClaimPdfService:
         top = next((r for r in evaluation.matched_routes if is_actionable(r)), None)
         if evaluation.has_coverage and top:
             story.append(Paragraph("Draft letter", self.section_title))
+            if top.route_type == "statutory_consumer_law":
+                basis = (
+                    "Under the Consumer Rights Act 2015, goods must be of satisfactory quality, fit for purpose and as "
+                    "described (sections 9 to 11). I believe this fault was present when the goods were delivered, so I am "
+                    "asking you to repair or replace them at no cost to me (section 23)."
+                )
+            else:
+                basis = (
+                    f"Based on the published terms of <b>{e(top.title)}</b> ({e(top.primary_source.get('url'))}), I believe "
+                    "it may qualify for a remedy, subject to your inspection."
+                )
             letter_text = (
                 f"<b>Date:</b> {e(today)}<br/>"
-                f"<b>To:</b> Customer Support ({e(top.provider)})<br/>"
+                f"<b>To:</b> {e(top.claim_to or top.provider)}<br/>"
                 f"<b>Subject:</b> Claim for {e(case.product_name)} (reference {e(case.case_id)})<br/><br/>"
                 "Dear Sir or Madam,<br/><br/>"
                 f"I am writing about my <b>{e(case.product_name)}</b>, bought on <b>{e(human_date(case.purchase_date))}</b>. "
                 f"On <b>{e(human_date(case.failure_date))}</b> it developed this fault: <i>{e(case.defect_description)}</i>.<br/><br/>"
-                f"Based on the published terms of <b>{e(top.title)}</b> ({e(top.primary_source.get('url'))}), I believe it may "
-                "qualify for a remedy, subject to your inspection. I attach proof of purchase, photos of the fault and "
-                "proof of payment.<br/><br/>"
+                f"{basis} I can provide proof of purchase, photos of the fault and proof of payment.<br/><br/>"
                 "Please confirm you have received this claim and tell me how to arrange an inspection, repair or replacement.<br/><br/>"
                 "Yours faithfully,<br/>[Your name]"
             )

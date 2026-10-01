@@ -26,9 +26,9 @@
     "vertical lines",
     "line down the screen",
     "line down the display",
-    "green line",
-    "pink line",
-    "white line",
+    "vertical green line",
+    "vertical pink line",
+    "vertical white line",
     "flicker",
     "flickering"
   ],
@@ -42,6 +42,7 @@
     "You must be 18 or older, or a parent or guardian must make the request"
   ],
   "exclusions_and_caveats": [
+    "Only a vertical line running from bottom to top (or flicker on Pixel 9 Pro) qualifies. A horizontal line isn't part of this program, but Google's warranty or consumer law may still apply",
     "A cracked display or cover glass, or liquid damage, may disqualify the phone, and other damage may have to be paid for",
     "Google says support options may not be available in all countries",
     "Google says flicker qualifies on Pixel 9 Pro devices; for a 9 Pro XL with flicker but no vertical line, confirm with Google",

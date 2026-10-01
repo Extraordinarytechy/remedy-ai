@@ -29,6 +29,27 @@ app = FastAPI(
 # No CORS: the site and the API share one origin (CloudFront in AWS, the Vite proxy locally),
 # so other websites' pages can't read API responses.
 
+from fastapi.exceptions import RequestValidationError  # noqa: E402
+
+
+@app.exception_handler(RequestValidationError)
+async def _validation_error(request: Request, exc: RequestValidationError):
+    """Names the fields that were wrong; never echoes what was sent or how the validator works."""
+    fields = sorted({".".join(str(p) for p in err.get("loc", [])[1:]) or "body" for err in exc.errors()})[:10]
+    return JSONResponse(
+        status_code=422,
+        content={"detail": "Some details are missing, too long or in the wrong format: " + ", ".join(fields) + ".",
+                 "fields": fields},
+    )
+
+
+@app.exception_handler(Exception)
+async def _unexpected_error(request: Request, exc: Exception):
+    # Only the error type is logged: an exception message can contain what the user typed.
+    print(f"Unhandled error on {request.url.path}: {type(exc).__name__}")
+    return JSONResponse(status_code=500, content={"detail": "Something went wrong. Please try again."})
+
+
 engine = EligibilityEngine()
 textract_service = TextractService()
 bedrock_service = BedrockVisionService()
@@ -42,10 +63,9 @@ class ExtractRequest(BaseModel):
 
 
 class GeneratePackageRequest(BaseModel):
+    # Only the case. Older clients also sent their copy of the evaluation; unknown fields are ignored
+    # and the server always re-evaluates, so a PDF can only state what the engine itself determined.
     case: NormalizedCase
-    # Ignored. Older clients sent their copy of the evaluation; the server always re-evaluates,
-    # so a PDF can only state what the engine itself determined.
-    evaluation: Optional[Any] = None
 
 
 def _origin_secret() -> str:

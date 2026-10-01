@@ -7,16 +7,21 @@ export function ThemeToggle() {
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark);
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0a0f0d' : '#f7f7f5');
-    try {
-      localStorage.setItem('remedyai-theme', dark ? 'dark' : 'light');
-    } catch {
-      /* storage unavailable */
-    }
   }, [dark]);
+  // Stored only when the visitor actually changes the theme (strictly necessary storage they asked for).
+  const toggle = () =>
+    setDark((d) => {
+      try {
+        localStorage.setItem('remedyai-theme', !d ? 'dark' : 'light');
+      } catch {
+        /* storage unavailable */
+      }
+      return !d;
+    });
   return (
     <button
       type="button"
-      onClick={() => setDark((d) => !d)}
+      onClick={toggle}
       aria-pressed={dark}
       aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'}
       title={dark ? 'Light theme' : 'Dark theme'}

@@ -15,13 +15,20 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-ACCOUNT_RE = re.compile(r"\b(\d{4})\d{4}(\d{4})\b")
-IP_RE = re.compile(r"\b(\d{1,3})\.(\d{1,3})\.\d{1,3}\.\d{1,3}\b")
+import sys  # noqa: E402
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from redact_evidence import redact  # noqa: E402  (account IDs in ARNs, IAM unique IDs, emails)
+
+# Only the client products and the agent's app tag are kept from each user agent: no install IDs,
+# kernel builds or other machine details.
+UA_TOKEN_RE = re.compile(r"(aws-cli/[\d.]+|aws-sam-cli/[\d.]+|Boto3/[\d.]+|Botocore/[\d.]+|app/[\w-]+|"
+                         r"[a-z0-9-]+\.amazonaws\.com|AWS Internal)", re.IGNORECASE)
 
 
-def redact(s: str) -> str:
-    s = ACCOUNT_RE.sub(r"\1****\2", s)
-    return IP_RE.sub(r"\1.\2.x.x", s)
+def short_ua(ua: str) -> str:
+    tokens = UA_TOKEN_RE.findall(ua or "")
+    return " ".join(dict.fromkeys(tokens)) or "other"
 
 
 def lookup(user: str, since: str):
@@ -57,8 +64,8 @@ def main():
             "event": e["EventName"],
             "source": e.get("EventSource"),
             "read_only": e.get("ReadOnly"),
-            # Kept whole: the app/<id> tag the agent's deploy adds is at the end of the string.
-            "user_agent": (detail.get("userAgent") or "")[:400],
+            # Product tokens only (the app/<id> tag the agent's deploy adds is kept).
+            "user_agent": short_ua(detail.get("userAgent") or ""),
             "request_id": detail.get("requestID"),
             "resources": [r.get("ResourceName") for r in e.get("Resources", [])][:3],
         })

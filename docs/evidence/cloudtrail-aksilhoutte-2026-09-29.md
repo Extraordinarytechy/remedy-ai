@@ -1,33 +1,33 @@
 # CloudTrail: calls made with `aksilhoutte` since 2026-09-29
 
-Exported 2026-10-01T18:31:51+00:00 from CloudTrail event history (`aws cloudtrail lookup-events`). All times are UTC (CloudTrail `eventTime`). Account IDs and IPs redacted.
+Exported 2026-10-01T20:04:35+00:00 from CloudTrail event history (`aws cloudtrail lookup-events`). All times are UTC (CloudTrail `eventTime`). Account IDs and IPs redacted.
 
-- Total events: **4299**, of which **159** changed something (ReadOnly=false).
-- Calls whose user agent carries the `app/kiro-ide` tag (set by the agent's deploy script with `AWS_SDK_UA_APP_ID`; a client-set value, recorded by AWS as sent): **29**, first at `2026-10-01T18:05:29Z`, e.g. request a804943a-5c79-469b-90d5-3f8daa68d496.
+- Total events: **4714**, of which **168** changed something (ReadOnly=false).
+- Calls whose user agent carries the `app/kiro-ide` tag (set by the agent's deploy script with `AWS_SDK_UA_APP_ID`; a client-set value, recorded by AWS as sent): **70**, first at `2026-10-01T18:05:29Z`, e.g. request a804943a-5c79-469b-90d5-3f8daa68d496.
 
 | Client (from userAgent) | Mutating calls |
 | --- | ---: |
-| CloudFormation (stack deployed by the agent) | 84 |
-| SAM CLI (run by the agent) | 38 |
-| AWS CLI (run by the agent) | 28 |
-| other: spendlimit_member.budgets.amazonaws.com | 4 |
+| CloudFormation (stack deployed by the agent) | 89 |
+| SAM CLI (run by the agent) | 40 |
+| AWS CLI (run by the agent) | 30 |
+| other: budgets.amazonaws.com | 4 |
 | other: dynamodb.amazonaws.com | 2 |
 | other: organizations.amazonaws.com | 2 |
 | other: apigateway.amazonaws.com | 1 |
 
 | Service | Mutating calls |
 | --- | ---: |
-| lambda.amazonaws.com | 40 |
-| cloudformation.amazonaws.com | 38 |
-| cloudfront.amazonaws.com | 30 |
+| lambda.amazonaws.com | 42 |
+| cloudformation.amazonaws.com | 40 |
+| cloudfront.amazonaws.com | 32 |
 | iam.amazonaws.com | 16 |
 | s3.amazonaws.com | 8 |
 | notifications-contacts.amazonaws.com | 4 |
+| dynamodb.amazonaws.com | 4 |
 | logs.amazonaws.com | 4 |
 | organizations.amazonaws.com | 4 |
-| dynamodb.amazonaws.com | 3 |
-| sns.amazonaws.com | 3 |
-| monitoring.amazonaws.com | 3 |
+| sns.amazonaws.com | 4 |
+| monitoring.amazonaws.com | 4 |
 | kms.amazonaws.com | 2 |
 | apigateway.amazonaws.com | 2 |
 | budgets.amazonaws.com | 1 |
@@ -40,8 +40,8 @@ First and last mutating calls:
 - `2026-09-29T18:36:25Z` CreateResponseHeadersPolicy (cloudfront.amazonaws.com) request af414b68-11fc-450d-831b-3862120ed6e7
 - `2026-09-29T18:36:25Z` CreateOriginAccessControl (cloudfront.amazonaws.com) request daf7d2bd-9938-4514-be55-7f2588e1855d
 - `2026-09-29T18:36:25Z` CreateEmailContact (notifications-contacts.amazonaws.com) request 84207501-32e0-4792-abcd-f024415d9151
-- `2026-10-01T18:06:41Z` CreateChangeSet (cloudformation.amazonaws.com) request 1728fd77-e6b1-4225-b607-3c86149dff85
-- `2026-10-01T18:07:00Z` ExecuteChangeSet (cloudformation.amazonaws.com) request 0364960b-6468-402f-b738-a1a923df6391
-- `2026-10-01T18:07:07Z` UpdateFunctionCode20150331v2 (lambda.amazonaws.com) request 18734187-e5cd-472b-8823-0eb95df65443
-- `2026-10-01T18:07:07Z` UpdateFunctionCode20150331v2 (lambda.amazonaws.com) request ba34a43e-d1bf-44a9-a1a5-33001cf84974
-- `2026-10-01T18:08:11Z` CreateInvalidation (cloudfront.amazonaws.com) request 364099ff-2e1c-48ad-9c47-0b22b520cd7d
+- `2026-10-01T19:49:33Z` UpdateContinuousBackups (dynamodb.amazonaws.com) request AGPILA2QLQ2F1RTFNLL369QQ3BVV4KQNSO5AEMVJF66Q9ASUAAJG
+- `2026-10-01T19:49:39Z` UpdateFunctionCode20150331v2 (lambda.amazonaws.com) request 5e8939cd-767b-49d8-8a72-60baacb89890
+- `2026-10-01T19:49:39Z` UpdateFunctionCode20150331v2 (lambda.amazonaws.com) request 0e4519e9-0629-4597-bdb6-d067faeab1fe
+- `2026-10-01T19:50:48Z` CreateInvalidation (cloudfront.amazonaws.com) request 527dc3e2-c79f-4de6-8b0c-2c982911b5e9
+- `2026-10-01T19:55:06Z` SetAlarmState (monitoring.amazonaws.com) request 8eeeeb0f-cf16-421e-83ac-6d4f19f33686

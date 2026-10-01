@@ -27,7 +27,7 @@ fi
 exec > >(sed -u -e "s/$ORIGIN_VERIFY_SECRET/<redacted-secret>/g" -e "s/$ALERT_EMAIL/<redacted-email>/g" | tee "$LOG") 2>&1
 
 echo "== caller identity (the credentials the coding agent deploys with)"
-aws sts get-caller-identity --output json | sed -E 's/\b([0-9]{4})[0-9]{4}([0-9]{4})\b/\1****\2/g'
+aws sts get-caller-identity --output json | sed -E -e 's/\b([0-9]{4})[0-9]{4}([0-9]{4})\b/\1****\2/g' -e 's/\b(AIDA|AROA|AKIA|ASIA)[A-Z0-9]{12,}\b/\1****************/g'
 
 echo "== lambda package"
 [ -d .build/lambda ] || ./scripts/build_lambda.sh

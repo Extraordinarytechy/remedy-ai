@@ -1,6 +1,6 @@
 == caller identity (the credentials the coding agent deploys with)
 {
-    "UserId": "AIDATTSKF4BWMSUYKT4XA",
+    "UserId": "AIDA****************",
     "Account": "2481****5724",
     "Arn": "arn:aws:iam::2481****5724:user/aksilhoutte"
 }

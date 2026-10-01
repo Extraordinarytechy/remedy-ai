@@ -15,6 +15,7 @@
   --color-subtle: var(--c-subtle);
   --color-line: var(--c-line);
   --color-line-strong: var(--c-line-strong);
+  --color-field-border: var(--c-field-border);
   --color-ink: var(--c-ink);
   --color-muted: var(--c-muted);
   --color-faint: var(--c-faint);
@@ -39,6 +40,7 @@
   --c-subtle: #f1f2ef;
   --c-line: #e4e5e0;
   --c-line-strong: #cfd2ca;
+  --c-field-border: #8c948e;
   --c-ink: #0e1a16;
   --c-muted: #4b5751;
   --c-faint: #5d6963;
@@ -63,6 +65,7 @@
   --c-subtle: #16201c;
   --c-line: #22302b;
   --c-line-strong: #33443d;
+  --c-field-border: #5f6e67;
   --c-ink: #e9f1ed;
   --c-muted: #aab8b1;
   --c-faint: #8d9c95;
@@ -83,6 +86,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
     -webkit-text-size-adjust: 100%;
   }
   body {
@@ -138,7 +142,7 @@
     @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-xs font-medium text-muted;
   }
   .field {
-    @apply w-full rounded-xl border border-line-strong bg-surface px-3.5 py-2.5 text-[15px] text-ink placeholder:text-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30;
+    @apply w-full rounded-xl border border-field-border bg-surface px-3.5 py-2.5 text-[15px] text-ink placeholder:text-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30;
   }
   .label {
     @apply block text-sm font-semibold text-ink;
