@@ -1,5 +1,6 @@
 import base64
 import hmac
+import logging
 import os
 import re
 from datetime import date, datetime, timezone
@@ -48,6 +49,11 @@ async def _unexpected_error(request: Request, exc: Exception):
     # Only the error type is logged: an exception message can contain what the user typed.
     print(f"Unhandled error on {request.url.path}: {type(exc).__name__}")
     return JSONResponse(status_code=500, content={"detail": "Something went wrong. Please try again."})
+
+
+# The error is re-raised after the handler above has answered, and the Lambda adapter (Mangum) would
+# log it with its full traceback and message. Its logger is silenced so only the error type is kept.
+logging.getLogger("mangum").setLevel(logging.CRITICAL)
 
 
 engine = EligibilityEngine()
@@ -266,11 +272,14 @@ def _safe_filename(case_id: str) -> str:
 def generate_claim_package(req: GeneratePackageRequest, request: Request):
     """
     Builds the claim PDF from the engine's own evaluation of the case. Any evaluation sent by the
-    client is ignored. Refused while a hard consistency check is unconfirmed, or when every option
+    client is ignored. Refused for dates that were refused as invalid input, while a hard
+    consistency check is unconfirmed, or when every option
     found must be checked first. Counted against a daily per-visitor and site-wide limit.
     """
     case = with_claim_date(req.case)
     evaluation = evaluate(case)
+    if evaluation.input_error:
+        raise HTTPException(status_code=409, detail="Check the purchase and failure dates before the claim PDF is prepared.")
     if not evaluation.pdf_allowed:
         raise HTTPException(
             status_code=409,

@@ -128,6 +128,9 @@ class MatchedRoute(BaseModel):
     source_check: Optional[Dict[str, Any]] = None
     # Who the claim letter is addressed to (the store for UK law, the benefit administrator for a card).
     claim_to: Optional[str] = None
+    # UK consumer law only: True inside the 30-day short-term right to reject, so the claim letter
+    # rejects the goods for a full refund (section 20) instead of asking for a repair (section 23).
+    short_term_reject: bool = False
 
 
 class NoMatchReason(BaseModel):

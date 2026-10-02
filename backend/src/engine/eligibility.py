@@ -15,8 +15,15 @@ from src.models.schemas import (
     RemedyEvaluation,
 )
 from src.engine.case_checks import run_checks
-from src.engine.matching import NOT_THE_DEVICE, phrase_pattern, product_text
-from src.engine.release_dates import load_release_dates, release_problem
+from src.engine.matching import (
+    NOT_THE_DEVICE,
+    has_accessory_word,
+    main_product,
+    phrase_pattern,
+    product_text,
+    without_official_parts,
+)
+from src.engine.release_dates import load_family_floors, load_release_dates, release_problem
 
 # Base path to knowledge corpus
 KNOWLEDGE_DIR = Path(__file__).resolve().parent.parent.parent / "knowledge"
@@ -55,12 +62,14 @@ def parse_date(date_str: str) -> date:
 
 
 # Symptom matching: a fault description is read clause by clause, and a keyword preceded (within five
-# words) by one of these denials doesn't count. A bare "no" is not a denial: "no preview" is a symptom.
+# words) by one of these denials doesn't count. A bare "no" denies a keyword too ("there is no vertical
+# line"), except a keyword that is itself a "no ..." symptom, such as "no preview".
 CLAUSE_SPLIT = re.compile(r"[.;:!?,()]|\bbut\b|\band\b|\bthough\b|\balthough\b")
 NEGATION = re.compile(
     r"\b(not|never|isn't|wasn't|aren't|doesn't|don't|didn't|hasn't|haven't|without|"
     r"no (?:problems?|issues?|sign) (?:with|of))\b"
 )
+BARE_NO = re.compile(r"\bno\b")
 
 # Purchases older than this, measured from the claim date, are refused as input errors.
 MAX_PURCHASE_AGE_YEARS = 30
@@ -111,6 +120,7 @@ class EligibilityEngine:
         self.knowledge_dir = knowledge_dir or KNOWLEDGE_DIR
         self.records = load_knowledge_records(self.knowledge_dir)
         self.release_dates = load_release_dates()
+        self.family_floors = load_family_floors()
 
     # ------------------------------------------------------------------
     # Public entry point
@@ -139,9 +149,20 @@ class EligibilityEngine:
                 if case.evaluation_date
                 else datetime.now(timezone.utc).date()
             )
-        except Exception as e:
-            return self._invalid(case, now_iso, None, f"Date parsing failed: {e}", code="unreadable_date")
+        except Exception:
+            # The parser's own wording isn't shown: it means nothing to the person who typed the date.
+            return self._invalid(
+                case, now_iso, None,
+                "We couldn't read one of the dates. Check the purchase and failure dates.",
+                code="unreadable_date",
+            )
 
+        if p_date > as_of:
+            return self._invalid(
+                case, now_iso, as_of,
+                f"The purchase date ({p_date.isoformat()}) is in the future. The claim date is {as_of.isoformat()}.",
+                code="future_date",
+            )
         if f_date < p_date:
             return self._invalid(
                 case, now_iso, as_of,
@@ -151,7 +172,7 @@ class EligibilityEngine:
         if f_date > as_of:
             return self._invalid(
                 case, now_iso, as_of,
-                f"Failure date ({f_date.isoformat()}) is after the evaluation date ({as_of.isoformat()}).",
+                f"The failure date ({f_date.isoformat()}) is in the future. The claim date is {as_of.isoformat()}.",
                 code="future_date",
             )
         earliest = as_of - relativedelta(years=MAX_PURCHASE_AGE_YEARS)
@@ -162,7 +183,7 @@ class EligibilityEngine:
                 f"claim date. RemedyAI checks purchases made on or after {earliest.isoformat()}.",
                 code="too_old",
             )
-        release_issue = release_problem(case, p_date, self.release_dates)
+        release_issue = release_problem(case, p_date, self.release_dates, self.family_floors)
         if release_issue:
             return self._invalid(
                 case, now_iso, as_of, release_issue,
@@ -332,8 +353,9 @@ class EligibilityEngine:
             has_coverage=False,
             unmatched_reason=f"INVALID INPUT: {reason}",
             input_error=code,
-            next_steps=next_steps
-            or ["Please provide valid ISO dates (YYYY-MM-DD): purchase date <= failure date <= today."],
+            next_steps=next_steps or ["Check the purchase and failure dates."],
+            # Refused input never gets a claim PDF.
+            pdf_allowed=False,
         )
 
     @staticmethod
@@ -383,7 +405,9 @@ class EligibilityEngine:
 
     @staticmethod
     def _device_matches(case: NormalizedCase, record: Dict[str, Any]) -> bool:
-        name = product_text(case.product_name, case.product_model)
+        # Only the product itself counts: in "iMac with Magic Keyboard" the iMac is the device, and
+        # the keyboard that came with it neither rules it out nor gets its own record.
+        name = main_product(product_text(case.product_name, case.product_model))
         # A brand the user named that isn't the record's brand rules the record out.
         record_brand = (record.get("issuer_or_brand") or "").split()[0].lower() if record.get("issuer_or_brand") else ""
         if case.product_brand and record_brand and record_brand not in case.product_brand.lower():
@@ -395,12 +419,13 @@ class EligibilityEngine:
         patterns = [phrase_pattern(dev) for dev in sorted(record.get("applicable_devices", []), key=len, reverse=True)]
         if not any(p.search(name) for p in patterns):
             return False
-        # Accessory words count only outside the record's own terms: "Magic Keyboard" is a device the
-        # accessory warranty names, while "iPhone 17 case" and "Apple Watch band" are not the device.
+        # Accessory words count only outside the record's own terms and Apple's own product names:
+        # "Magic Keyboard" is a device the accessory warranty names and "Aluminum Case" is part of an
+        # Apple Watch's name, while "iPhone 17 case" and "Apple Watch band" are not the device.
         rest = name
         for p in patterns:
             rest = p.sub(" ", rest)
-        return not NOT_THE_DEVICE.search(rest)
+        return not NOT_THE_DEVICE.search(without_official_parts(rest, name))
 
     @staticmethod
     def _symptom_matches(case: NormalizedCase, record: Dict[str, Any]) -> bool:
@@ -413,9 +438,14 @@ class EligibilityEngine:
         for clause in CLAUSE_SPLIT.split(desc):
             for k in record.get("symptom_keywords", []):
                 for m in re.finditer(rf"(?<![a-z0-9]){re.escape(k.lower())}", clause):
-                    before = clause[: m.start()].split()[-5:]
-                    if not NEGATION.search(" ".join(before)):
-                        return True
+                    before = " ".join(clause[: m.start()].split()[-5:])
+                    if NEGATION.search(before):
+                        continue
+                    # "there is no vertical line" denies the symptom, unless the keyword is itself a
+                    # "no ..." symptom such as "no preview" or "no power".
+                    if not k.lower().startswith("no ") and BARE_NO.search(before):
+                        continue
+                    return True
         return False
 
     # ------------------------------------------------------------------
@@ -434,7 +464,7 @@ class EligibilityEngine:
         name = product_text(case.product_name, case.product_model)
         records = list(self.records.values())
 
-        accessory = bool(NOT_THE_DEVICE.search(name)) and not any(self._device_matches(case, r) for r in records)
+        accessory = has_accessory_word(name) and not any(self._device_matches(case, r) for r in records)
         if accessory:
             reasons.append(NoMatchReason(
                 code="accessory",
@@ -616,8 +646,14 @@ class EligibilityEngine:
             f"Device named in case: {case.product_name} (bought in {country}).",
             f"Reported fault: '{case.defect_description}'.",
         ]
+        # The remedy promised is the record's own: a refund is named only when the warranty offers one.
+        remedy = (record.get("remedy") or "").lower()
+        promise = (
+            f"{brand} will repair, replace or refund at its option" if "refund" in remedy
+            else f"{brand} will repair or replace it"
+        )
         provenance = ProvenanceChain(
-            claim=f"Covered by the {program} if the fault is a defect: {brand} will repair, replace or refund at its option.",
+            claim=f"Covered by the {program} if the fault is a defect: {promise}.",
             why_matched=(
                 f"The case names a device this warranty covers ({case.product_name}), bought in {country}, and the claim "
                 f"date {as_of.isoformat()} is inside the {period} warranty period, which ends {warranty_end.isoformat()}."
@@ -1015,6 +1051,7 @@ class EligibilityEngine:
                 deadline_label=f"Legal time limit to claim ({place})",
                 related_sources=list(record.get("related_sources", [])),
                 claim_to=case.retailer or "The store that sold it",
+                short_term_reject=within_reject_window,
             ),
             None,
         )

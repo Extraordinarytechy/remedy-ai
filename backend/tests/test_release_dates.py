@@ -113,7 +113,15 @@ def test_month_only_on_sale_date_uses_the_month_before(engine):
     "iPhone Air 2", "Mac mini", "iPhone 18", "Apple Watch band",
 ])
 def test_unknown_models_variants_and_accessories_are_never_blocked(engine, name):
+    # No model date applies. A phone family's first on-sale date still does (see
+    # test_names_dates_and_letters.py), so the purchase here is after every family floor.
     assert match_model(name, None, None, engine.release_dates) is None
+    res = engine.evaluate(case(product_name=name, purchase_date="2017-01-01", failure_date="2018-01-01"))
+    assert res.input_error is None
+
+
+@pytest.mark.parametrize("name", ["Nokia 3310", "iPhone 17 case", "Mac mini M2 Pro", "Mac mini", "Apple Watch band"])
+def test_products_outside_a_phone_family_are_never_blocked(engine, name):
     res = engine.evaluate(case(product_name=name, purchase_date="2001-01-01", failure_date="2002-01-01"))
     assert res.input_error is None
 
@@ -145,7 +153,7 @@ OFFICIAL = re.compile(r"^https://(www\.apple\.com/newsroom/|blog\.google/|suppor
 
 def test_release_data_is_complete_and_from_official_pages():
     doc = json.loads(RELEASE_DATES_FILE.read_text(encoding="utf-8"))
-    assert doc["verified_at"] == "2026-10-02"
+    assert doc["verified_at"] == "2026-10-03"
     models = doc["models"]
     names = [m["model"] for m in models]
     assert len(names) == len(set(names))

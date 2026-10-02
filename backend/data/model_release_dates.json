@@ -1,7 +1,64 @@
 {
-  "about": "Dates each model was announced and went on sale, read on the maker's own pages (Apple Newsroom, the Google blog and Pixel Help, Samsung Newsroom and samsung.com). RemedyAI refuses a purchase date earlier than the first day of the announcement month, or, when only the on-sale date is listed, the first day of the month before it. An on_sale value of YYYY-MM means the page gives the month only. Models not listed are never blocked. These dates are an input check, not a coverage source.",
-  "verified_at": "2026-10-02",
+  "about": "Dates each model was announced and went on sale, read on the maker's own pages (Apple Newsroom, the Google blog and Pixel Help, Samsung Newsroom and samsung.com). RemedyAI refuses a purchase date earlier than the first day of the announcement month, or, when only the on-sale date is listed, the first day of the month before it. An on_sale value of YYYY-MM means the page gives the month only. Models not listed are never blocked by a model date. Families give the date the first phone of each family went on sale; they are used only when no model matches, so any iPhone, Pixel phone or Galaxy S bought before then is refused. These dates are an input check, not a coverage source.",
+  "verified_at": "2026-10-03",
+  "families": [
+    {
+      "family": "iPhone",
+      "brand": "Apple",
+      "first": "first iPhone",
+      "any": "an iPhone",
+      "pattern": "(?<![a-z0-9])iphone(?![a-z])",
+      "exclude": [],
+      "on_sale": "2007-06-29",
+      "source_url": "https://www.apple.com/newsroom/2007/06/28iPhone-Premieres-This-Friday-Night-at-Apple-Retail-Stores/"
+    },
+    {
+      "family": "Pixel phone",
+      "brand": "Google",
+      "first": "first Pixel phone",
+      "any": "a Pixel phone",
+      "pattern": "(?<![a-z0-9])pixel(?![a-z])",
+      "exclude": ["Chromebook Pixel", "Pixelbook", "Pixel C", "Pixel Slate", "Pixel Tablet", "Pixel Buds", "Pixel Watch", "Pixel Stand"],
+      "announced": "2016-10-04",
+      "on_sale": "2016-10",
+      "source_url": "https://blog.google/products-and-platforms/devices/pixel/introducing-pixel-our-new-phone-made-google/"
+    },
+    {
+      "family": "Galaxy S",
+      "brand": "Samsung",
+      "first": "first Galaxy S",
+      "any": "a Galaxy S phone",
+      "pattern": "(?<![a-z0-9])(galaxy|samsung) s(\\s?\\d+|(?![a-z0-9]))",
+      "exclude": ["S Pen"],
+      "on_sale": "2010-06-04",
+      "source_url": "https://news.samsung.com/global/from-zero-to-infinity-the-five-year-journey-of-the-samsung-galaxy-s/1000"
+    }
+  ],
   "models": [
+    {
+      "model": "iPhone 11",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2019-09-10",
+      "on_sale": "2019-09-20",
+      "source_url": "https://www.apple.com/newsroom/2019/09/apple-introduces-dual-camera-iphone-11/"
+    },
+    {
+      "model": "iPhone 11 Pro",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2019-09-10",
+      "on_sale": "2019-09-20",
+      "source_url": "https://www.apple.com/newsroom/2019/09/iphone-11-pro-and-iphone-11-pro-max-the-most-powerful-and-advanced-smartphones/"
+    },
+    {
+      "model": "iPhone 11 Pro Max",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2019-09-10",
+      "on_sale": "2019-09-20",
+      "source_url": "https://www.apple.com/newsroom/2019/09/iphone-11-pro-and-iphone-11-pro-max-the-most-powerful-and-advanced-smartphones/"
+    },
     {
       "model": "iPhone 12",
       "brand": "Apple",

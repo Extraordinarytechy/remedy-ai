@@ -28,6 +28,22 @@ STATUS_TEXT = {
     "INSUFFICIENT_EVIDENCE": "Not enough evidence",
 }
 
+# UK claim letter wording. Inside the 30-day short-term right to reject the letter rejects the goods
+# for a full refund; after it, the letter asks for a repair or replacement.
+CRA_QUALITY = (
+    "Under the Consumer Rights Act 2015, goods must be of satisfactory quality, fit for purpose and as "
+    "described (sections 9 to 11). "
+)
+CRA_REJECT_BASIS = CRA_QUALITY + (
+    "The goods are faulty and I am still within 30 days of delivery (section 22), so I am rejecting them under "
+    "my short-term right to reject and ask for a full refund (section 20). The refund is due within 14 days of "
+    "you agreeing that I am entitled to it (section 20(15))."
+)
+CRA_REPAIR_BASIS = CRA_QUALITY + (
+    "I believe this fault was present when the goods were delivered, so I am asking you to repair or replace "
+    "them at no cost to me (section 23)."
+)
+
 OGL_NOTICE = "Contains public sector information licensed under the Open Government Licence v3.0."
 NON_AFFILIATION = (
     "RemedyAI is not affiliated with or endorsed by Apple, Google, Visa, Sony, Samsung, Best Buy, Currys, the UK Government or any "
@@ -226,12 +242,12 @@ class ClaimPdfService:
         top = next((r for r in evaluation.matched_routes if is_actionable(r)), None)
         if evaluation.has_coverage and top:
             story.append(Paragraph("Draft letter", self.section_title))
-            if top.route_type == "statutory_consumer_law":
-                basis = (
-                    "Under the Consumer Rights Act 2015, goods must be of satisfactory quality, fit for purpose and as "
-                    "described (sections 9 to 11). I believe this fault was present when the goods were delivered, so I am "
-                    "asking you to repair or replace them at no cost to me (section 23)."
-                )
+            next_step = "tell me how to arrange an inspection, repair or replacement"
+            if top.route_type == "statutory_consumer_law" and top.short_term_reject:
+                basis = CRA_REJECT_BASIS
+                next_step = "tell me how to return the goods"
+            elif top.route_type == "statutory_consumer_law":
+                basis = CRA_REPAIR_BASIS
             else:
                 basis = (
                     f"Based on the published terms of <b>{e(top.title)}</b> ({e(top.primary_source.get('url'))}), I believe "
@@ -245,7 +261,7 @@ class ClaimPdfService:
                 f"I am writing about my <b>{e(case.product_name)}</b>, bought on <b>{e(human_date(case.purchase_date))}</b>. "
                 f"On <b>{e(human_date(case.failure_date))}</b> it developed this fault: <i>{e(case.defect_description)}</i>.<br/><br/>"
                 f"{basis} I can provide proof of purchase, photos of the fault and proof of payment.<br/><br/>"
-                "Please confirm you have received this claim and tell me how to arrange an inspection, repair or replacement.<br/><br/>"
+                f"Please confirm you have received this claim and {next_step}.<br/><br/>"
                 "Yours faithfully,<br/>[Your name]"
             )
             lt = Table([[Paragraph(letter_text, self.body_style)]], colWidths=[530])
