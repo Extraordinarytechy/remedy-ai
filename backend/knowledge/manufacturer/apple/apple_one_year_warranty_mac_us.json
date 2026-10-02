@@ -1,0 +1,53 @@
+{
+  "id": "apple_one_year_limited_warranty_mac_us",
+  "category": "manufacturer_warranty",
+  "issuer_or_brand": "Apple Inc.",
+  "brand_short": "Apple",
+  "program_name": "Apple One (1) Year Limited Warranty (Mac; U.S.)",
+  "coverage_summary": "Mac computers bought in the U.S. (MacBook Air, MacBook Pro, iMac, Mac mini, Mac Studio, Mac Pro), for faults in the first year",
+  "coverage_region": "United States",
+  "source_url": "https://www.apple.com/legal/warranty/products/embedded-mac-warranty-us.html",
+  "verified_at": "2026-10-02",
+  "countries": ["US"],
+  "warranty_years": 1,
+  "watch_phrases": [
+    "BY USING YOUR MAC PRODUCT, YOU ARE AGREEING TO BE BOUND BY THE TERMS OF THE APPLE 1 YEAR LIMITED WARRANTY",
+    "warrants the Apple-branded hardware product and Apple-branded accessories contained in the original packaging"
+  ],
+  "applicable_devices": [
+    "Mac",
+    "MacBook",
+    "MacBook Air",
+    "MacBook Pro",
+    "iMac",
+    "Mac mini",
+    "Mac Studio",
+    "Mac Pro"
+  ],
+  "excluded_devices": [],
+  "coverage": "Defects in materials and workmanship when used normally in accordance with Apple's published guidelines, for one year from the date of original retail purchase by the end-user purchaser. This includes Apple-branded accessories in the original packaging",
+  "remedy": "At Apple's option: repair with new or previously used Apple genuine parts, replacement with the same model (or with your consent a product with the same or substantially similar features), or a refund of the purchase price",
+  "mandatory_conditions": [
+    "The claim is submitted to Apple or an Apple Authorized Service Provider during the one-year Warranty Period",
+    "The fault is a defect in materials or workmanship, with the Mac used normally in line with Apple's published guidelines",
+    "Apple or its agents may require proof of purchase details and may ask diagnostic questions before service",
+    "Back up the Mac first: during warranty service the contents of its storage may be lost, replaced or reformatted"
+  ],
+  "exclusions_and_caveats": [
+    "Not covered: damage caused by accident, abuse, misuse, fire, liquid contact, earthquake or other external cause",
+    "Not covered: cosmetic damage (scratches, dents, broken plastic on ports) and batteries or protective coatings that diminish over time, unless the failure is due to a defect in materials or workmanship",
+    "Not covered: damage from a third-party component that doesn't meet the Mac's specifications, from service by anyone other than Apple or an Apple Authorized Service Provider, or a Mac modified without Apple's written permission",
+    "Not covered: software, including the system software, and non-Apple branded hardware, even if sold with the Mac",
+    "Not covered: defects caused by normal wear and tear or normal aging, or a Mac whose serial number has been removed or defaced",
+    "Service is limited to the options available in the country where you ask for it, and you may pay shipping if the Mac can't be serviced there",
+    "This is the U.S. version of Apple's Mac warranty. Other countries have their own version, and consumer law may give you further rights"
+  ],
+  "claim_action": "Contact Apple Support, or visit an Apple Store or Apple Authorized Service Provider, before {deadline}. To see your coverage, sign in at mysupport.apple.com. Back up the Mac first and have proof of purchase ready.",
+  "visible_damage_note": "Visible physical damage was recorded in the evidence photo. Apple's Mac warranty does not cover damage caused by accident, liquid contact or other external causes; AppleCare coverage, if you have it, may.",
+  "related_sources": [
+    {
+      "title": "Apple Support: Find information about your warranty or AppleCare plan",
+      "url": "https://support.apple.com/102607"
+    }
+  ]
+}

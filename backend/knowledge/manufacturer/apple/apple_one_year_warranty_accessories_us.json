@@ -1,0 +1,60 @@
+{
+  "id": "apple_one_year_limited_warranty_accessories_us",
+  "category": "manufacturer_warranty",
+  "issuer_or_brand": "Apple Inc.",
+  "brand_short": "Apple",
+  "program_name": "Apple One (1) Year Limited Warranty (AirPods, AirTag and Apple accessories; U.S.)",
+  "coverage_summary": "AirPods, AirTag, Apple Pencil, Magic Keyboard and other Apple-branded accessories bought in the U.S., for faults in the first year",
+  "coverage_region": "United States",
+  "source_url": "https://www.apple.com/legal/warranty/products/accessory-warranty-english.html",
+  "verified_at": "2026-10-02",
+  "countries": ["US"],
+  "warranty_years": 1,
+  "watch_phrases": [
+    "For product originally purchased in the U.S.A, Apple is Apple Inc.",
+    "is warranted against defects in materials and workmanship for a period of ONE (1) YEAR from the date of original retail purchase"
+  ],
+  "applicable_devices": [
+    "AirPods",
+    "AirPods Pro",
+    "AirPods Max",
+    "AirPods Charging Case",
+    "EarPods",
+    "AirTag",
+    "Apple Pencil",
+    "Magic Keyboard",
+    "Magic Mouse",
+    "Magic Trackpad",
+    "MagSafe Charger",
+    "Siri Remote",
+    "Apple Watch band",
+    "Apple Watch bands",
+    "Studio Display",
+    "Pro Display XDR"
+  ],
+  "excluded_devices": [],
+  "coverage": "Defects in materials and workmanship when used in accordance with Apple's user manuals, for one year from the date of original retail purchase",
+  "remedy": "At Apple's option: repair at no charge with new or previously used Apple genuine parts, exchange for the same model (or with your consent a product with the same or substantially similar features), or a refund of the original purchase price",
+  "mandatory_conditions": [
+    "The defect arises during the one-year Warranty Period",
+    "The product is an Apple-branded accessory used in line with Apple's user manuals",
+    "Contact Apple to claim; you can claim with Apple even if you bought the product from another store",
+    "Proof of purchase may be required to verify eligibility"
+  ],
+  "exclusions_and_caveats": [
+    "Not covered: normal depletion of consumable parts such as batteries, unless the failure is due to a defect in materials or workmanship",
+    "Not covered: damage from abuse, accident, modifications, unauthorized repairs or other causes that are not defects in materials and workmanship",
+    "Apple may restrict warranty service to the country where Apple or its Authorized Distributors originally sold the product",
+    "Apple does not promise a repair or replacement without risk to, or loss of, data stored on the product",
+    "Third-party cases, chargers and bands are not Apple products, so they are not covered by this warranty",
+    "This warranty is in addition to your consumer-law rights, not instead of them"
+  ],
+  "claim_action": "Contact Apple Support, or visit an Apple Store or Apple Authorized Service Provider, before {deadline}. To see your coverage, sign in at mysupport.apple.com. Have proof of purchase ready.",
+  "visible_damage_note": "Visible physical damage was recorded in the evidence photo. Apple's accessory warranty does not cover damage from abuse, accident or other causes that are not defects; AppleCare coverage, if you have it, may.",
+  "related_sources": [
+    {
+      "title": "Apple Support: Find information about your warranty or AppleCare plan",
+      "url": "https://support.apple.com/102607"
+    }
+  ]
+}

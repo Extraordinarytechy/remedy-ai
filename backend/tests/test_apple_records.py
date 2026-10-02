@@ -49,6 +49,37 @@ def test_mac_mini_sold_before_manufacturing_window(engine):
     assert any("manufacturing window" in n for n in res.notes)
 
 
+MAC_MINI = "apple_mac_mini_2023_no_power_2025"
+
+
+def test_plain_mac_mini_is_not_assumed_to_be_the_2023_model(engine):
+    # "Mac mini" alone could be an M1 or M4 model, which the program doesn't cover.
+    res = engine.evaluate(case(product_name="Mac mini", purchase_date="2023-03-01", failure_date="2026-09-20",
+                               defect_description="Does not power on"))
+    assert all(r.route_id != MAC_MINI for r in res.matched_routes)
+    reason = next(r for r in res.no_match_reasons if r.code.startswith("repair_program"))
+    assert reason.code == "repair_program_model_unclear"
+    assert "Mac mini (2023, M2 chip)" in reason.message
+
+
+def test_mac_mini_2023_bought_before_the_affected_units_were_made(engine):
+    res = engine.evaluate(case(product_name="Mac mini (2023)", purchase_date="2023-03-01", failure_date="2026-09-20",
+                               defect_description="Does not power on"))
+    assert all(r.route_id != MAC_MINI for r in res.matched_routes)
+    assert any("manufacturing window" in n for n in res.notes)
+    reason = next(r for r in res.no_match_reasons if r.code.startswith("repair_program"))
+    assert reason.code == "repair_program_window"
+    assert "16 Jun 2024" in reason.message
+
+
+@pytest.mark.parametrize("name", ["Mac mini (2023)", "Mac mini M2", "Apple Mac mini (M2, 2023)"])
+def test_mac_mini_2023_bought_in_the_window_is_pending_serial_check(engine, name):
+    res = engine.evaluate(case(product_name=name, purchase_date="2024-08-01", failure_date="2026-09-20",
+                               defect_description="Does not power on"))
+    route = next(r for r in res.matched_routes if r.route_id == MAC_MINI)
+    assert route.status == "PENDING_SERIAL_VERIFICATION"
+
+
 def test_mac_mini_other_symptom_not_matched(engine):
     res = engine.evaluate(case(product_name="Mac mini M2", defect_description="Fan is loud"))
     assert all(r.route_id != "apple_mac_mini_2023_no_power_2025" for r in res.matched_routes)

@@ -17,6 +17,7 @@
   "display_names": [
     "Mac mini (2023, M2 chip)"
   ],
+  "model_family": "Mac mini",
   "excluded_devices": [
     "M2 Pro",
     "Mac mini M1",

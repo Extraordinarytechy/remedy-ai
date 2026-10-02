@@ -22,14 +22,14 @@ Before and after: the first run (2026-10-01) found a route for 4 of 16. The bigg
 
 Why nothing matched:
 
-- the poster didn't say where it was bought, and it wouldn't match as a U.S. purchase either: 4
-- would match if bought in the U.S.; the poster didn't say where it was bought, and Apple's warranty there isn't covered yet: 2
+- the poster didn't say where it was bought, and it wouldn't match as a U.S. purchase either: 3
+- would match if bought in the U.S.; the poster didn't say where it was bought, and Apple's warranty there isn't covered yet: 3
 - bought in Australia: Apple's warranty and consumer law there aren't covered yet: 1
 - bought in India: Samsung's warranty and consumer law there aren't covered yet: 1
 - would match if bought in the U.S.; bought in India, and Samsung's warranty there isn't covered yet: 1
 - bought in the U.S.: no record covers this product at this age yet: 1
 
-Sensitivity: 6 posts didn't say where the product was bought. Entered as U.S. purchases, 2 of them would get a route. The result above does not count them.
+Sensitivity: 6 posts didn't say where the product was bought. Entered as U.S. purchases, 3 of them would get a route. The result above does not count them.
 
 ## Cases
 
@@ -40,7 +40,7 @@ Sensitivity: 6 posts didn't say where the product was bought. Entered as U.S. pu
 | A3 | Apple iPad Pro M4 | other / not stated | 2026-03-01 | No covered route | the poster didn't say where it was bought, and it wouldn't match as a U.S. purchase either | [post](https://discussions.apple.com/thread/256254491) |
 | A4 | Apple iPad (10th generation) | other / not stated | 2026-07-26 | No covered route | the poster didn't say where it was bought, and it wouldn't match as a U.S. purchase either | [post](https://discussions.apple.com/thread/256331802) |
 | A5 | Apple AirPods Max | Australia | 2026-01-09 | No covered route | bought in Australia: Apple's warranty and consumer law there aren't covered yet | [post](https://discussions.apple.com/thread/256222932) |
-| A6 | Apple Watch Series 12 | other / not stated | 2026-09-19 | No covered route | the poster didn't say where it was bought, and it wouldn't match as a U.S. purchase either | [post](https://discussions.apple.com/thread/256360354) |
+| A6 | Apple Watch Series 12 | other / not stated | 2026-09-19 | No covered route | would match if bought in the U.S.; the poster didn't say where it was bought, and Apple's warranty there isn't covered yet | [post](https://discussions.apple.com/thread/256360354) |
 | A7 | Apple iPad Air 11-inch | other / not stated | 2025-06-16 | No covered route | would match if bought in the U.S.; the poster didn't say where it was bought, and Apple's warranty there isn't covered yet | [post](https://discussions.apple.com/thread/256081662) |
 | S1 | Samsung Galaxy Z Fold 7 | U.S. | 2026-07-29 | Route found | Samsung Care: 12-month built-in limited warranty for Galaxy phones (U.S.) (potentially eligible, deadline 2027-03-29) | [post](https://us.community.samsung.com/t5/Galaxy-Z-Series/Galaxy-ZFold-7-Warranty-issues/td-p/3629970) |
 | S2 | Samsung Galaxy S23 | India | 2026-05-31 | No covered route | bought in India: Samsung's warranty and consumer law there aren't covered yet | [post](https://r2.community.samsung.com/t5/Galaxy-S/Samsung-s-Pink-Line-Scam-Warranty-Ends-Customer-Pays/td-p/22217370) |

@@ -1,0 +1,48 @@
+{
+  "id": "apple_one_year_limited_warranty_watch_us",
+  "category": "manufacturer_warranty",
+  "issuer_or_brand": "Apple Inc.",
+  "brand_short": "Apple",
+  "program_name": "Apple One (1) Year Limited Warranty (Apple Watch; U.S.)",
+  "coverage_summary": "Apple Watch bought in the U.S. (not Apple Watch Edition), for faults in the first year",
+  "coverage_region": "United States",
+  "source_url": "https://www.apple.com/legal/warranty/products/warranty-us.html",
+  "verified_at": "2026-10-02",
+  "countries": ["US"],
+  "warranty_years": 1,
+  "watch_phrases": [
+    "BY USING YOUR APPLE-BRANDED HARDWARE PRODUCT YOU ARE AGREEING TO BE BOUND BY THE TERMS OF THE APPLE ONE (1) YEAR LIMITED WARRANTY",
+    "Apple may restrict warranty service for hardware products to the country where Apple or its Authorized Distributors originally sold the device"
+  ],
+  "applicable_devices": [
+    "Apple Watch"
+  ],
+  "excluded_devices": [
+    "Apple Watch Edition"
+  ],
+  "coverage": "Defects in materials and workmanship when used normally in accordance with Apple's published guidelines, for one year from the date of original retail purchase by the end-user purchaser",
+  "remedy": "At Apple's option: repair with new or previously used Apple genuine parts, replacement with the same model (or with your consent a product with the same or substantially similar features), or a refund of the purchase price",
+  "mandatory_conditions": [
+    "The claim is submitted to Apple or an Apple Authorized Service Provider during the one-year Warranty Period",
+    "The fault is a defect in materials or workmanship, with the watch used normally in line with Apple's published guidelines",
+    "Apple or its agents may require proof of purchase details and may ask diagnostic questions before service",
+    "During warranty service the watch's storage is deleted and reformatted, so keep a backup (on iPhone, Apple Watch backs up to the paired iPhone)"
+  ],
+  "exclusions_and_caveats": [
+    "Not covered: damage caused by accident, abuse, misuse, fire, earthquake or other external cause",
+    "Not covered: consumable parts such as batteries or protective coatings that diminish over time, and cosmetic damage (scratches, dents, broken plastic on ports), unless the failure is due to a defect in materials or workmanship",
+    "Not covered: damage from service by anyone other than Apple or an Apple Authorized Service Provider, or a watch modified without Apple's written permission. Don't open the watch yourself",
+    "Not covered: defects caused by normal wear and tear or normal aging, or a watch whose serial number has been removed or defaced",
+    "Apple may restrict warranty service to the country where the watch was originally sold",
+    "Apple Watch Edition has its own warranty document, so it is not part of this record. A band bought on its own is an accessory, covered by Apple's accessory warranty instead",
+    "This is the U.S. version of Apple's warranty. Other countries have their own version, and consumer law may give you further rights"
+  ],
+  "claim_action": "Contact Apple Support, or visit an Apple Store or Apple Authorized Service Provider, before {deadline}. To see your coverage, sign in at mysupport.apple.com. Have proof of purchase ready.",
+  "visible_damage_note": "Visible physical damage was recorded in the evidence photo. Apple's warranty does not cover damage caused by accident or other external causes; AppleCare coverage, if you have it, may.",
+  "related_sources": [
+    {
+      "title": "Apple Support: Find information about your warranty or AppleCare plan",
+      "url": "https://support.apple.com/102607"
+    }
+  ]
+}
