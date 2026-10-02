@@ -100,6 +100,8 @@ export interface MatchedRoute {
   related_sources?: { title: string; url: string }[];
   source_check?: SourceCheck | null;
   claim_to?: string | null;
+  /** UK consumer law: inside the 30-day short-term right to reject, the letter asks for a full refund. */
+  short_term_reject?: boolean;
 }
 
 /** Which date rule an "INVALID INPUT" result broke (set by the server). */

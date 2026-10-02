@@ -335,7 +335,7 @@ export default function App() {
               <Faq q="Is it free? Do I need an account?">Yes, it's free, and there's no sign-up.</Faq>
               <Faq q="What do you keep about me?">
                 Not your details or photos. There's no account, no cookies and no ads. We count anonymous totals, such as how many
-                checks were run, and keep a short-lived code per visitor to keep photo reading fair. Photos are optional.{' '}
+                checks were run, and keep a short-lived code per visitor to count photo reads and claim PDFs fairly. Photos are optional.{' '}
                 <button onClick={() => setDialog('privacy')} className="link">Read the privacy notice</button>
               </Faq>
               <Faq q="Which products and countries work?">
@@ -351,7 +351,7 @@ export default function App() {
                 the final decision.
               </Faq>
               <Faq q="Can I use it with a screen reader?">
-                Yes. The answer on screen is built to work with screen readers and keyboards. The claim PDF has the same content,
+                It's built to work with screen readers and keyboards. The claim PDF has the same content,
                 but its layout is not tagged for screen readers, so use the on-screen answer and the "Copy draft letter" button instead.
               </Faq>
               <Faq q="How do you keep sources up to date?">
@@ -373,7 +373,7 @@ export default function App() {
             <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-white/10" />
             <h2 className="max-w-xl text-3xl font-semibold tracking-tight sm:text-4xl">Before you pay for a repair, check what you may still be owed.</h2>
             <p className="mt-3 max-w-xl text-lg opacity-90">Free. No sign-up.</p>
-            <button onClick={startOwn} className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-full bg-accent-ink px-6 font-semibold text-accent hover:opacity-90">
+            <button onClick={startOwn} className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-full bg-accent-ink px-6 font-semibold text-accent hover:opacity-90 focus-visible:outline-accent-ink">
               Check my product <ArrowRight className="size-4" aria-hidden="true" />
             </button>
           </div>
@@ -621,7 +621,7 @@ function PrivacyNotice() {
     ['Who runs RemedyAI', <>{OPERATOR}. Contact: <a href={`mailto:${CONTACT_EMAIL}`} className="link">{CONTACT_EMAIL}</a>.</>],
     ['Why we can use it', 'To give you the check you asked for, keep free photo reading fair and stop abuse (legitimate interests, UK GDPR and EU GDPR Article 6(1)(f)).'],
     ['What we keep', "Not your details or photos: they're used for your check and then discarded. There are no accounts, cookies, tracking or ads. Server logs record only error types and anonymous totals (checks run, checks with an option, claim PDFs) and are deleted after 14 days. Your browser stores your light/dark choice only if you change it."],
-    ['Who processes photos', <>Amazon Web Services, in the United States (Amazon Bedrock may serve a request from any of several U.S. regions). Receipts are read by Amazon Textract and fault photos by Amazon Bedrock. AWS acts on our instructions under its data processing terms, which cover transfers from the UK, EU and Canada. AWS says Bedrock does not store your photo or use it to train models.{' '}
+    ['Who processes your data', <>Amazon Web Services, in the United States. The site is served by Amazon CloudFront, and your check runs on AWS Lambda in the us-east-1 region. Amazon Bedrock may serve a request from any of several U.S. regions. Receipts are read by Amazon Textract and fault photos by Amazon Bedrock. AWS acts on our instructions under its data processing terms, which cover transfers from the UK, EU and Canada. AWS says Bedrock does not store your photo or use it to train models.{' '}
       {TEXTRACT_OPTED_OUT
         ? "RemedyAI's AWS account is opted out of AWS using this content to improve its AI services, including Textract."
         : 'Amazon Textract may keep content to improve its service unless the account owner opts out. If that matters to you, skip the receipt photo and type the details in instead.'}</>],

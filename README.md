@@ -48,8 +48,8 @@ law also needs a small evaluator.
 2. **A deterministic engine** ([`eligibility.py`](backend/src/engine/eligibility.py)) matches the
    case against the records. Windows are measured against the claim date; a closed window becomes
    a note, never a match. AI never decides coverage. Dates that can't be right are refused: a
-   purchase more than 30 years before the claim date, or before the model went on sale (on-sale dates
-   from the makers' own announcements, in [`backend/data/`](backend/data)). When nothing matches, the
+   purchase more than 30 years before the claim date, or before the model (or the first phone of its
+   family) went on sale (on-sale dates from the makers' own announcements, in [`backend/data/`](backend/data)). When nothing matches, the
    answer says why for each kind of option.
 3. **Receipt checks** ([`case_checks.py`](backend/src/engine/case_checks.py)) compare the receipt
    with what was typed. A currency that doesn't fit the chosen country holds the consumer-law option
@@ -106,7 +106,7 @@ project writeup is in [`docs/WRITEUP.md`](docs/WRITEUP.md).
 ```bash
 cd backend
 pip install -r requirements-dev.txt
-python -m pytest tests -q                    # 270 tests
+python -m pytest tests -q                    # 337 tests
 python -m uvicorn src.app:app --port 8082    # the Vite dev server proxies /api here
 ```
 

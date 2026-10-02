@@ -45,15 +45,23 @@ export function RouteCard({ route, index, c, onDownload, downloading, pdfAllowed
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
+  // Same wording as the claim PDF's letter (backend/src/services/pdf_service.py).
   const copyLetter = async () => {
+    const cra = 'Under the Consumer Rights Act 2015, goods must be of satisfactory quality, fit for purpose and as described (sections 9 to 11). ';
+    const basis =
+      route.route_type !== 'statutory_consumer_law'
+        ? `Based on the published terms of ${route.title} (${route.primary_source.url}), I believe it may qualify for a remedy, subject to your inspection. `
+        : route.short_term_reject
+          ? cra +
+            'The goods are faulty and I am still within 30 days of delivery (section 22), so I am rejecting them under my short-term right to reject ' +
+            'and ask for a full refund (section 20). The refund is due within 14 days of you agreeing that I am entitled to it (section 20(15)). '
+          : cra + 'I believe this fault was present when the goods were delivered, so I am asking you to repair or replace them at no cost to me (section 23). ';
     const letter =
       `To: ${route.claim_to ?? route.provider}\nSubject: Claim for ${c.product_name}\n\n` +
       `I bought my ${c.product_name} on ${humanDate(c.purchase_date)}. On ${humanDate(c.failure_date)} it developed this fault: "${c.defect_description}".\n\n` +
-      (route.route_type === 'statutory_consumer_law'
-        ? 'Under the Consumer Rights Act 2015, goods must be of satisfactory quality, fit for purpose and as described (sections 9 to 11). ' +
-          'I believe this fault was present when the goods were delivered, so I am asking you to repair or replace them at no cost to me (section 23). '
-        : `Based on the published terms of ${route.title} (${route.primary_source.url}), I believe it may qualify for a remedy, subject to your inspection. `) +
-      `I can provide proof of purchase, photos of the fault and proof of payment.\n\nPlease confirm you have received this and tell me the next step.`;
+      basis +
+      `I can provide proof of purchase, photos of the fault and proof of payment.\n\nPlease confirm you have received this and ` +
+      (route.short_term_reject ? 'tell me how to return the goods.' : 'tell me the next step.');
     try {
       await navigator.clipboard.writeText(letter);
       setCopied(true);

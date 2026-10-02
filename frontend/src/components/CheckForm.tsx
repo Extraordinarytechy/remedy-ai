@@ -6,7 +6,7 @@ import { Combobox } from './Combobox';
 import { PAYMENTS, PRODUCTS, faultsFor, storesFor } from '../suggestions';
 import { UK_REGIONS, formatMoney, humanDate } from './labels';
 import { DateField } from './DateField';
-import { earliestIso, todayIso } from '../dates';
+import { earliestIso, parseTypedDate, todayIso } from '../dates';
 
 interface Props {
   onSubmit: (c: NormalizedCase) => void;
@@ -69,9 +69,16 @@ export function CheckForm({ onSubmit, busy, onOpenPrivacy }: Props) {
       setVisual(res.visual_evidence);
       const r = res.receipt_data;
       if (r && r.source === 'textract') {
+        // A receipt date is used only if a typed date would be accepted: a real calendar date, not in
+        // the future and not more than 30 years ago.
+        const receiptDate =
+          r.purchase_date && parseTypedDate(r.purchase_date, f.purchase_country) === r.purchase_date &&
+          r.purchase_date >= earliest && r.purchase_date <= todayIso()
+            ? r.purchase_date
+            : '';
         setF((p) => ({
           ...p,
-          purchase_date: p.purchase_date || (r.purchase_date && /^\d{4}-\d{2}-\d{2}$/.test(r.purchase_date) ? r.purchase_date : ''),
+          purchase_date: p.purchase_date || receiptDate,
           retailer: p.retailer || r.store_name || '',
           payment_method: p.payment_method || r.payment_type || '',
         }));
