@@ -22,13 +22,18 @@ You describe what broke (optionally with a receipt photo and a photo of the faul
 
 If a receipt photo was read, RemedyAI also **checks it against what you typed**. A receipt priced in dollars for a claim entered as a UK purchase holds the UK option and the claim PDF until you confirm where you bought it. A different receipt date also holds the claim PDF until you confirm it; a different store is shown as a warning.
 
-If no source covers the case, it says so: `NO VERIFIED COVERAGE FOUND`, plus the sources it checked that did not apply and why.
+If no source covers the case, it says so: `NO VERIFIED COVERAGE FOUND`, plus the sources it checked that did not apply and why. The answer lists, in plain words, why nothing matched for each kind of option (the maker's warranty ended on a given date, no repair program covers this model and fault, the card benefit is for Visa Infinite in the U.S. only, consumer law is for UK stores only). Each reason comes from the same records the engine uses.
 
-Nine routes today (one of them an ended program kept to show delisting), from four kinds of source:
+Dates that can't be right are refused before anything is checked: a purchase more than 30 years before the claim date, or before the model went on sale. "iPhone 17 bought in January 2021" gets "The iPhone 17 went on sale in September 2025, so it can't have been bought in January 2021." The on-sale dates come from the makers' own announcements and are kept in `backend/data/`, apart from the coverage records. A model RemedyAI has no date for is never blocked.
+
+Twelve routes today (one of them an ended program kept to show delisting), from four kinds of source:
 
 | Route | Source | Status in RemedyAI |
 | --- | --- | --- |
 | Apple One (1) Year Limited Warranty (U.S.; iPhone, iPad and other iOS devices) | Apple | Covers new launches such as iPhone 18 Pro (on sale September 18, 2026): defects for one year from purchase, claimed during the year. Accidental damage is not covered |
+| Apple One (1) Year Limited Warranty (U.S.; Mac) | Apple | MacBook Air, MacBook Pro, iMac, Mac mini, Mac Studio and Mac Pro, one year from purchase. A JSON record only |
+| Apple One (1) Year Limited Warranty (U.S.; Apple Watch) | Apple | One year from purchase; Apple Watch Edition has its own document and is not included |
+| Apple One (1) Year Limited Warranty, Accessory (U.S.; AirPods, AirTag and Apple accessories) | Apple | The document Apple lists for AirPods, AirTag and accessories in the U.S. "Apple Pencil" and "MagSafe Charger" match; "AirPods case" does not, because it may be a third-party cover |
 | Mac mini (2023, M2) no-power program | Apple | Active, on Apple's index since June 2025; serial check required. Found missing on 2026-09-30, verified against Apple's page and added |
 | iPhone 14 Plus rear camera program | Apple | Active; requires Apple's serial check, so RemedyAI never says "eligible", only "possible: check your serial number" |
 | iPhone 12 / 12 Pro no-sound program | Apple | Page still online, **not on Apple's index**; nearly every unit is past its window |
@@ -140,7 +145,7 @@ The coding agent was **Kiro**, working in a terminal authenticated as a dedicate
 | Whether your iPhone 14 Plus serial is in Apple's affected range | Only Apple's serial checker knows. RemedyAI sends you there |
 | Your device's first retail sale date | If it was bought used or refurbished, the 3-year window may have started before your purchase |
 | Your card issuer's exact terms | Visa's page defers to the issuer's Guide to Benefits |
-| Every program that exists | Nine verified routes today. Adding one means verifying its official page first. Source Watch flags Apple programs that have no record yet |
+| Every program that exists | Twelve verified routes today. Adding one means verifying its official page first. Source Watch flags Apple programs that have no record yet |
 | Whether a changed page changed the terms | Source Watch detects that text changed, not what the change means. The page is then re-verified |
 
 ## Cost

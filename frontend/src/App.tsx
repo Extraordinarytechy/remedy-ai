@@ -4,13 +4,14 @@ import {
   Lock, RefreshCw, Search, ShieldAlert, ShieldCheck, Smartphone, Tv,
 } from 'lucide-react';
 import { api } from './api';
-import type { CaseCheck, NormalizedCase, RemedyEvaluation, SourcesResponse } from './types';
+import type { CaseCheck, InputError, NormalizedCase, RemedyEvaluation, SourcesResponse } from './types';
 import { EvidencePanel } from './components/EvidencePanel';
 import { RouteCard } from './components/RouteCard';
 import { SourcesTable, sourcesSummary } from './components/SourceWatchPanel';
 import { CheckForm } from './components/CheckForm';
 import { CoveragePanel } from './components/CoveragePanel';
 import { Disclosure, Modal, ThemeToggle } from './components/ui';
+import { CatNote } from './components/CatNote';
 import { STATUS_LABEL, TONE_CLASSES, daysLeftText, humanDate, isActionable, shortDate, verdictFor } from './components/labels';
 
 const REPO_URL = 'https://github.com/Extraordinarytechy/remedy-ai';
@@ -27,6 +28,9 @@ const DEMOS = [
   { key: 'case3_uk_samsung_tv', icon: Tv, tag: 'Consumer law', title: 'TV bought in the UK' },
   { key: 'case4_unknown_unsupported', icon: Coffee, tag: 'No match', title: 'Espresso machine' },
 ] as const;
+
+// Input errors where the dates can't be right, as opposed to a date that couldn't be read.
+const IMPOSSIBLE_DATES: ReadonlySet<InputError> = new Set<InputError>(['too_old', 'before_release', 'failure_before_purchase', 'future_date']);
 
 type Mode = { kind: 'demo'; key: string } | { kind: 'own'; case: NormalizedCase | null };
 type Dialog = 'privacy' | 'sources' | null;
@@ -336,7 +340,8 @@ export default function App() {
               </Faq>
               <Faq q="Which products and countries work?">
                 Any brand, including TVs and home appliances, if you bought it from a UK store or paid with a Visa Infinite card
-                in the U.S. Apple products also get Apple's repair programs and, in the U.S., Apple's one-year warranty. Google
+                in the U.S. Apple products also get Apple's repair programs and, in the U.S., Apple's one-year warranty for
+                iPhone, iPad, Mac, Apple Watch, AirPods and Apple accessories. Google
                 Pixel devices get Google's repair programs and, if bought in the U.S. or Canada, Google's one-year warranty. Samsung
                 Galaxy phones bought in the U.S. get Samsung's 12-month warranty.{' '}
                 <a href="#coverage" className="link">See full coverage</a>
@@ -458,6 +463,9 @@ function Result({
   downloading: boolean;
 }) {
   const invalid = evaluation.unmatched_reason?.startsWith('INVALID INPUT');
+  // Dates that can't be right (not typing slips) get the cat and its one joke line.
+  const impossibleDate = invalid && !!evaluation.input_error && IMPOSSIBLE_DATES.has(evaluation.input_error);
+  const reasons = evaluation.no_match_reasons ?? [];
   const routes = evaluation.matched_routes;
   const has = evaluation.has_coverage && routes.length > 0;
   // A hard receipt check waiting for the user, or no option they can act on yet.
@@ -487,11 +495,14 @@ function Result({
           {invalid
             ? evaluation.unmatched_reason?.replace('INVALID INPUT: ', '')
             : !has
-              ? "None of the official sources RemedyAI checks covers this case. Other help may still exist; see what you can try below."
+              ? reasons.length
+                ? 'No official source RemedyAI checks covers this case. Here is why.'
+                : "None of the official sources RemedyAI checks covers this case. Other help may still exist; see what you can try below."
               : routes.length > 1
                 ? `${routes.length} options found. Start with "What to do next".`
                 : 'Start with "What to do next" below.'}
         </p>
+        {impossibleDate && <div className="mt-4"><CatNote /></div>}
         <p className="mt-3 text-sm text-muted">
           Not legal advice. This is what the official source says about cases like yours. The maker, card issuer or store
           decides your claim.
@@ -510,7 +521,19 @@ function Result({
         </>
       ) : (
         <div className="card space-y-4 p-6">
-          <h4 className="font-semibold">What you can still try</h4>
+          {!invalid && reasons.length > 0 && (
+            <section aria-labelledby="why-heading" className="space-y-3 border-b border-line pb-5">
+              <h4 id="why-heading" className="font-semibold">Why nothing matched</h4>
+              <ul className="space-y-2">
+                {reasons.map((r) => (
+                  <li key={r.code} className="flex items-start gap-2.5 text-muted">
+                    <Info className="mt-1 size-4 shrink-0 text-accent-text" aria-hidden="true" /> {r.message}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+          <h4 className="font-semibold">{invalid ? 'What to do' : 'What you can still try'}</h4>
           <ul className="space-y-2">
             {evaluation.next_steps.map((s, i) => (
               <li key={i} className="flex items-start gap-2.5 text-muted">

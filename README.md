@@ -20,6 +20,9 @@ so when nothing covers you.
 | Option | Who | Source |
 | --- | --- | --- |
 | Apple One (1) Year Limited Warranty: iPhone (incl. iPhone 18 Pro), iPad, iPod, Apple TV, HomePod, Vision Pro | Apple, U.S. | [Apple](https://www.apple.com/legal/warranty/products/ios-warranty-document-us.html) |
+| Apple One (1) Year Limited Warranty: Mac (MacBook Air, MacBook Pro, iMac, Mac mini, Mac Studio, Mac Pro) | Apple, U.S. | [Apple](https://www.apple.com/legal/warranty/products/embedded-mac-warranty-us.html) |
+| Apple One (1) Year Limited Warranty: Apple Watch (not Apple Watch Edition) | Apple, U.S. | [Apple](https://www.apple.com/legal/warranty/products/warranty-us.html) |
+| Apple One (1) Year Limited Warranty, Accessory: AirPods, AirTag, Apple Pencil, Magic Keyboard and other Apple accessories | Apple, U.S. | [Apple](https://www.apple.com/legal/warranty/products/accessory-warranty-english.html) |
 | Mac mini (2023, M2) Service Program for No Power Issue | Apple | [Apple](https://support.apple.com/mac-mini-2023-service-program-for-no-power-issue) |
 | iPhone 14 Plus Service Program for Rear Camera Issue | Apple | [Apple](https://support.apple.com/iphone-14-plus-service-program-for-rear-camera-issue) |
 | iPhone 12 / 12 Pro no-sound program (ended; kept to show delisting) | Apple | [Apple](https://support.apple.com/en-in/iphone-12-and-iphone-12-pro-service-program-for-no-sound-issues) |
@@ -44,7 +47,10 @@ law also needs a small evaluator.
    what was read.
 2. **A deterministic engine** ([`eligibility.py`](backend/src/engine/eligibility.py)) matches the
    case against the records. Windows are measured against the claim date; a closed window becomes
-   a note, never a match. AI never decides coverage.
+   a note, never a match. AI never decides coverage. Dates that can't be right are refused: a
+   purchase more than 30 years before the claim date, or before the model went on sale (on-sale dates
+   from the makers' own announcements, in [`backend/data/`](backend/data)). When nothing matches, the
+   answer says why for each kind of option.
 3. **Receipt checks** ([`case_checks.py`](backend/src/engine/case_checks.py)) compare the receipt
    with what was typed. A currency that doesn't fit the chosen country holds the consumer-law option
    and the claim PDF until the user confirms. A different receipt date also holds the claim PDF until the
@@ -100,7 +106,7 @@ project writeup is in [`docs/WRITEUP.md`](docs/WRITEUP.md).
 ```bash
 cd backend
 pip install -r requirements-dev.txt
-python -m pytest tests -q                    # 193 tests
+python -m pytest tests -q                    # 270 tests
 python -m uvicorn src.app:app --port 8082    # the Vite dev server proxies /api here
 ```
 

@@ -102,6 +102,15 @@ export interface MatchedRoute {
   claim_to?: string | null;
 }
 
+/** Which date rule an "INVALID INPUT" result broke (set by the server). */
+export type InputError = 'unreadable_date' | 'failure_before_purchase' | 'future_date' | 'too_old' | 'before_release';
+
+/** One plain reason why an option type did not match, from the engine's own data. */
+export interface NoMatchReason {
+  code: string;
+  message: string;
+}
+
 export interface RemedyEvaluation {
   case_id: string;
   evaluated_at: string;
@@ -109,6 +118,8 @@ export interface RemedyEvaluation {
   has_coverage: boolean;
   matched_routes: MatchedRoute[];
   unmatched_reason?: string | null;
+  input_error?: InputError | null;
+  no_match_reasons?: NoMatchReason[];
   notes: string[];
   next_steps: string[];
   timeline?: CaseTimeline | null;

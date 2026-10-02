@@ -26,7 +26,7 @@ const GROUPS: { category: string; title: string; who: string; teaser: string; ic
   { category: 'statutory_consumer_law', title: 'Consumer law', who: 'Any brand', teaser: 'Bought from a UK store: up to 6 years to claim a repair or replacement', icon: Landmark },
   { category: 'card_benefit', title: 'Card benefits', who: 'Any brand', teaser: 'Paid with Visa Infinite in the U.S.: one extra year of warranty', icon: CreditCard },
   { category: 'manufacturer_service_program', title: 'Free repair programs', who: 'Apple, Google', teaser: 'Known faults the maker repairs free, usually for 3 years from the first sale', icon: Wrench },
-  { category: 'manufacturer_warranty', title: "Maker's warranty", who: 'Apple, Google, Samsung', teaser: 'iPhone, iPad, Pixel, Galaxy phones and more in their first year (U.S.; Pixel also Canada)', icon: ShieldCheck },
+  { category: 'manufacturer_warranty', title: "Maker's warranty", who: 'Apple, Google, Samsung', teaser: 'iPhone, iPad, Mac, Apple Watch, AirPods, Pixel and Galaxy phones in their first year (U.S.; Pixel also Canada)', icon: ShieldCheck },
 ];
 
 // Planned sources. None is used until its official page has been verified.

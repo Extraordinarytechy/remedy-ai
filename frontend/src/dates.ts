@@ -10,8 +10,23 @@ export function todayIso(): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
+/**
+ * Purchases more than this many years before today are refused. Mirrors MAX_PURCHASE_AGE_YEARS
+ * in backend/src/engine/eligibility.py, which stays the authority.
+ */
+export const EARLIEST_PURCHASE_YEARS = 30;
+
+/** Today minus EARLIEST_PURCHASE_YEARS, as YYYY-MM-DD. 29 Feb becomes 28 Feb in a non-leap year. */
+export function earliestIso(): string {
+  const [y, m, d] = todayIso().split('-').map(Number);
+  const year = y - EARLIEST_PURCHASE_YEARS;
+  const days = new Date(Date.UTC(year, m, 0)).getUTCDate();
+  return `${year}-${String(m).padStart(2, '0')}-${String(Math.min(d, days)).padStart(2, '0')}`;
+}
+
 function valid(y: number, m: number, d: number): string | null {
-  if (y < 1990 || y > 2100 || m < 1 || m > 12 || d < 1) return null;
+  // Old years are still read, so "1/1/1900" is reported as too long ago rather than unreadable.
+  if (y < 1000 || y > 2100 || m < 1 || m > 12 || d < 1) return null;
   const days = new Date(Date.UTC(y, m, 0)).getUTCDate();
   if (d > days) return null;
   return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;

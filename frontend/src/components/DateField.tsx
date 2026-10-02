@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { CalendarDays } from 'lucide-react';
-import { exampleFormat, formatIso, parseTypedDate, todayIso } from '../dates';
+import { EARLIEST_PURCHASE_YEARS, exampleFormat, formatIso, parseTypedDate, todayIso } from '../dates';
+import { CatNote } from './CatNote';
 
 interface Props {
   label: string;
@@ -10,6 +11,8 @@ interface Props {
   hint?: string;
   error?: string | null;
   required?: boolean;
+  /** Earliest date accepted (YYYY-MM-DD). Earlier dates are shown as an error and not passed on. */
+  min?: string;
 }
 
 const fieldCls = 'field pr-12';
@@ -19,7 +22,7 @@ const fieldCls = 'field pr-12';
  * The typed text is kept as typed; the parsed date is shown underneath so the user can
  * see exactly how it was read.
  */
-export function DateField({ label, value, onChange, country, hint, error, required }: Props) {
+export function DateField({ label, value, onChange, country, hint, error, required, min }: Props) {
   const id = useId();
   const pickerRef = useRef<HTMLInputElement>(null);
   const [text, setText] = useState(value ? formatIso(value) : '');
@@ -32,15 +35,25 @@ export function DateField({ label, value, onChange, country, hint, error, requir
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
+  const inRange = (iso: string) => iso <= max && (!min || iso >= min);
   const parsed = parseTypedDate(text, country);
-  const future = parsed && parsed > max;
-  const localError = text && !parsed ? `Couldn't read that date. Try ${exampleFormat(country)} or "24 Nov 2023".` : future ? "That date is in the future." : null;
+  const future = !!parsed && parsed > max;
+  const tooOld = !!parsed && !!min && parsed < min;
+  const localError = text && !parsed
+    ? `Couldn't read that date. Try ${exampleFormat(country)} or "24 Nov 2023".`
+    : future
+      ? 'That date is in the future.'
+      : tooOld
+        ? `That's more than ${EARLIEST_PURCHASE_YEARS} years ago. RemedyAI checks purchases from ${formatIso(min ?? '')} onward.`
+        : null;
   const shownError = (touched && localError) || error || null;
+  // The cat only appears for dates that can't be right, not for typing slips.
+  const impossible = touched && (future || tooOld);
 
   const commit = (t: string) => {
     setText(t);
     const iso = parseTypedDate(t, country);
-    onChange(iso && iso <= max ? iso : '');
+    onChange(iso && inRange(iso) ? iso : '');
   };
 
   const openPicker = () => {
@@ -69,7 +82,7 @@ export function DateField({ label, value, onChange, country, hint, error, requir
           value={text}
           placeholder={`${exampleFormat(country)} or 24 Nov 2023`}
           onChange={(e) => commit(e.target.value)}
-          onBlur={() => { setTouched(true); if (parsed && !future) setText(formatIso(parsed)); }}
+          onBlur={() => { setTouched(true); if (parsed && inRange(parsed)) setText(formatIso(parsed)); }}
           aria-invalid={!!shownError}
           aria-describedby={describedBy}
           className={fieldCls}
@@ -89,17 +102,25 @@ export function DateField({ label, value, onChange, country, hint, error, requir
           type="date"
           tabIndex={-1}
           aria-hidden="true"
+          min={min}
           max={max}
           value={value}
-          onChange={(e) => { if (e.target.value) { onChange(e.target.value); setText(formatIso(e.target.value)); setTouched(true); } }}
+          onChange={(e) => {
+            const iso = e.target.value;
+            if (!iso) return;
+            onChange(inRange(iso) ? iso : '');
+            setText(formatIso(iso));
+            setTouched(true);
+          }}
           className="absolute right-1 bottom-0 w-10 h-1 opacity-0 pointer-events-none"
         />
       </div>
       <p id={`${id}-read`} className="text-sm font-medium text-accent-text" aria-live="polite">
-        {parsed && !future ? `Read as ${formatIso(parsed)}` : ''}
+        {parsed && inRange(parsed) ? `Read as ${formatIso(parsed)}` : ''}
       </p>
       {hint && <p id={`${id}-hint`} className="hint">{hint}</p>}
       {shownError && <p id={`${id}-err`} role="alert" className="text-sm font-medium text-bad-ink">{shownError}</p>}
+      {impossible && shownError && <CatNote />}
     </div>
   );
 }
