@@ -19,6 +19,6 @@ python3 -m pip install \
   --upgrade \
   -r backend/requirements.txt
 
-cp -r backend/src backend/knowledge "$OUT"/
+cp -r backend/src backend/knowledge backend/data "$OUT"/
 find "$OUT" -name "__pycache__" -type d -prune -exec rm -rf {} +
 echo "Built $OUT ($(du -sh "$OUT" | cut -f1))"

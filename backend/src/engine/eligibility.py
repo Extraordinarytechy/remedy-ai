@@ -7,12 +7,16 @@ from dateutil.relativedelta import relativedelta
 
 from src.models.schemas import (
     CaseTimeline,
+    InputError,
     NormalizedCase,
     MatchedRoute,
+    NoMatchReason,
     ProvenanceChain,
     RemedyEvaluation,
 )
 from src.engine.case_checks import run_checks
+from src.engine.matching import NOT_THE_DEVICE, phrase_pattern, product_text
+from src.engine.release_dates import load_release_dates, release_problem
 
 # Base path to knowledge corpus
 KNOWLEDGE_DIR = Path(__file__).resolve().parent.parent.parent / "knowledge"
@@ -58,12 +62,8 @@ NEGATION = re.compile(
     r"no (?:problems?|issues?|sign) (?:with|of))\b"
 )
 
-# Words that mean the product is an accessory, an app or a service, not the device a record covers
-# ("iPhone 18 Pro case", "Apple TV app").
-NOT_THE_DEVICE = re.compile(
-    r"\b(case|cases|cover|charger|cable|adapter|protector|strap|stand|mount|holder|skin|sleeve|dock|"
-    r"stylus|pencil|keyboard|app|subscription)\b"
-)
+# Purchases older than this, measured from the claim date, are refused as input errors.
+MAX_PURCHASE_AGE_YEARS = 30
 
 # Statuses that describe a possible option the user must check before acting on it. They stay in the
 # result with their explanation, but no claim PDF, letter or reminder is offered for them.
@@ -72,6 +72,31 @@ NOT_ACTIONABLE = {"NEEDS_REVERIFICATION", "NEEDS_CONFIRMATION"}
 
 def is_actionable(route: MatchedRoute) -> bool:
     return route.status not in NOT_ACTIONABLE
+
+
+_MONTH_ABBR = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+_PLACE = {"US": "the U.S.", "GB": "the UK", "UK": "the UK", "CA": "Canada", "IN": "India", "AU": "Australia"}
+
+
+def _day(d: date) -> str:
+    """'25 Sep 2025': the same order in every country, so it can't be misread."""
+    return f"{d.day} {_MONTH_ABBR[d.month - 1]} {d.year}"
+
+
+def _place(code: str) -> str:
+    return _PLACE.get((code or "").upper(), "this country")
+
+
+def _join(items: List[str]) -> str:
+    return items[0] if len(items) == 1 else ", ".join(items[:-1]) + " and " + items[-1]
+
+
+def _places(codes: List[str]) -> str:
+    return _join([_place(c) for c in codes]) if codes else "some countries"
+
+
+def _brand(record: Dict[str, Any]) -> str:
+    return record.get("brand_short") or (record.get("issuer_or_brand") or "The maker").split()[0]
 
 
 def add_years(d: date, years: float) -> date:
@@ -85,6 +110,7 @@ class EligibilityEngine:
     def __init__(self, knowledge_dir: Optional[Path] = None):
         self.knowledge_dir = knowledge_dir or KNOWLEDGE_DIR
         self.records = load_knowledge_records(self.knowledge_dir)
+        self.release_dates = load_release_dates()
 
     # ------------------------------------------------------------------
     # Public entry point
@@ -114,17 +140,34 @@ class EligibilityEngine:
                 else datetime.now(timezone.utc).date()
             )
         except Exception as e:
-            return self._invalid(case, now_iso, None, f"Date parsing failed: {e}")
+            return self._invalid(case, now_iso, None, f"Date parsing failed: {e}", code="unreadable_date")
 
         if f_date < p_date:
             return self._invalid(
                 case, now_iso, as_of,
                 f"Failure date ({f_date.isoformat()}) is before purchase date ({p_date.isoformat()}).",
+                code="failure_before_purchase",
             )
         if f_date > as_of:
             return self._invalid(
                 case, now_iso, as_of,
                 f"Failure date ({f_date.isoformat()}) is after the evaluation date ({as_of.isoformat()}).",
+                code="future_date",
+            )
+        earliest = as_of - relativedelta(years=MAX_PURCHASE_AGE_YEARS)
+        if p_date < earliest:
+            return self._invalid(
+                case, now_iso, as_of,
+                f"The purchase date ({p_date.isoformat()}) is more than {MAX_PURCHASE_AGE_YEARS} years before the "
+                f"claim date. RemedyAI checks purchases made on or after {earliest.isoformat()}.",
+                code="too_old",
+            )
+        release_issue = release_problem(case, p_date, self.release_dates)
+        if release_issue:
+            return self._invalid(
+                case, now_iso, as_of, release_issue,
+                code="before_release",
+                next_steps=["Check the purchase date and the model name."],
             )
 
         days_elapsed = (f_date - p_date).days
@@ -262,6 +305,7 @@ class EligibilityEngine:
                 "No manufacturer service program, qualifying payment-card extended warranty benefit, "
                 "or applicable statutory route in the verified source corpus matches the submitted documentation."
             ),
+            no_match_reasons=self._no_match_reasons(case, p_date, f_date, as_of, years_elapsed),
             notes=notes,
             next_steps=next_steps,
             timeline=timeline,
@@ -273,14 +317,23 @@ class EligibilityEngine:
     # Helpers
     # ------------------------------------------------------------------
     @staticmethod
-    def _invalid(case: NormalizedCase, now_iso: str, as_of: Optional[date], reason: str) -> RemedyEvaluation:
+    def _invalid(
+        case: NormalizedCase,
+        now_iso: str,
+        as_of: Optional[date],
+        reason: str,
+        code: InputError,
+        next_steps: Optional[List[str]] = None,
+    ) -> RemedyEvaluation:
         return RemedyEvaluation(
             case_id=case.case_id,
             evaluated_at=now_iso,
             evaluation_date=as_of.isoformat() if as_of else None,
             has_coverage=False,
             unmatched_reason=f"INVALID INPUT: {reason}",
-            next_steps=["Please provide valid ISO dates (YYYY-MM-DD): purchase date <= failure date <= today."],
+            input_error=code,
+            next_steps=next_steps
+            or ["Please provide valid ISO dates (YYYY-MM-DD): purchase date <= failure date <= today."],
         )
 
     @staticmethod
@@ -330,21 +383,24 @@ class EligibilityEngine:
 
     @staticmethod
     def _device_matches(case: NormalizedCase, record: Dict[str, Any]) -> bool:
-        name = f"{case.product_name} {case.product_model or ''}".lower()
+        name = product_text(case.product_name, case.product_model)
         # A brand the user named that isn't the record's brand rules the record out.
         record_brand = (record.get("issuer_or_brand") or "").split()[0].lower() if record.get("issuer_or_brand") else ""
         if case.product_brand and record_brand and record_brand not in case.product_brand.lower():
-            return False
-        if NOT_THE_DEVICE.search(name):
             return False
         for excluded in record.get("excluded_devices", []):
             if excluded.lower() in name:
                 return False
         # Whole-word match, so "iPhone 12" doesn't match "iPhone 120" and "iPad" doesn't match a longer word.
-        return any(
-            re.search(rf"(?<![a-z0-9]){re.escape(dev.lower())}(?![a-z0-9])", name)
-            for dev in record.get("applicable_devices", [])
-        )
+        patterns = [phrase_pattern(dev) for dev in sorted(record.get("applicable_devices", []), key=len, reverse=True)]
+        if not any(p.search(name) for p in patterns):
+            return False
+        # Accessory words count only outside the record's own terms: "Magic Keyboard" is a device the
+        # accessory warranty names, while "iPhone 17 case" and "Apple Watch band" are not the device.
+        rest = name
+        for p in patterns:
+            rest = p.sub(" ", rest)
+        return not NOT_THE_DEVICE.search(rest)
 
     @staticmethod
     def _symptom_matches(case: NormalizedCase, record: Dict[str, Any]) -> bool:
@@ -361,6 +417,156 @@ class EligibilityEngine:
                     if not NEGATION.search(" ".join(before)):
                         return True
         return False
+
+    # ------------------------------------------------------------------
+    # Why nothing matched
+    # ------------------------------------------------------------------
+    def _no_match_reasons(
+        self, case: NormalizedCase, p_date: date, f_date: date, as_of: date, years_elapsed: float
+    ) -> List[NoMatchReason]:
+        """
+        Plain reasons, one per option type, for a valid case with no route. Each reason re-applies the
+        evaluators' own rules to the records, so it states only what the data says. It never implies
+        coverage: it says what RemedyAI checked and why that did not fit.
+        """
+        reasons: List[NoMatchReason] = []
+        country = (case.purchase_country or "").strip().upper()
+        name = product_text(case.product_name, case.product_model)
+        records = list(self.records.values())
+
+        accessory = bool(NOT_THE_DEVICE.search(name)) and not any(self._device_matches(case, r) for r in records)
+        if accessory:
+            reasons.append(NoMatchReason(
+                code="accessory",
+                message="This looks like an accessory or an app, not the device itself. If the device broke, enter its name.",
+            ))
+        else:
+            reasons.append(self._maker_warranty_reason(case, records, country, p_date, f_date, as_of))
+            reasons.append(self._repair_program_reason(case, records, name, p_date, as_of))
+
+        card = self._card_reason(case, country, p_date, f_date, as_of, years_elapsed)
+        if card:
+            reasons.append(card)
+
+        law = self._consumer_law_reason(case, country, p_date, as_of)
+        if law:
+            reasons.append(law)
+        return reasons
+
+    def _maker_warranty_reason(self, case, records, country, p_date, f_date, as_of) -> NoMatchReason:
+        warranties = [r for r in records if r.get("category") == "manufacturer_warranty"]
+        matched = [r for r in warranties if self._device_matches(case, r)]
+        in_country = [r for r in matched if not r.get("countries") or country in r["countries"]]
+        for r in in_country:
+            years = float(r.get("warranty_years", 1))
+            end = add_years(p_date, years)
+            if f_date > end or as_of > end:
+                return NoMatchReason(
+                    code="maker_warranty_ended",
+                    message=f"{_brand(r)}'s {years:g}-year warranty ended on {_day(end)}, "
+                            f"{years:g} year{'s' if years != 1 else ''} after the purchase date.",
+                )
+        if matched and not in_country:
+            r = matched[0]
+            return NoMatchReason(
+                code="maker_warranty_country",
+                message=f"RemedyAI has {_brand(r)}'s warranty for purchases in {_places(r.get('countries', []))} only. "
+                        f"Purchases in {_place(country)} are not covered yet.",
+            )
+        brands = sorted({_brand(r) for r in warranties})
+        return NoMatchReason(
+            code="no_maker_warranty",
+            message=f"RemedyAI has no maker's warranty that names this product. It covers some "
+                    f"{_join(brands)} products so far.",
+        )
+
+    def _repair_program_reason(self, case, records, name, p_date, as_of) -> NoMatchReason:
+        programs = [r for r in records if r.get("category") == "manufacturer_service_program"]
+        window, unclear, other_fault = None, None, None
+        for r in programs:
+            device = self._device_matches(case, r)
+            symptom = self._symptom_matches(case, r)
+            program = r["program_name"]
+            if device and symptom and window is None:
+                mfg_start = r.get("manufacturing_window_start")
+                if mfg_start and p_date < parse_date(mfg_start):
+                    window = (f"{program} matches this model and fault, but it covers only units made from "
+                              f"{_day(parse_date(mfg_start))}, and this one was bought before then.")
+                else:
+                    end = add_years(p_date, float(r.get("coverage_window_years_from_sale", 3)))
+                    if as_of > end:
+                        window = (f"{program} matches this model and fault, but its "
+                                  f"{float(r.get('coverage_window_years_from_sale', 3)):g}-year window closed on {_day(end)}.")
+            family = r.get("model_family")
+            if (not device and symptom and family and unclear is None
+                    and phrase_pattern(family).search(name)
+                    and not any(x.lower() in name for x in r.get("excluded_devices", []))):
+                model = (r.get("display_names") or [family])[0]
+                unclear = (f"{program} covers only the {model}. If yours is that model, "
+                           "add the year or chip to the product name.")
+            if device and not symptom and other_fault is None:
+                other_fault = f"{program} covers only this fault: {r.get('symptom', '').rstrip('.')}."
+        if window:
+            return NoMatchReason(code="repair_program_window", message=window)
+        if unclear:
+            return NoMatchReason(code="repair_program_model_unclear", message=unclear)
+        if other_fault:
+            return NoMatchReason(code="repair_program_other_fault", message=other_fault)
+        return NoMatchReason(
+            code="no_repair_program",
+            message="No free repair program RemedyAI knows of covers this model and fault.",
+        )
+
+    def _card_reason(self, case, country, p_date, f_date, as_of, years_elapsed) -> Optional[NoMatchReason]:
+        record = self.records.get("visa_infinite_extended_warranty_us")
+        if not record:
+            return None
+        if "visa infinite" not in (case.payment_method or "").lower() or (
+            record.get("countries") and country not in record["countries"]
+        ):
+            return NoMatchReason(
+                code="card_not_covered",
+                message="Card benefit: RemedyAI checks Visa Infinite cards used for U.S. purchases only.",
+            )
+        orig = case.original_warranty_years
+        max_eligible = float(record.get("max_eligible_manufacturer_warranty_years", 3.0))
+        if orig > max_eligible:
+            return NoMatchReason(
+                code="card_warranty_too_long",
+                message=f"Card benefit: Visa Infinite extends makers' warranties of {max_eligible:g} years or less. "
+                        f"This item's warranty is {orig:g} years.",
+            )
+        if years_elapsed <= orig:
+            return NoMatchReason(
+                code="card_inside_warranty",
+                message=f"Card benefit: the fault appeared during the original {orig:g}-year warranty. "
+                        "The Visa Infinite extension covers faults only after that warranty ends.",
+            )
+        extended_end = add_years(p_date, orig + float(record.get("benefit_extension_years", 1.0)))
+        return NoMatchReason(
+            code="card_window_ended",
+            message=f"Card benefit: the Visa Infinite extra year ended on {_day(extended_end)}.",
+        )
+
+    def _consumer_law_reason(self, case, country, p_date, as_of) -> Optional[NoMatchReason]:
+        record = self.records.get("uk_cra_2015_goods")
+        if not record:
+            return None
+        if country not in ("GB", "UK"):
+            return NoMatchReason(
+                code="consumer_law_uk_only",
+                message="Consumer law: RemedyAI covers purchases from UK stores only so far.",
+            )
+        by_region = record.get("limitation_years_by_region", {})
+        years = float(by_region.get(case.uk_region, record.get("claim_limitation_years", 6))) if case.uk_region \
+            else float(record.get("claim_limitation_years", 6))
+        end = add_years(p_date, years)
+        if as_of > end:
+            return NoMatchReason(
+                code="consumer_law_time_limit",
+                message=f"The {years:g}-year time limit to claim under UK consumer law ended on {_day(end)}.",
+            )
+        return None
 
     # ------------------------------------------------------------------
     # Route evaluators

@@ -225,6 +225,37 @@ def test_ambiguous_dates_are_rejected():
     data = client.post("/api/evaluate", json={**fixture_as_of("case3_uk_samsung_tv"), "purchase_date": "03/04/2024"}).json()
     assert data["has_coverage"] is False
     assert data["unmatched_reason"].startswith("INVALID INPUT")
+    assert data["input_error"] == "unreadable_date"
+
+
+@pytest.mark.parametrize("purchase", ["1900-01-01", "0001-01-01"])
+def test_ancient_purchase_date_is_a_plain_invalid_input(purchase):
+    response = client.post("/api/evaluate", json={**fixture_as_of("case3_uk_samsung_tv"), "purchase_date": purchase})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["has_coverage"] is False
+    assert data["input_error"] == "too_old"
+    assert data["unmatched_reason"].startswith("INVALID INPUT")
+    assert data["no_match_reasons"] == []
+
+
+def test_purchase_before_the_model_went_on_sale():
+    case = {
+        "case_id": "t", "product_name": "iPhone 17", "purchase_date": "2021-01-15", "failure_date": "2026-09-20",
+        "purchase_country": "GB", "uk_region": "england_wales", "defect_description": "Phone restarts on its own",
+    }
+    data = client.post("/api/evaluate", json=case).json()
+    assert data["input_error"] == "before_release"
+    assert data["matched_routes"] == []
+    assert "went on sale in September 2025" in data["unmatched_reason"]
+
+
+def test_no_match_response_explains_why():
+    data = client.post("/api/evaluate", json=fixture_as_of("case4_unknown_unsupported")).json()
+    assert data["has_coverage"] is False
+    assert data["input_error"] is None
+    reasons = data["no_match_reasons"]
+    assert reasons and all(set(r) == {"code", "message"} for r in reasons)
 
 
 # ---------------------------------------------------------------------------

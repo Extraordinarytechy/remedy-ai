@@ -14,6 +14,9 @@ Observation = Annotated[str, Field(max_length=OBSERVATION_TEXT)]
 
 UkRegion = Literal["england_wales", "northern_ireland", "scotland"]
 
+# Why the dates were refused, so a client can react without parsing the message text.
+InputError = Literal["unreadable_date", "failure_before_purchase", "future_date", "too_old", "before_release"]
+
 
 class ReceiptData(BaseModel):
     store_name: Optional[str] = Field(default=None, max_length=SHORT_TEXT)
@@ -127,6 +130,12 @@ class MatchedRoute(BaseModel):
     claim_to: Optional[str] = None
 
 
+class NoMatchReason(BaseModel):
+    """One plain-language reason why an option type did not match, taken from the engine's own data."""
+    code: str
+    message: str
+
+
 class RemedyEvaluation(BaseModel):
     case_id: str
     evaluated_at: str
@@ -134,6 +143,10 @@ class RemedyEvaluation(BaseModel):
     has_coverage: bool
     matched_routes: List[MatchedRoute] = Field(default_factory=list)
     unmatched_reason: Optional[str] = None
+    # Set with an "INVALID INPUT: ..." unmatched_reason: which date rule was broken.
+    input_error: Optional[InputError] = None
+    # Filled only when the input is valid and nothing matched: why each option type did not apply.
+    no_match_reasons: List[NoMatchReason] = Field(default_factory=list)
     # Sources that almost matched (e.g. program window already closed); never counted as coverage.
     notes: List[str] = Field(default_factory=list)
     next_steps: List[str] = Field(default_factory=list)

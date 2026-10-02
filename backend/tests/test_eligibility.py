@@ -260,9 +260,25 @@ def test_failure_before_purchase_is_invalid(engine):
     res = engine.evaluate(make_case(purchase_date="2025-05-01", failure_date="2025-01-01"))
     assert res.has_coverage is False
     assert res.unmatched_reason.startswith("INVALID INPUT")
+    assert res.input_error == "failure_before_purchase"
 
 
 def test_failure_in_future_is_invalid(engine):
     res = engine.evaluate(make_case(failure_date="2027-01-01"))
     assert res.has_coverage is False
     assert res.unmatched_reason.startswith("INVALID INPUT")
+    assert res.input_error == "future_date"
+
+
+@pytest.mark.parametrize("purchase", ["1900-01-01", "0001-01-01"])
+def test_purchase_more_than_30_years_ago_is_invalid(engine, purchase):
+    res = engine.evaluate(make_case(purchase_date=purchase))
+    assert res.has_coverage is False
+    assert res.matched_routes == []
+    assert res.unmatched_reason.startswith("INVALID INPUT")
+    assert res.input_error == "too_old"
+
+
+def test_thirty_year_boundary(engine):
+    assert engine.evaluate(make_case(purchase_date="1996-09-29")).input_error is None
+    assert engine.evaluate(make_case(purchase_date="1996-09-28")).input_error == "too_old"

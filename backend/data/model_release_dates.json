@@ -1,0 +1,482 @@
+{
+  "about": "Dates each model was announced and went on sale, read on the maker's own pages (Apple Newsroom, the Google blog and Pixel Help, Samsung Newsroom and samsung.com). RemedyAI refuses a purchase date earlier than the first day of the announcement month, or, when only the on-sale date is listed, the first day of the month before it. An on_sale value of YYYY-MM means the page gives the month only. Models not listed are never blocked. These dates are an input check, not a coverage source.",
+  "verified_at": "2026-10-02",
+  "models": [
+    {
+      "model": "iPhone 12",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2020-10-13",
+      "on_sale": "2020-10-23",
+      "source_url": "https://www.apple.com/newsroom/2020/10/apple-announces-iphone-12-and-iphone-12-mini-a-new-era-for-iphone-with-5g/"
+    },
+    {
+      "model": "iPhone 12 mini",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2020-10-13",
+      "on_sale": "2020-11-13",
+      "source_url": "https://www.apple.com/newsroom/2020/10/apple-announces-iphone-12-and-iphone-12-mini-a-new-era-for-iphone-with-5g/"
+    },
+    {
+      "model": "iPhone 12 Pro",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2020-10-13",
+      "on_sale": "2020-10-23",
+      "source_url": "https://www.apple.com/newsroom/2020/10/apple-introduces-iphone-12-pro-and-iphone-12-pro-max-with-5g/"
+    },
+    {
+      "model": "iPhone 12 Pro Max",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2020-10-13",
+      "on_sale": "2020-11-13",
+      "source_url": "https://www.apple.com/newsroom/2020/10/apple-introduces-iphone-12-pro-and-iphone-12-pro-max-with-5g/"
+    },
+    {
+      "model": "iPhone 13",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2021-09-14",
+      "on_sale": "2021-09-24",
+      "source_url": "https://www.apple.com/newsroom/2021/09/apple-introduces-iphone-13-and-iphone-13-mini/"
+    },
+    {
+      "model": "iPhone 13 mini",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2021-09-14",
+      "on_sale": "2021-09-24",
+      "source_url": "https://www.apple.com/newsroom/2021/09/apple-introduces-iphone-13-and-iphone-13-mini/"
+    },
+    {
+      "model": "iPhone 13 Pro",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2021-09-14",
+      "on_sale": "2021-09-24",
+      "source_url": "https://www.apple.com/newsroom/2021/09/apple-unveils-iphone-13-pro-and-iphone-13-pro-max-more-pro-than-ever-before/"
+    },
+    {
+      "model": "iPhone 13 Pro Max",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2021-09-14",
+      "on_sale": "2021-09-24",
+      "source_url": "https://www.apple.com/newsroom/2021/09/apple-unveils-iphone-13-pro-and-iphone-13-pro-max-more-pro-than-ever-before/"
+    },
+    {
+      "model": "iPhone 14",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2022-09-07",
+      "on_sale": "2022-09-16",
+      "source_url": "https://www.apple.com/newsroom/2022/09/apple-introduces-iphone-14-and-iphone-14-plus/"
+    },
+    {
+      "model": "iPhone 14 Plus",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2022-09-07",
+      "on_sale": "2022-10-07",
+      "source_url": "https://www.apple.com/newsroom/2022/09/apple-introduces-iphone-14-and-iphone-14-plus/"
+    },
+    {
+      "model": "iPhone 14 Pro",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2022-09-07",
+      "on_sale": "2022-09-16",
+      "source_url": "https://www.apple.com/newsroom/2022/09/apple-debuts-iphone-14-pro-and-iphone-14-pro-max/"
+    },
+    {
+      "model": "iPhone 14 Pro Max",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2022-09-07",
+      "on_sale": "2022-09-16",
+      "source_url": "https://www.apple.com/newsroom/2022/09/apple-debuts-iphone-14-pro-and-iphone-14-pro-max/"
+    },
+    {
+      "model": "iPhone 15",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2023-09-12",
+      "on_sale": "2023-09-22",
+      "source_url": "https://www.apple.com/newsroom/2023/09/apple-debuts-iphone-15-and-iphone-15-plus/"
+    },
+    {
+      "model": "iPhone 15 Plus",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2023-09-12",
+      "on_sale": "2023-09-22",
+      "source_url": "https://www.apple.com/newsroom/2023/09/apple-debuts-iphone-15-and-iphone-15-plus/"
+    },
+    {
+      "model": "iPhone 15 Pro",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2023-09-12",
+      "on_sale": "2023-09-22",
+      "source_url": "https://www.apple.com/newsroom/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/"
+    },
+    {
+      "model": "iPhone 15 Pro Max",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2023-09-12",
+      "on_sale": "2023-09-22",
+      "source_url": "https://www.apple.com/newsroom/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/"
+    },
+    {
+      "model": "iPhone 16",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2024-09-09",
+      "on_sale": "2024-09-20",
+      "source_url": "https://www.apple.com/newsroom/2024/09/apple-introduces-iphone-16-and-iphone-16-plus/"
+    },
+    {
+      "model": "iPhone 16 Plus",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2024-09-09",
+      "on_sale": "2024-09-20",
+      "source_url": "https://www.apple.com/newsroom/2024/09/apple-introduces-iphone-16-and-iphone-16-plus/"
+    },
+    {
+      "model": "iPhone 16 Pro",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2024-09-09",
+      "on_sale": "2024-09-20",
+      "source_url": "https://www.apple.com/newsroom/2024/09/apple-debuts-iphone-16-pro-and-iphone-16-pro-max/"
+    },
+    {
+      "model": "iPhone 16 Pro Max",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2024-09-09",
+      "on_sale": "2024-09-20",
+      "source_url": "https://www.apple.com/newsroom/2024/09/apple-debuts-iphone-16-pro-and-iphone-16-pro-max/"
+    },
+    {
+      "model": "iPhone 16e",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2025-02-19",
+      "on_sale": "2025-02-28",
+      "source_url": "https://www.apple.com/newsroom/2025/02/apple-debuts-iphone-16e-a-powerful-new-member-of-the-iphone-16-family/"
+    },
+    {
+      "model": "iPhone 17",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2025-09-09",
+      "on_sale": "2025-09-19",
+      "source_url": "https://www.apple.com/newsroom/2025/09/apple-debuts-iphone-17/"
+    },
+    {
+      "model": "iPhone Air",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2025-09-09",
+      "on_sale": "2025-09-19",
+      "source_url": "https://www.apple.com/newsroom/2025/09/introducing-iphone-air-a-powerful-new-iphone-with-a-breakthrough-design/"
+    },
+    {
+      "model": "iPhone 17 Pro",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2025-09-09",
+      "on_sale": "2025-09-19",
+      "source_url": "https://www.apple.com/newsroom/2025/09/apple-unveils-iphone-17-pro-and-iphone-17-pro-max/"
+    },
+    {
+      "model": "iPhone 17 Pro Max",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2025-09-09",
+      "on_sale": "2025-09-19",
+      "source_url": "https://www.apple.com/newsroom/2025/09/apple-unveils-iphone-17-pro-and-iphone-17-pro-max/"
+    },
+    {
+      "model": "iPhone 17e",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2026-03-02",
+      "on_sale": "2026-03-11",
+      "source_url": "https://www.apple.com/newsroom/2026/03/apple-introduces-iphone-17e/"
+    },
+    {
+      "model": "iPhone 18 Pro",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2026-09-09",
+      "on_sale": "2026-09-18",
+      "source_url": "https://www.apple.com/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/"
+    },
+    {
+      "model": "iPhone 18 Pro Max",
+      "brand": "Apple",
+      "aliases": [],
+      "announced": "2026-09-09",
+      "on_sale": "2026-09-18",
+      "source_url": "https://www.apple.com/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/"
+    },
+    {
+      "model": "Mac mini (2023)",
+      "brand": "Apple",
+      "aliases": [
+        "Mac mini 2023",
+        "Mac mini M2",
+        "Mac mini (M2"
+      ],
+      "announced": "2023-01-17",
+      "on_sale": "2023-01-24",
+      "source_url": "https://www.apple.com/newsroom/2023/01/apple-introduces-new-mac-mini-with-m2-and-m2-pro-more-powerful-capable-and-versatile-than-ever/"
+    },
+    {
+      "model": "Pixel 9",
+      "brand": "Google",
+      "aliases": [],
+      "announced": "2024-08-13",
+      "on_sale": "2024-08-22",
+      "source_url": "https://blog.google/products/pixel/google-pixel-9-pro-xl/"
+    },
+    {
+      "model": "Pixel 9 Pro",
+      "brand": "Google",
+      "aliases": [],
+      "announced": "2024-08-13",
+      "on_sale": "2024-09-04",
+      "source_url": "https://blog.google/products/pixel/google-pixel-9-pro-xl/"
+    },
+    {
+      "model": "Pixel 9 Pro XL",
+      "brand": "Google",
+      "aliases": [],
+      "announced": "2024-08-13",
+      "on_sale": "2024-08-22",
+      "source_url": "https://blog.google/products/pixel/google-pixel-9-pro-xl/"
+    },
+    {
+      "model": "Pixel 9 Pro Fold",
+      "brand": "Google",
+      "aliases": [],
+      "announced": "2024-08-13",
+      "on_sale": "2024-09-04",
+      "source_url": "https://blog.google/products/pixel/google-pixel-9-pro-xl/"
+    },
+    {
+      "model": "Pixel 9a",
+      "brand": "Google",
+      "aliases": [],
+      "on_sale": "2025-04",
+      "source_url": "https://support.google.com/pixelphone/answer/15738422?hl=en"
+    },
+    {
+      "model": "Pixel 10",
+      "brand": "Google",
+      "aliases": [],
+      "announced": "2025-08-20",
+      "on_sale": "2025-08-28",
+      "source_url": "https://blog.google/products/pixel/google-pixel-10-pro-xl/"
+    },
+    {
+      "model": "Pixel 10 Pro",
+      "brand": "Google",
+      "aliases": [],
+      "announced": "2025-08-20",
+      "on_sale": "2025-08-28",
+      "source_url": "https://blog.google/products/pixel/google-pixel-10-pro-xl/"
+    },
+    {
+      "model": "Pixel 10 Pro XL",
+      "brand": "Google",
+      "aliases": [],
+      "announced": "2025-08-20",
+      "on_sale": "2025-08-28",
+      "source_url": "https://blog.google/products/pixel/google-pixel-10-pro-xl/"
+    },
+    {
+      "model": "Pixel 10 Pro Fold",
+      "brand": "Google",
+      "aliases": [],
+      "announced": "2025-08-20",
+      "on_sale": "2025-10-09",
+      "source_url": "https://blog.google/products/pixel/google-pixel-10-pro-fold/"
+    },
+    {
+      "model": "Pixel 10a",
+      "brand": "Google",
+      "aliases": [],
+      "on_sale": "2026-03",
+      "source_url": "https://support.google.com/pixelphone/answer/15738422?hl=en"
+    },
+    {
+      "model": "Pixel 11",
+      "brand": "Google",
+      "aliases": [],
+      "on_sale": "2026-08",
+      "source_url": "https://support.google.com/pixelphone/answer/15738422?hl=en"
+    },
+    {
+      "model": "Pixel 11 Pro",
+      "brand": "Google",
+      "aliases": [],
+      "on_sale": "2026-08",
+      "source_url": "https://support.google.com/pixelphone/answer/15738422?hl=en"
+    },
+    {
+      "model": "Pixel 11 Pro XL",
+      "brand": "Google",
+      "aliases": [],
+      "on_sale": "2026-08",
+      "source_url": "https://support.google.com/pixelphone/answer/15738422?hl=en"
+    },
+    {
+      "model": "Pixel 11 Pro Fold",
+      "brand": "Google",
+      "aliases": [],
+      "on_sale": "2026-08",
+      "source_url": "https://support.google.com/pixelphone/answer/15738422?hl=en"
+    },
+    {
+      "model": "Galaxy S24",
+      "brand": "Samsung",
+      "aliases": [
+        "S24"
+      ],
+      "on_sale": "2024-01-31",
+      "source_url": "https://news.samsung.com/uk/samsung-galaxy-s24-series-is-now-available"
+    },
+    {
+      "model": "Galaxy S24+",
+      "brand": "Samsung",
+      "aliases": [
+        "S24+",
+        "Galaxy S24 Plus",
+        "S24 Plus"
+      ],
+      "on_sale": "2024-01-31",
+      "source_url": "https://news.samsung.com/uk/samsung-galaxy-s24-series-is-now-available"
+    },
+    {
+      "model": "Galaxy S24 Ultra",
+      "brand": "Samsung",
+      "aliases": [
+        "S24 Ultra"
+      ],
+      "on_sale": "2024-01-31",
+      "source_url": "https://news.samsung.com/uk/samsung-galaxy-s24-series-is-now-available"
+    },
+    {
+      "model": "Galaxy S25",
+      "brand": "Samsung",
+      "aliases": [
+        "S25"
+      ],
+      "on_sale": "2025-02-07",
+      "source_url": "https://news.samsung.com/uk/samsung-galaxy-s25-series-arrives-worldwide"
+    },
+    {
+      "model": "Galaxy S25+",
+      "brand": "Samsung",
+      "aliases": [
+        "S25+",
+        "Galaxy S25 Plus",
+        "S25 Plus"
+      ],
+      "on_sale": "2025-02-07",
+      "source_url": "https://news.samsung.com/uk/samsung-galaxy-s25-series-arrives-worldwide"
+    },
+    {
+      "model": "Galaxy S25 Ultra",
+      "brand": "Samsung",
+      "aliases": [
+        "S25 Ultra"
+      ],
+      "on_sale": "2025-02-07",
+      "source_url": "https://news.samsung.com/uk/samsung-galaxy-s25-series-arrives-worldwide"
+    },
+    {
+      "model": "Galaxy S26",
+      "brand": "Samsung",
+      "aliases": [
+        "S26"
+      ],
+      "announced": "2026-02-25",
+      "on_sale": "2026-03-11",
+      "source_url": "https://www.samsung.com/uk/mobile-phone-buying-guide/introducing-samsung-galaxy-s26/"
+    },
+    {
+      "model": "Galaxy S26+",
+      "brand": "Samsung",
+      "aliases": [
+        "S26+",
+        "Galaxy S26 Plus",
+        "S26 Plus"
+      ],
+      "announced": "2026-02-25",
+      "on_sale": "2026-03-11",
+      "source_url": "https://www.samsung.com/uk/mobile-phone-buying-guide/introducing-samsung-galaxy-s26/"
+    },
+    {
+      "model": "Galaxy S26 Ultra",
+      "brand": "Samsung",
+      "aliases": [
+        "S26 Ultra"
+      ],
+      "announced": "2026-02-25",
+      "on_sale": "2026-03-11",
+      "source_url": "https://www.samsung.com/uk/mobile-phone-buying-guide/introducing-samsung-galaxy-s26/"
+    },
+    {
+      "model": "Galaxy Z Fold6",
+      "brand": "Samsung",
+      "aliases": [
+        "Z Fold6",
+        "Galaxy Z Fold 6",
+        "Z Fold 6"
+      ],
+      "on_sale": "2024-07-24",
+      "source_url": "https://news.samsung.com/uk/samsung-announces-availability-of-latest-devices-unveiled-at-galaxy-unpacked-in-paris"
+    },
+    {
+      "model": "Galaxy Z Flip6",
+      "brand": "Samsung",
+      "aliases": [
+        "Z Flip6",
+        "Galaxy Z Flip 6",
+        "Z Flip 6"
+      ],
+      "on_sale": "2024-07-24",
+      "source_url": "https://news.samsung.com/uk/samsung-announces-availability-of-latest-devices-unveiled-at-galaxy-unpacked-in-paris"
+    },
+    {
+      "model": "Galaxy Z Fold7",
+      "brand": "Samsung",
+      "aliases": [
+        "Z Fold7",
+        "Galaxy Z Fold 7",
+        "Z Fold 7"
+      ],
+      "on_sale": "2025-07-25",
+      "source_url": "https://news.samsung.com/us/samsung-elevates-foldable-era-everyday-well-being-global-launch-galaxy-z-fold7-galaxy-z-flip7-galaxy-watch8-series/"
+    },
+    {
+      "model": "Galaxy Z Flip7",
+      "brand": "Samsung",
+      "aliases": [
+        "Z Flip7",
+        "Galaxy Z Flip 7",
+        "Z Flip 7"
+      ],
+      "on_sale": "2025-07-25",
+      "source_url": "https://news.samsung.com/us/samsung-elevates-foldable-era-everyday-well-being-global-launch-galaxy-z-fold7-galaxy-z-flip7-galaxy-watch8-series/"
+    }
+  ]
+}

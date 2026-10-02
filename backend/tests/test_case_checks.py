@@ -103,14 +103,19 @@ def test_sample_receipts_are_not_checked(engine):
     assert res.checks == []
 
 
+# A March 2021 purchase needs a model that was on sale then: iPhone 12 went on sale in October 2020.
+OLDER_PHONE = "Apple iPhone 12 128GB"
+
+
 def test_scotland_uses_five_years(engine):
-    kwargs = dict(purchase_date="2021-03-01", failure_date="2025-01-10", evaluation_date="2026-09-29")
+    kwargs = dict(product_name=OLDER_PHONE, purchase_date="2021-03-01", failure_date="2025-01-10", evaluation_date="2026-09-29")
     assert engine.evaluate(uk_case(uk_region="scotland", **kwargs)).has_coverage is False
     assert engine.evaluate(uk_case(uk_region="england_wales", **kwargs)).has_coverage is True
 
 
 def test_northern_ireland_uses_six_years(engine):
-    res = engine.evaluate(uk_case(uk_region="northern_ireland", purchase_date="2021-03-01", failure_date="2025-01-10"))
+    res = engine.evaluate(uk_case(uk_region="northern_ireland", product_name=OLDER_PHONE,
+                                  purchase_date="2021-03-01", failure_date="2025-01-10"))
     route = res.matched_routes[0]
     assert route.deadline == "2027-03-01"
     assert "Northern Ireland" in route.deadline_label
